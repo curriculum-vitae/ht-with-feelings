@@ -7,6 +7,8 @@ import {
   Typography,
   IconButton,
   Fab,
+  Tabs,
+  Tab,
   Icon,
   List,
   ListItem,
@@ -64,101 +66,126 @@ const Feelings = ({ selected = [], onChange }) => (
 
 export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
   ({ feelings, setFeelings }) => (
-    <Paper>
-      <div
+    <Paper
+      elevation={1}
+      style={{
+        maxWidth: "420px",
+        width: "100%",
+        marginLeft: "auto",
+        marginRight: "auto",
+        minHeight: "100vh"
+      }}
+    >
+      <AppBar position="static" color="default">
+        <Toolbar variant={"dense"}>
+          <IconButton
+            className={{
+              marginLeft: "-18px",
+              marginRight: "10px"
+            }}
+            color="inherit"
+            aria-label="Menu"
+          >
+            <Icon>menu</Icon>
+          </IconButton>
+          <Typography
+            style={{ padding: "16px 16px 8px 16px" }}
+            variant={"h6"}
+            gutterBottom
+          >
+            Habits Inbox
+          </Typography>
+        </Toolbar>
+        <Tabs
+          indicatorColor="primary"
+          textColor="primary"
+          fullWidth
+          value={0}
+          centered
+          scrollButtons={"auto"}
+        >
+          <Tab label="Focus" />
+          <Tab label="Snoozed" />
+        </Tabs>
+      </AppBar>
+
+      <List>
+        {HABITS.map(habit => (
+          <ListItem key={habit.name} divider={false}>
+            <ListItemText
+              primary={habit.name}
+              secondary={
+                <Feelings
+                  selected={feelings[habit.name]}
+                  onChange={changes => {
+                    setFeelings({
+                      ...feelings,
+                      [habit.name]: changes
+                    });
+                  }}
+                />
+              }
+            />
+          </ListItem>
+        ))}
+      </List>
+
+      <AppBar
+        color={"default"}
+        position={"fixed"}
         style={{
-          maxWidth: "420px",
-          width: "100%",
-          marginLeft: "auto",
-          marginRight: "auto",
-          minHeight: "100vh"
+          top: "auto",
+          bottom: "0"
         }}
+        elevation={2}
       >
-        <Typography
-          style={{ padding: "16px 16px" }}
-          variant={"h5"}
-          gutterBottom
-        >
-          Habits Tracker
-        </Typography>
-
-        <List>
-          {HABITS.map(habit => (
-            <ListItem key={habit.name} divider={false}>
-              <ListItemText
-                primary={habit.name}
-                secondary={
-                  <Feelings
-                    selected={feelings[habit.name]}
-                    onChange={changes => {
-                      setFeelings({
-                        ...feelings,
-                        [habit.name]: changes
-                      });
-                    }}
-                  />
-                }
-              />
-            </ListItem>
-          ))}
-        </List>
-
-        <AppBar
-          color={"primary"}
+        <Toolbar
           style={{
-            top: "auto",
-            bottom: "0"
+            alignItems: "center",
+            justifyContent: "space-between"
           }}
-          elevation={2}
         >
-          <Toolbar
+          <IconButton color="inherit" aria-label="Open drawer">
+            <Icon />
+          </IconButton>
+          <Fab
+            color={"secondary"}
+            aria-label={"Add"}
             style={{
-              alignItems: "center",
-              justifyContent: "space-between"
+              position: "absolute",
+              zIndex: 1,
+              top: -30,
+              left: 0,
+              right: 0,
+              margin: "0 auto"
             }}
           >
-            <IconButton color="inherit" aria-label="Open drawer">
-              <Icon />
-            </IconButton>
-            <Fab
-              color={"secondary"}
-              aria-label={"Add"}
-              style={{
-                position: "absolute",
-                zIndex: 1,
-                top: -30,
-                left: 0,
-                right: 0,
-                margin: "0 auto"
-              }}
-            >
-              <Icon>add</Icon>
-            </Fab>
-            <div>
-              {Object.keys(feelings).length === 0 &&
-              feelings.constructor === Object ? (
-                <>
-                  <IconButton color="inherit">
-                    <Icon>search</Icon>
-                  </IconButton>
-                  <IconButton color="inherit">
-                    <Icon>more</Icon>
-                  </IconButton>
-                </>
-              ) : (
-                <Button
-                  onClick={() => {
-                    setFeelings({});
-                    window.alert("Success!");
-                  }}
-                >
-                  Submit
-                </Button>
-              )}
-            </div>
-          </Toolbar>
-        </AppBar>
-      </div>
+            <Icon>add</Icon>
+          </Fab>
+          <div>
+            {Object.keys(feelings).length === 0 &&
+            feelings.constructor === Object ? (
+              <>
+                <IconButton color="inherit">
+                  <Icon>search</Icon>
+                </IconButton>
+                <IconButton color="inherit">
+                  <Icon>more</Icon>
+                </IconButton>
+              </>
+            ) : (
+              <Button
+                onClick={() => {
+                  setFeelings({});
+                  window.alert("Success!");
+                }}
+              >
+                Submit
+              </Button>
+            )}
+          </div>
+        </Toolbar>
+      </AppBar>
     </Paper>
   )
 );
