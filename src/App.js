@@ -1,24 +1,76 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+
+const HABITS = [
+  {
+    name: "Drinking water"
+  },
+  {
+    name: "Using Pomodoro Technique"
+  },
+  {
+    name: "Writing to Journal"
+  },
+  {
+    name: "Procrastinating Less"
+  },
+  {
+    name: "Getting up after waking up"
+  },
+  {
+    name: "Eating Good"
+  },
+  {
+    name: "Do not cross your legs"
+  }
+];
+
+const Feelings = () => (
+  <span
+    aria-label={"feelings"}
+    role={"img"}
+    style={{
+      opacity: "0.8",
+      display: "block",
+      fontSize: "16px"
+    }}
+  >
+    🥳 😁 😐 😢 🙁
+  </span>
+);
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
+          <div
+            style={{
+              maxWidth: "600px",
+              width: "100%",
+              marginLeft: "auto",
+              marginRight: "auto",
+              backgroundColor: "black",
+              minHeight: "100vh"
+            }}
           >
-            Learn React
-          </a>
+            <img src={logo} className="App-logo" alt="logo" />
+            {HABITS.map(habit => (
+              <div
+                key={habit.name}
+                style={{
+                  height: "100px",
+                  textAlign: "center",
+                  border: "1px solid grey",
+                  padding: "16px"
+                }}
+              >
+                {habit.name}
+                <Feelings />
+              </div>
+            ))}
+          </div>
         </header>
       </div>
     );
