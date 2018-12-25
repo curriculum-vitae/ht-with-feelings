@@ -12,6 +12,7 @@ import {
   Icon,
   List,
   ListItem,
+  ListSubheader,
   ListItemText,
   Button
 } from "@material-ui/core";
@@ -108,7 +109,7 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
           <Tab label="Snoozed" />
         </Tabs>
       </AppBar>
-
+      <ListSubheader style={{ backgroundColor: "#171717" }}>All</ListSubheader>
       <List>
         {HABITS.map(habit => (
           <ListItem key={habit.name} divider={false}>
