@@ -28,7 +28,7 @@ const HABITS = [
   }
 ];
 
-const FEELINGS = [`🥳`, `😁`, `😐`, `😢`, `🙁`];
+const FEELINGS = [`😎`, `😁`, `😐`, `😢`, `🙁`];
 
 const Feelings = ({ selected = [], onChange }) => (
   <span
