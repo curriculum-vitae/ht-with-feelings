@@ -28,13 +28,14 @@ const HABITS = [
   }
 ];
 
-const FEELINGS = [`😎`, `😁`, `😐`, `😢`, `🙁`];
+const FEELINGS = [`😢`, `🙁`, `😐`, `😁`, `😎`];
 
 const Feelings = ({ selected = [], onChange }) => (
   <span
     aria-label={"feelings"}
     role={"img"}
     style={{
+      marginTop: "4px",
       display: "block",
       fontSize: "28px"
     }}
