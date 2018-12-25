@@ -45,10 +45,11 @@ const Feelings = ({ selected = [], onChange }) => (
   <>
     {FEELINGS.map(icon => (
       <Button
+        size={"small"}
         variant={"outlined"}
         style={{
           opacity: selected.includes(icon) ? "1" : "0.35",
-          marginRight: "4px"
+          marginRight: "2px"
         }}
         onClick={() => {
           onChange([...selected, icon]);
