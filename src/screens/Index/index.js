@@ -39,7 +39,7 @@ const HABITS = [
   }
 ];
 
-const FEELINGS = [`😢`, `🙁`, `😐`, `😁`, `😎`];
+const FEELINGS = [`😢`, `🙁`, `😐`, `😁`];
 
 const Feelings = ({ selected = [], onChange }) => (
   <>
@@ -67,7 +67,7 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
     <Paper>
       <div
         style={{
-          maxWidth: "420px",
+          maxWidth: "320px",
           width: "100%",
           marginLeft: "auto",
           marginRight: "auto",
