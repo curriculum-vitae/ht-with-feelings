@@ -4,11 +4,13 @@ import {
   Fab,
   Icon,
   IconButton,
+  ListItemSecondaryAction,
   List,
   ListItem,
   ListItemText,
   Chip,
   Grid,
+  ButtonBase,
   ListSubheader,
   ListItemAvatar,
   Avatar,
@@ -24,6 +26,8 @@ import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import { compose, withState } from "recompose";
 import { flow, times, map, sortBy, reverse, find, slice } from "lodash/fp";
 import moment from "moment";
+
+const MAX_WIDTH_FOR_TESTS = 320;
 
 const HABITS = [
   {
@@ -88,12 +92,13 @@ const getRandomEmotion = flow(
 const Feelings = ({ selected = [], onChange }) => (
   <>
     {FEELINGS.map(icon => (
-      <Button
+      <ButtonBase
         size={"small"}
         variant={"outlined"}
         style={{
-          opacity: selected.includes(icon) ? "1" : "0.35",
-          marginRight: "2px"
+          opacity: selected.includes(icon) ? "1" : "0.75",
+          marginRight: "8px",
+          fontSize: "28px"
         }}
         onClick={e => {
           e.stopPropagation();
@@ -107,7 +112,7 @@ const Feelings = ({ selected = [], onChange }) => (
         key={icon}
       >
         {icon}
-      </Button>
+      </ButtonBase>
     ))}
   </>
 );
@@ -117,7 +122,7 @@ const Habits = ({ habits, feelings, setFeelings }) => (
     {habits.map(habit => (
       <ListItem
         key={habit.name}
-        divider={false}
+        divider={true}
         component={Link}
         to={`/habits/${habit._id}`}
       >
@@ -135,6 +140,11 @@ const Habits = ({ habits, feelings, setFeelings }) => (
             />
           }
         />
+        <ListItemSecondaryAction style={{ opacity: "0.3" }}>
+          <IconButton aria-label="Comments">
+            <Icon>snooze</Icon>
+          </IconButton>
+        </ListItemSecondaryAction>
       </ListItem>
     ))}
   </List>
@@ -241,7 +251,7 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
       elevation={0}
       square
       style={{
-        maxWidth: "420px",
+        maxWidth: `${MAX_WIDTH_FOR_TESTS}px`,
         width: "100%",
         marginLeft: "auto",
         marginRight: "auto",
