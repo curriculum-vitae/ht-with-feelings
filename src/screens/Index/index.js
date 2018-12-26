@@ -27,7 +27,7 @@ import { compose, withState } from "recompose";
 import { flow, times, map, sortBy, reverse, find, slice } from "lodash/fp";
 import moment from "moment";
 
-const MAX_WIDTH_FOR_TESTS = 320;
+const MAX_WIDTH_FOR_TESTS = 380;
 
 const HABITS = [
   {
@@ -359,7 +359,9 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
         position={"fixed"}
         style={{
           top: "auto",
-          bottom: "0"
+          bottom: "0",
+          width: `${MAX_WIDTH_FOR_TESTS}px`,
+          left: `${(window.screen.width - MAX_WIDTH_FOR_TESTS) / 2}px`
         }}
         elevation={2}
       >
