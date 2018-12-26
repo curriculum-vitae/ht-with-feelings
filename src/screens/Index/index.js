@@ -67,7 +67,7 @@ const Feelings = ({ selected = [], onChange }) => (
 
 const Habits = ({ habits, feelings, setFeelings }) => (
   <List>
-    {HABITS.map(habit => (
+    {habits.map(habit => (
       <ListItem key={habit.name} divider={false}>
         <ListItemText
           primary={habit.name}
@@ -146,7 +146,7 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
                   />
                 </Tabs>
                 <Habits
-                  habits={HABITS}
+                  habits={HABITS.slice(0, 5)}
                   feelings={feelings}
                   setFeelings={setFeelings}
                 />
@@ -175,7 +175,7 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
                   />
                 </Tabs>
                 <Habits
-                  habits={HABITS}
+                  habits={HABITS.slice(5, HABITS.length - 1)}
                   feelings={feelings}
                   setFeelings={setFeelings}
                 />
