@@ -1,5 +1,5 @@
-import firebase from "firebase";
-import firebaseStore from "firebase/firestore";
+import firebase from "firebase/app";
+import firebaseStore from "firebase/firestore"; /* eslint-disable-line no-unused-vars */
 
 var config = {
   apiKey: "AIzaSyCsjCBLm8w2Nj47Z5i75_DyR-YHSFwBNkw",
