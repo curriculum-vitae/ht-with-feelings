@@ -10,21 +10,26 @@ import {
   IconButton,
   List,
   ListItem,
+  Dialog,
   ListItemAvatar,
   ListItemSecondaryAction,
   ListItemText,
   Paper,
+  DialogContent,
   Tab,
   Tabs,
   Toolbar,
-  Typography
+  Typography,
+  TextField,
+  DialogTitle,
+  DialogActions
 } from "@material-ui/core";
 import { find, flow, map, reverse, slice, sortBy, times } from "lodash/fp";
 import moment from "moment";
 import React from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import { compose, withState } from "recompose";
-import { db } from "shared/db";
+import { compose, withState, setDisplayName, renderComponent } from "recompose";
+import { FirebaseContext } from "contexts/FirebaseContext";
 
 const MAX_WIDTH_FOR_TESTS = 420;
 
@@ -60,6 +65,11 @@ const HABITS = [
 ];
 
 const FEELINGS = [`😢`, `🙁`, `😐`, `😁`];
+
+const Toggler = compose(
+  withState("value", "setValue", ({ initialValue }) => initialValue),
+  setDisplayName("Toggler")
+)(({ children, value, setValue }) => children({ value, setValue }));
 
 const generateFakeStat = () => ({
   dates: [new Date(Date.now() - Math.random() * 10000000000)],
@@ -115,6 +125,51 @@ const Feelings = ({ selected = [], onChange }) => (
     ))}
   </>
 );
+
+const HabitAdd = compose(
+  setDisplayName("HabitAdd"),
+  withState("value", "setValue", "")
+)(({ isOpen, value, setValue }) => (
+  <Dialog open={isOpen}>
+    <DialogTitle>Add new habit</DialogTitle>
+    <DialogContent>
+      <form>
+        <TextField
+          fullWidth
+          value={value}
+          onChange={e => setValue(e.target.value)}
+          style={{
+            maxWidth: "320px",
+            minWidth: "280px"
+          }}
+        />
+      </form>
+    </DialogContent>
+    <DialogActions>
+      <Button>Cancel</Button>
+      <FirebaseContext.Consumer>
+        {db => (
+          <Button
+            onClick={() => {
+              db.collection("habits")
+                .add({
+                  name: value
+                })
+                .then(docRef => {
+                  setValue("");
+                })
+                .catch(error => {
+                  console.error("Error adding document: ", error);
+                });
+            }}
+          >
+            Create
+          </Button>
+        )}
+      </FirebaseContext.Consumer>
+    </DialogActions>
+  </Dialog>
+));
 
 const Habits = ({ habits, feelings, setFeelings }) => (
   <List>
@@ -361,7 +416,7 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
           bottom: "0",
           width: `${MAX_WIDTH_FOR_TESTS}px`,
           maxWidth: "100%",
-          left: `${(window.screen.width - MAX_WIDTH_FOR_TESTS) / 2}px`
+          left: `${(window.innerWidth - MAX_WIDTH_FOR_TESTS) / 2}px`
         }}
         elevation={2}
       >
@@ -372,36 +427,34 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
           }}
         >
           <IconButton color="inherit" aria-label="Open drawer">
-            <Icon />
+            <Icon>filter</Icon>
           </IconButton>
-          <Fab
-            color={"secondary"}
-            aria-label={"Add"}
-            style={{
-              position: "absolute",
-              zIndex: 1,
-              top: -30,
-              left: 0,
-              right: 0,
-              margin: "0 auto"
-            }}
-            onClick={() => {
-              db.collection("users")
-                .add({
-                  first: "R",
-                  last: "G",
-                  born: 1991
-                })
-                .then(function(docRef) {
-                  console.log("Document written with ID: ", docRef.id);
-                })
-                .catch(function(error) {
-                  console.error("Error adding document: ", error);
-                });
-            }}
-          >
-            <Icon>add</Icon>
-          </Fab>
+
+          <Toggler initialValue={false}>
+            {({ value, setValue }) => (
+              <>
+                <HabitAdd isOpen={value} />
+                <Fab
+                  color={"secondary"}
+                  aria-label={"Add"}
+                  style={{
+                    position: "absolute",
+                    zIndex: 1,
+                    top: -30,
+                    left: 0,
+                    right: 0,
+                    margin: "0 auto"
+                  }}
+                  onClick={() => {
+                    setValue(true);
+                  }}
+                >
+                  <Icon>add</Icon>
+                </Fab>
+              </>
+            )}
+          </Toggler>
+
           <div>
             {Object.keys(feelings).length === 0 &&
             feelings.constructor === Object ? (
