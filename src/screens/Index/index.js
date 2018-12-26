@@ -1,21 +1,21 @@
-import React from "react";
-
 import {
   AppBar,
-  Toolbar,
-  Paper,
-  Typography,
-  IconButton,
+  Button,
   Fab,
-  Tabs,
-  Tab,
   Icon,
+  IconButton,
   List,
   ListItem,
-  ListSubheader,
   ListItemText,
-  Button
+  ListSubheader,
+  Paper,
+  Tab,
+  Tabs,
+  Toolbar,
+  Typography
 } from "@material-ui/core";
+import React from "react";
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import { compose, withState } from "recompose";
 
 const HABITS = [
@@ -65,10 +65,34 @@ const Feelings = ({ selected = [], onChange }) => (
   </>
 );
 
+const Habits = ({ habits, feelings, setFeelings }) => (
+  <List>
+    {HABITS.map(habit => (
+      <ListItem key={habit.name} divider={false}>
+        <ListItemText
+          primary={habit.name}
+          secondary={
+            <Feelings
+              selected={feelings[habit.name]}
+              onChange={changes => {
+                setFeelings({
+                  ...feelings,
+                  [habit.name]: changes
+                });
+              }}
+            />
+          }
+        />
+      </ListItem>
+    ))}
+  </List>
+);
+
 export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
   ({ feelings, setFeelings }) => (
     <Paper
-      elevation={1}
+      elevation={0}
+      square
       style={{
         maxWidth: "420px",
         width: "100%",
@@ -77,59 +101,90 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
         minHeight: "100vh"
       }}
     >
-      <AppBar position={"static"} color={"default"}>
-        <Toolbar variant={"dense"}>
-          <IconButton
-            className={{
-              marginLeft: "-18px",
-              marginRight: "10px"
-            }}
-            color="inherit"
-            aria-label="Menu"
-          >
-            <Icon>menu</Icon>
-          </IconButton>
-          <Typography
-            style={{ padding: "16px 16px 8px 16px" }}
-            variant={"h6"}
-            gutterBottom
-          >
-            Habits Inbox
-          </Typography>
-        </Toolbar>
-        <Tabs
-          indicatorColor="primary"
-          textColor="primary"
-          fullWidth
-          value={0}
-          centered
-          scrollButtons={"auto"}
-        >
-          <Tab label="Focus" />
-          <Tab label="Snoozed" />
-        </Tabs>
-      </AppBar>
-      <ListSubheader style={{ backgroundColor: "#171717" }}>All</ListSubheader>
-      <List>
-        {HABITS.map(habit => (
-          <ListItem key={habit.name} divider={false}>
-            <ListItemText
-              primary={habit.name}
-              secondary={
-                <Feelings
-                  selected={feelings[habit.name]}
-                  onChange={changes => {
-                    setFeelings({
-                      ...feelings,
-                      [habit.name]: changes
-                    });
-                  }}
+      <Router>
+        <>
+          <AppBar position={"static"} color={"default"}>
+            <Toolbar variant={"dense"}>
+              <IconButton
+                className={{
+                  marginLeft: "-18px",
+                  marginRight: "10px"
+                }}
+                color="inherit"
+                aria-label="Menu"
+              >
+                <Icon>menu</Icon>
+              </IconButton>
+              <Typography
+                style={{ padding: "16px 16px 8px 16px" }}
+                variant={"h6"}
+                gutterBottom
+              >
+                Habits Inbox
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <Route
+            path={"/"}
+            exact
+            render={() => (
+              <>
+                <Tabs
+                  indicatorColor="primary"
+                  textColor="primary"
+                  fullWidth
+                  value={"/"}
+                  centered
+                  scrollButtons={"auto"}
+                >
+                  <Tab label="Focus" component={Link} to={"/"} value={"/"} />
+                  <Tab
+                    label="Snoozed"
+                    component={Link}
+                    to={"/snoozed"}
+                    value={"/snoozed"}
+                  />
+                </Tabs>
+                <Habits
+                  habits={HABITS}
+                  feelings={feelings}
+                  setFeelings={setFeelings}
                 />
-              }
-            />
-          </ListItem>
-        ))}
-      </List>
+              </>
+            )}
+          />
+
+          <Route
+            path={"/snoozed"}
+            render={() => (
+              <>
+                <Tabs
+                  indicatorColor="primary"
+                  textColor="primary"
+                  fullWidth
+                  value={"/snoozed"}
+                  centered
+                  scrollButtons={"auto"}
+                >
+                  <Tab label="Focus" component={Link} to={"/"} value={"/"} />
+                  <Tab
+                    label="Snoozed"
+                    component={Link}
+                    to={"/snoozed"}
+                    value={"/snoozed"}
+                  />
+                </Tabs>
+                <Habits
+                  habits={HABITS}
+                  feelings={feelings}
+                  setFeelings={setFeelings}
+                />
+              </>
+            )}
+          />
+        </>
+      </Router>
+
       <br />
       <br />
       <br />
