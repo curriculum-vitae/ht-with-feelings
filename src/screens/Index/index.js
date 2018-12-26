@@ -7,6 +7,8 @@ import {
   List,
   ListItem,
   ListItemText,
+  Chip,
+  Grid,
   ListSubheader,
   ListItemAvatar,
   Avatar,
@@ -20,7 +22,7 @@ import {
 import React from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import { compose, withState } from "recompose";
-import { flow, times, map, sortBy, reverse, find } from "lodash/fp";
+import { flow, times, map, sortBy, reverse, find, slice } from "lodash/fp";
 import moment from "moment";
 
 const HABITS = [
@@ -67,6 +69,14 @@ const generateFakeStats = n =>
     sortBy(stat => stat.dates[0]),
     reverse
   )(n);
+
+const getRandomFontSize = () => {
+  if (Math.random() > 0.9) return 70;
+  if (Math.random() > 0.5) return 60;
+  if (Math.random() > 0.4) return 60;
+  if (Math.random() > 0.1) return 30;
+  return 20;
+};
 
 const getRandomEmotion = flow(
   Math.random,
@@ -141,7 +151,44 @@ const Habit = ({ habit, stats }) => (
       <Typography variant={"h4"} gutterBottom>
         {habit.name}
       </Typography>
-
+      <Chip label={"2 day streak"} variant={"outlined"} color={"primary"} />
+      <br />
+      <br />
+      <br />
+      <Grid container alignItems={"flex-end"}>
+        <Grid item xs={6}>
+          <Typography variant={"h6"}>Stats</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant={"caption"} style={{ textAlign: "right" }}>
+            {" "}
+            last 21 day
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        {flow(
+          slice(1, FEELINGS.length),
+          map(feeling => (
+            <Grid
+              item
+              xs={4}
+              style={{ textAlign: "center" }}
+              alignItems={"flex-end"}
+            >
+              <div
+                style={{
+                  fontSize: `${getRandomFontSize()}px`,
+                  height: "80px"
+                }}
+              >
+                {feeling}
+              </div>
+              <Typography>{Math.round(Math.random() * 100) / 1}%</Typography>
+            </Grid>
+          ))
+        )(FEELINGS)}
+      </Grid>
       <br />
       <Typography variant={"h6"} gutterBottom>
         Log
