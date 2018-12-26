@@ -1,31 +1,29 @@
 import {
   AppBar,
+  Avatar,
   Button,
+  ButtonBase,
+  Chip,
   Fab,
+  Grid,
   Icon,
   IconButton,
-  ListItemSecondaryAction,
   List,
   ListItem,
-  ListItemText,
-  Chip,
-  Grid,
-  ButtonBase,
-  ListSubheader,
   ListItemAvatar,
-  Avatar,
+  ListItemSecondaryAction,
+  ListItemText,
   Paper,
   Tab,
   Tabs,
   Toolbar,
-  Typography,
-  Divider
+  Typography
 } from "@material-ui/core";
+import { find, flow, map, reverse, slice, sortBy, times } from "lodash/fp";
+import moment from "moment";
 import React from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import { compose, withState } from "recompose";
-import { flow, times, map, sortBy, reverse, find, slice } from "lodash/fp";
-import moment from "moment";
 
 const MAX_WIDTH_FOR_TESTS = 420;
 
