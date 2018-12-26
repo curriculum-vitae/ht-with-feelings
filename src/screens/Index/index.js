@@ -176,13 +176,15 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
         <>
           <AppBar position={"static"} color={"default"}>
             <Toolbar variant={"dense"}>
-              <Typography
-                style={{ padding: "16px 16px 8px 0px" }}
-                variant={"h6"}
-                gutterBottom
-              >
-                Habits Tracker
-              </Typography>
+              <Link to={"/"}>
+                <Typography
+                  style={{ padding: "16px 16px 8px 0px" }}
+                  variant={"h6"}
+                  gutterBottom
+                >
+                  Habits Tracker
+                </Typography>
+              </Link>
             </Toolbar>
           </AppBar>
           <Route
