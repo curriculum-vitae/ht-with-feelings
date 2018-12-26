@@ -190,25 +190,48 @@ const Habit = ({ habit, stats }) => (
         )(FEELINGS)}
       </Grid>
       <br />
+
+      <Typography variant={"h6"} gutterBottom>
+        Calendar
+      </Typography>
+      <Grid container>
+        {flow(
+          generateFakeStats,
+          map(stat => (
+            <Grid item xs={2}>
+              <div
+                style={{
+                  textAlign: "center",
+                  fontSize: "32px",
+                  padding: "2px 0px"
+                }}
+              >
+                {stat.feelings[0]}
+              </div>
+            </Grid>
+          ))
+        )(60)}
+      </Grid>
       <Typography variant={"h6"} gutterBottom>
         Log
       </Typography>
+
+      <List dense>
+        {flow(
+          generateFakeStats,
+          map(stat => (
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>{stat.feelings[0]}</Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={moment(stat.dates[0]).format("DD/MM/YYYY, HH:mm")}
+              />
+            </ListItem>
+          ))
+        )(50)}
+      </List>
     </div>
-    <List dense>
-      {flow(
-        generateFakeStats,
-        map(stat => (
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>{stat.feelings[0]}</Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary={moment(stat.dates[0]).format("DD/MM/YYYY, HH:mm")}
-            />
-          </ListItem>
-        ))
-      )(50)}
-    </List>
   </>
 );
 
