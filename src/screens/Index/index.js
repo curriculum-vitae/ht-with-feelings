@@ -27,7 +27,7 @@ import { compose, withState } from "recompose";
 import { flow, times, map, sortBy, reverse, find, slice } from "lodash/fp";
 import moment from "moment";
 
-const MAX_WIDTH_FOR_TESTS = 380;
+const MAX_WIDTH_FOR_TESTS = 420;
 
 const HABITS = [
   {
@@ -127,7 +127,7 @@ const Habits = ({ habits, feelings, setFeelings }) => (
         to={`/habits/${habit._id}`}
       >
         <ListItemText
-          primary={<Typography variant={"subtitle2"}>{habit.name}</Typography>}
+          primary={<Typography variant={"h6"}>{habit.name}</Typography>}
           secondary={
             <Feelings
               selected={feelings[habit.name]}
