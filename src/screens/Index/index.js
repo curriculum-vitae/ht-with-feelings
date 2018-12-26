@@ -24,6 +24,7 @@ import moment from "moment";
 import React from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import { compose, withState } from "recompose";
+import { db } from "shared/db";
 
 const MAX_WIDTH_FOR_TESTS = 420;
 
@@ -359,6 +360,7 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
           top: "auto",
           bottom: "0",
           width: `${MAX_WIDTH_FOR_TESTS}px`,
+          maxWidth: "100%",
           left: `${(window.screen.width - MAX_WIDTH_FOR_TESTS) / 2}px`
         }}
         elevation={2}
@@ -382,6 +384,20 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
               left: 0,
               right: 0,
               margin: "0 auto"
+            }}
+            onClick={() => {
+              db.collection("users")
+                .add({
+                  first: "R",
+                  last: "G",
+                  born: 1991
+                })
+                .then(function(docRef) {
+                  console.log("Document written with ID: ", docRef.id);
+                })
+                .catch(function(error) {
+                  console.error("Error adding document: ", error);
+                });
             }}
           >
             <Icon>add</Icon>
