@@ -85,8 +85,14 @@ const Feelings = ({ selected = [], onChange }) => (
           opacity: selected.includes(icon) ? "1" : "0.35",
           marginRight: "2px"
         }}
-        onClick={() => {
-          onChange([...selected, icon]);
+        onClick={e => {
+          e.stopPropagation();
+          e.preventDefault();
+          if (selected.includes(icon)) {
+            onChange([]);
+          } else {
+            onChange([...selected, icon]);
+          }
         }}
         key={icon}
       >
