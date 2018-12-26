@@ -96,9 +96,9 @@ const Feelings = ({ selected = [], onChange }) => (
         size={"small"}
         variant={"outlined"}
         style={{
-          opacity: selected.includes(icon) ? "1" : "0.75",
-          marginRight: "8px",
-          fontSize: "28px"
+          opacity: selected.includes(icon) ? "1" : "0.25",
+          marginRight: "15px",
+          fontSize: "32px"
         }}
         onClick={e => {
           e.stopPropagation();
@@ -127,7 +127,7 @@ const Habits = ({ habits, feelings, setFeelings }) => (
         to={`/habits/${habit._id}`}
       >
         <ListItemText
-          primary={habit.name}
+          primary={<Typography variant={"subtitle2"}>{habit.name}</Typography>}
           secondary={
             <Feelings
               selected={feelings[habit.name]}
