@@ -8,41 +8,72 @@ import {
   ListItem,
   ListItemText,
   ListSubheader,
+  ListItemAvatar,
+  Avatar,
   Paper,
   Tab,
   Tabs,
   Toolbar,
-  Typography
+  Typography,
+  Divider
 } from "@material-ui/core";
 import React from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import { compose, withState } from "recompose";
+import { flow, times, map, sortBy, reverse, find } from "lodash/fp";
+import moment from "moment";
 
 const HABITS = [
   {
+    _id: "0",
     name: "Drinking water"
   },
   {
+    _id: "1",
     name: "Using Pomodoro Technique"
   },
   {
+    _id: "2",
     name: "Writing to Journal"
   },
   {
+    _id: "3",
     name: "Procrastinating Less"
   },
   {
+    _id: "4",
     name: "Getting up after waking up"
   },
   {
+    _id: "5",
     name: "Eating Good"
   },
   {
+    _id: "6",
     name: "Do not cross your legs"
   }
 ];
 
 const FEELINGS = [`😢`, `🙁`, `😐`, `😁`];
+
+const generateFakeStat = () => ({
+  dates: [new Date(Date.now() - Math.random() * 10000000000)],
+  feelings: [getRandomEmotion()]
+});
+
+const generateFakeStats = n =>
+  flow(
+    times(generateFakeStat),
+    sortBy(stat => stat.dates[0]),
+    reverse
+  )(n);
+
+const getRandomEmotion = flow(
+  Math.random,
+  r => r * FEELINGS.length,
+  Math.floor,
+  index => FEELINGS[index]
+);
 
 const Feelings = ({ selected = [], onChange }) => (
   <>
@@ -68,7 +99,12 @@ const Feelings = ({ selected = [], onChange }) => (
 const Habits = ({ habits, feelings, setFeelings }) => (
   <List>
     {habits.map(habit => (
-      <ListItem key={habit.name} divider={false}>
+      <ListItem
+        key={habit.name}
+        divider={false}
+        component={Link}
+        to={`/habits/${habit._id}`}
+      >
         <ListItemText
           primary={habit.name}
           secondary={
@@ -88,6 +124,41 @@ const Habits = ({ habits, feelings, setFeelings }) => (
   </List>
 );
 
+const Habit = ({ habit, stats }) => (
+  <>
+    <div
+      style={{
+        marginTop: "40px",
+        padding: "0px 20px"
+      }}
+    >
+      <Typography variant={"h4"} gutterBottom>
+        {habit.name}
+      </Typography>
+
+      <br />
+      <Typography variant={"h6"} gutterBottom>
+        Log
+      </Typography>
+    </div>
+    <List dense>
+      {flow(
+        generateFakeStats,
+        map(stat => (
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar>{stat.feelings[0]}</Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={moment(stat.dates[0]).format("DD/MM/YYYY, HH:mm")}
+            />
+          </ListItem>
+        ))
+      )(50)}
+    </List>
+  </>
+);
+
 export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
   ({ feelings, setFeelings }) => (
     <Paper
@@ -105,22 +176,12 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
         <>
           <AppBar position={"static"} color={"default"}>
             <Toolbar variant={"dense"}>
-              <IconButton
-                className={{
-                  marginLeft: "-18px",
-                  marginRight: "10px"
-                }}
-                color="inherit"
-                aria-label="Menu"
-              >
-                <Icon>menu</Icon>
-              </IconButton>
               <Typography
-                style={{ padding: "16px 16px 8px 16px" }}
+                style={{ padding: "16px 16px 8px 0px" }}
                 variant={"h6"}
                 gutterBottom
               >
-                Habits Inbox
+                Habits Tracker
               </Typography>
             </Toolbar>
           </AppBar>
@@ -180,6 +241,18 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
                   setFeelings={setFeelings}
                 />
               </>
+            )}
+          />
+          <Route
+            path={"/habits/:_idHabit"}
+            render={({ match: { params } }) => (
+              <div>
+                <Habit
+                  habit={flow(find(habit => habit._id === params._idHabit))(
+                    HABITS
+                  )}
+                />
+              </div>
             )}
           />
         </>
