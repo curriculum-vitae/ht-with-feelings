@@ -77,7 +77,7 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
         minHeight: "100vh"
       }}
     >
-      <AppBar position="static" color="default">
+      <AppBar position={"static"} color={"default"}>
         <Toolbar variant={"dense"}>
           <IconButton
             className={{
@@ -130,7 +130,14 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
           </ListItem>
         ))}
       </List>
-
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <AppBar
         color={"default"}
         position={"fixed"}
