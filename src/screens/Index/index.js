@@ -28,38 +28,44 @@ import { find, flow, map, reverse, slice, sortBy, times } from "lodash/fp";
 import moment from "moment";
 import React from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import { compose, withState, setDisplayName, renderComponent } from "recompose";
+import {
+  compose,
+  withState,
+  setDisplayName,
+  renderComponent,
+  lifecycle
+} from "recompose";
 import { FirebaseContext } from "contexts/FirebaseContext";
 
 const MAX_WIDTH_FOR_TESTS = 420;
 
 const HABITS = [
   {
-    _id: "0",
+    id: "0",
     name: "Drinking water"
   },
   {
-    _id: "1",
+    id: "1",
     name: "Using Pomodoro Technique"
   },
   {
-    _id: "2",
+    id: "2",
     name: "Writing to Journal"
   },
   {
-    _id: "3",
+    id: "3",
     name: "Procrastinating Less"
   },
   {
-    _id: "4",
+    id: "4",
     name: "Getting up after waking up"
   },
   {
-    _id: "5",
+    id: "5",
     name: "Eating Good"
   },
   {
-    _id: "6",
+    id: "6",
     name: "Do not cross your legs"
   }
 ];
@@ -126,6 +132,28 @@ const Feelings = ({ selected = [], onChange }) => (
   </>
 );
 
+const HabitsProvider = compose(
+  withState("habits", "setHabits", []),
+  lifecycle({
+    componentDidMount() {
+      const { db } = this.props;
+      db.collection("habits")
+        .get()
+        .then(querySnapshot => {
+          const result = [];
+          querySnapshot.forEach(doc =>
+            result.push({
+              id: doc.id,
+              ...doc.data()
+            })
+          );
+          this.setState({ habits: result });
+        })
+        .catch(e => console.log(e));
+    }
+  })
+)(({ children, habits }) => (children ? children({ habits }) : null));
+
 const HabitAdd = compose(
   setDisplayName("HabitAdd"),
   withState("value", "setValue", "")
@@ -175,10 +203,10 @@ const Habits = ({ habits, feelings, setFeelings }) => (
   <List>
     {habits.map(habit => (
       <ListItem
-        key={habit.name}
+        key={habit.id}
         divider={true}
         component={Link}
-        to={`/habits/${habit._id}`}
+        to={`/habits/${habit.id}`}
       >
         <ListItemText
           primary={<Typography variant={"h6"}>{habit.name}</Typography>}
@@ -234,12 +262,7 @@ const Habit = ({ habit, stats }) => (
         {flow(
           slice(1, FEELINGS.length),
           map(feeling => (
-            <Grid
-              item
-              xs={4}
-              style={{ textAlign: "center" }}
-              alignItems={"flex-end"}
-            >
+            <Grid item xs={4} style={{ textAlign: "center" }} key={feeling}>
               <div
                 style={{
                   fontSize: `${getRandomFontSize()}px`,
@@ -262,7 +285,7 @@ const Habit = ({ habit, stats }) => (
         {flow(
           generateFakeStats,
           map(stat => (
-            <Grid item xs={2}>
+            <Grid item xs={2} key={Math.random()}>
               <div
                 style={{
                   textAlign: "center",
@@ -348,11 +371,20 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
                     value={"/snoozed"}
                   />
                 </Tabs>
-                <Habits
-                  habits={HABITS.slice(0, 5)}
-                  feelings={feelings}
-                  setFeelings={setFeelings}
-                />
+
+                <FirebaseContext.Consumer>
+                  {db => (
+                    <HabitsProvider db={db}>
+                      {props => (
+                        <Habits
+                          habits={props.habits}
+                          feelings={feelings}
+                          setFeelings={setFeelings}
+                        />
+                      )}
+                    </HabitsProvider>
+                  )}
+                </FirebaseContext.Consumer>
               </>
             )}
           />
@@ -377,24 +409,41 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
                     value={"/snoozed"}
                   />
                 </Tabs>
-                <Habits
-                  habits={HABITS.slice(5, HABITS.length - 1)}
-                  feelings={feelings}
-                  setFeelings={setFeelings}
-                />
+                <FirebaseContext.Consumer>
+                  {db => (
+                    <HabitsProvider db={db}>
+                      {props => (
+                        <Habits
+                          habits={props.habits}
+                          feelings={feelings}
+                          setFeelings={setFeelings}
+                        />
+                      )}
+                    </HabitsProvider>
+                  )}
+                </FirebaseContext.Consumer>
               </>
             )}
           />
           <Route
-            path={"/habits/:_idHabit"}
+            path={"/habits/:idHabit"}
             render={({ match: { params } }) => (
-              <div>
-                <Habit
-                  habit={flow(find(habit => habit._id === params._idHabit))(
-                    HABITS
-                  )}
-                />
-              </div>
+              <FirebaseContext.Consumer>
+                {db => (
+                  <HabitsProvider db={db}>
+                    {props =>
+                      props.habits.length > 0 ? (
+                        <Habit
+                          habit={flow(
+                            props => props.habits,
+                            find(habit => habit.id === params.idHabit)
+                          )(props)}
+                        />
+                      ) : null
+                    }
+                  </HabitsProvider>
+                )}
+              </FirebaseContext.Consumer>
             )}
           />
         </>
