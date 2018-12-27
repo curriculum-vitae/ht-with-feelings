@@ -136,13 +136,21 @@ const Habits = ({ habits, setFeelings }) => (
                     <Feelings
                       selected={feelingsRecord ? feelingsRecord.feelings : []}
                       onChange={feelingsNew => {
-                        db.collection("habits")
+                        const dbFeelingsRef = db
+                          .collection("habits")
                           .doc(habit.id)
-                          .collection("feelings")
-                          .doc(feelingsRecord.id)
-                          .set({
+                          .collection("feelings");
+                        if (feelingsRecord) {
+                          dbFeelingsRef.doc(feelingsRecord.id).set({
+                            date: new Date(),
                             feelings: feelingsNew
                           });
+                        } else {
+                          dbFeelingsRef.add({
+                            date: new Date(),
+                            feelings: feelingsNew
+                          });
+                        }
                       }}
                     />
                   );
