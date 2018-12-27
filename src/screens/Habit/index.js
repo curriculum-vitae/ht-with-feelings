@@ -39,17 +39,10 @@ export const HabitScreen = ({ match, stats }) => (
             <Typography variant={"h4"} gutterBottom>
               {habit.name}
             </Typography>
-            <Chip
-              label={"2 day streak"}
-              variant={"outlined"}
-              color={"primary"}
-            />
-            <br />
-            <br />
-            <br />
+
             <Grid container alignItems={"flex-end"}>
               <Grid item xs={6}>
-                <Typography variant={"h6"}>Stats</Typography>
+                <Typography variant={"h6"}>Overview</Typography>
               </Grid>
               <Grid item xs={6}>
                 <Typography variant={"caption"} style={{ textAlign: "right" }}>
@@ -85,27 +78,6 @@ export const HabitScreen = ({ match, stats }) => (
             </Grid>
             <br />
 
-            <Typography variant={"h6"} gutterBottom>
-              Calendar
-            </Typography>
-            <Grid container>
-              {flow(
-                generateFakeStats,
-                map(stat => (
-                  <Grid item xs={2} key={Math.random()}>
-                    <div
-                      style={{
-                        textAlign: "center",
-                        fontSize: "32px",
-                        padding: "2px 0px"
-                      }}
-                    >
-                      {stat.feelings[0]}
-                    </div>
-                  </Grid>
-                ))
-              )(60)}
-            </Grid>
             <Typography variant={"h6"} gutterBottom>
               Log
             </Typography>

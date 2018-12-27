@@ -44,9 +44,10 @@ const Feelings = ({ selected = [], onChange }) => (
         size={"small"}
         variant={"outlined"}
         style={{
-          opacity: selected.includes(icon) ? "1" : "0.25",
+          borderRadius: "100%",
+          opacity: selected.includes(icon) ? "1" : "0.3",
           marginRight: "15px",
-          fontSize: "32px"
+          fontSize: "24px"
         }}
         onClick={e => {
           e.stopPropagation();
@@ -96,6 +97,7 @@ const HabitAdd = compose(
                 })
                 .then(docRef => {
                   setValue("");
+                  onClose();
                 })
                 .catch(error => {
                   console.error("Error adding document: ", error);
@@ -121,22 +123,17 @@ const Habits = ({ habits, feelings, setFeelings }) => (
       >
         <ListItemText
           primary={<Typography variant={"h6"}>{habit.name}</Typography>}
-          secondary={
-            <Feelings
-              selected={feelings[habit.name]}
-              onChange={changes => {
-                setFeelings({
-                  ...feelings,
-                  [habit.name]: changes
-                });
-              }}
-            />
-          }
         />
-        <ListItemSecondaryAction style={{ opacity: "0.3" }}>
-          <IconButton aria-label="Comments">
-            <Icon>snooze</Icon>
-          </IconButton>
+        <ListItemSecondaryAction>
+          <Feelings
+            selected={feelings[habit.name]}
+            onChange={changes => {
+              setFeelings({
+                ...feelings,
+                [habit.name]: changes
+              });
+            }}
+          />
         </ListItemSecondaryAction>
       </ListItem>
     ))}
