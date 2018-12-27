@@ -3,6 +3,7 @@ import {
   Chip,
   Grid,
   List,
+  Button,
   ListItem,
   ListItemAvatar,
   ListItemText,
@@ -16,8 +17,9 @@ import { getRandomFontSize } from "shared/helpers";
 import { generateFakeStats } from "screens/Habit/helpers";
 import { HabitAppBar } from "screens/Habit/components/HabitAppBar";
 import { HabitsProvider } from "providers/HabitsProvider";
+import { FirebaseContext } from "contexts/FirebaseContext";
 
-export const HabitScreen = ({ match, stats }) => (
+export const HabitScreen = ({ match, stats, history }) => (
   <>
     <HabitAppBar />
 
@@ -36,9 +38,35 @@ export const HabitScreen = ({ match, stats }) => (
               padding: "0px 20px"
             }}
           >
-            <Typography variant={"h4"} gutterBottom>
-              {habit.name}
-            </Typography>
+            <Grid container>
+              <Grid item xs={10}>
+                <Typography variant={"h4"} gutterBottom>
+                  {habit.name}
+                </Typography>
+              </Grid>
+
+              <Grid item xs={2}>
+                <FirebaseContext.Consumer>
+                  {db => (
+                    <Button
+                      onClick={() => {
+                        db.collection("habits")
+                          .doc(habit.id)
+                          .delete()
+                          .then(() => {
+                            history.goBack();
+                          })
+                          .catch(e => {
+                            window.alert("Error");
+                          });
+                      }}
+                    >
+                      X
+                    </Button>
+                  )}
+                </FirebaseContext.Consumer>
+              </Grid>
+            </Grid>
 
             <Grid container alignItems={"flex-end"}>
               <Grid item xs={6}>
