@@ -36,73 +36,15 @@ import {
   lifecycle
 } from "recompose";
 import { FirebaseContext } from "contexts/FirebaseContext";
+import { Habit } from "screens/Habit";
+import { FEELINGS } from "shared/constants";
 
 const MAX_WIDTH_FOR_TESTS = 420;
-
-const HABITS = [
-  {
-    id: "0",
-    name: "Drinking water"
-  },
-  {
-    id: "1",
-    name: "Using Pomodoro Technique"
-  },
-  {
-    id: "2",
-    name: "Writing to Journal"
-  },
-  {
-    id: "3",
-    name: "Procrastinating Less"
-  },
-  {
-    id: "4",
-    name: "Getting up after waking up"
-  },
-  {
-    id: "5",
-    name: "Eating Good"
-  },
-  {
-    id: "6",
-    name: "Do not cross your legs"
-  }
-];
-
-const FEELINGS = [`😢`, `🙁`, `😐`, `😁`];
 
 const Toggler = compose(
   withState("value", "setValue", ({ initialValue }) => initialValue),
   setDisplayName("Toggler")
 )(({ children, value, setValue }) => children({ value, setValue }));
-
-const generateFakeStat = () => ({
-  dates: [new Date(Date.now() - Math.random() * 10000000000)],
-  feelings: [getRandomEmotion()]
-});
-
-const generateFakeStats = n =>
-  flow(
-    times(generateFakeStat),
-    sortBy(stat => stat.dates[0]),
-    reverse
-  )(n);
-
-const getRandomFontSize = () => {
-  if (Math.random() > 0.9) return 70;
-  if (Math.random() > 0.5) return 60;
-  if (Math.random() > 0.4) return 60;
-  if (Math.random() > 0.1) return 30;
-  return 20;
-};
-
-const getRandomEmotion = flow(
-  Math.random,
-  r => r * FEELINGS.length,
-  Math.floor,
-  index => FEELINGS[index]
-);
 
 const Feelings = ({ selected = [], onChange }) => (
   <>
@@ -230,96 +172,6 @@ const Habits = ({ habits, feelings, setFeelings }) => (
       </ListItem>
     ))}
   </List>
-);
-
-const Habit = ({ habit, stats }) => (
-  <>
-    <div
-      style={{
-        marginTop: "40px",
-        padding: "0px 20px"
-      }}
-    >
-      <Typography variant={"h4"} gutterBottom>
-        {habit.name}
-      </Typography>
-      <Chip label={"2 day streak"} variant={"outlined"} color={"primary"} />
-      <br />
-      <br />
-      <br />
-      <Grid container alignItems={"flex-end"}>
-        <Grid item xs={6}>
-          <Typography variant={"h6"}>Stats</Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography variant={"caption"} style={{ textAlign: "right" }}>
-            {" "}
-            last 21 day
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid container>
-        {flow(
-          slice(1, FEELINGS.length),
-          map(feeling => (
-            <Grid item xs={4} style={{ textAlign: "center" }} key={feeling}>
-              <div
-                style={{
-                  fontSize: `${getRandomFontSize()}px`,
-                  height: "80px"
-                }}
-              >
-                {feeling}
-              </div>
-              <Typography>{Math.round(Math.random() * 100) / 1}%</Typography>
-            </Grid>
-          ))
-        )(FEELINGS)}
-      </Grid>
-      <br />
-
-      <Typography variant={"h6"} gutterBottom>
-        Calendar
-      </Typography>
-      <Grid container>
-        {flow(
-          generateFakeStats,
-          map(stat => (
-            <Grid item xs={2} key={Math.random()}>
-              <div
-                style={{
-                  textAlign: "center",
-                  fontSize: "32px",
-                  padding: "2px 0px"
-                }}
-              >
-                {stat.feelings[0]}
-              </div>
-            </Grid>
-          ))
-        )(60)}
-      </Grid>
-      <Typography variant={"h6"} gutterBottom>
-        Log
-      </Typography>
-
-      <List dense>
-        {flow(
-          generateFakeStats,
-          map(stat => (
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>{stat.feelings[0]}</Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={moment(stat.dates[0]).format("DD/MM/YYYY, HH:mm")}
-              />
-            </ListItem>
-          ))
-        )(50)}
-      </List>
-    </div>
-  </>
 );
 
 export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
