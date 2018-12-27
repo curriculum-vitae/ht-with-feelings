@@ -129,8 +129,8 @@ const Feelings = ({ selected = [], onChange }) => (
 const HabitAdd = compose(
   setDisplayName("HabitAdd"),
   withState("value", "setValue", "")
-)(({ isOpen, value, setValue }) => (
-  <Dialog open={isOpen}>
+)(({ isOpen, value, setValue, onClose }) => (
+  <Dialog open={isOpen} onClose={onClose}>
     <DialogTitle>Add new habit</DialogTitle>
     <DialogContent>
       <form>
@@ -146,7 +146,7 @@ const HabitAdd = compose(
       </form>
     </DialogContent>
     <DialogActions>
-      <Button>Cancel</Button>
+      <Button onClick={onClose}>Cancel</Button>
       <FirebaseContext.Consumer>
         {db => (
           <Button
@@ -433,7 +433,7 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
           <Toggler initialValue={false}>
             {({ value, setValue }) => (
               <>
-                <HabitAdd isOpen={value} />
+                <HabitAdd isOpen={value} onClose={() => setValue(false)} />
                 <Fab
                   color={"secondary"}
                   aria-label={"Add"}
