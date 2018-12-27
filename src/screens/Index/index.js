@@ -151,27 +151,6 @@ const Habits = ({ habits, feelings, setFeelings }) => (
   </FirebaseContext.Consumer>
 );
 
-const IndexAppBarTopTabs = () => (
-  <>
-    <Tabs
-      indicatorColor="primary"
-      textColor="primary"
-      fullWidth
-      value={"/"}
-      centered
-      scrollButtons={"auto"}
-    >
-      <Tab label="Focus" component={Link} to={"/"} value={"/"} />
-      <Tab
-        label="Snoozed"
-        component={Link}
-        to={"/snoozed"}
-        value={"/snoozed"}
-      />
-    </Tabs>
-  </>
-);
-
 export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
   ({ feelings, setFeelings }) => (
     <Paper
