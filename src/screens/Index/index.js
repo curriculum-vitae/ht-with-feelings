@@ -113,31 +113,42 @@ const HabitAdd = compose(
 ));
 
 const Habits = ({ habits, feelings, setFeelings }) => (
-  <List>
-    {habits.map(habit => (
-      <ListItem
-        key={habit.id}
-        divider={true}
-        component={Link}
-        to={`/habits/${habit.id}`}
-      >
-        <ListItemText
-          primary={<Typography variant={"h6"}>{habit.name}</Typography>}
-        />
-        <ListItemSecondaryAction>
-          <Feelings
-            selected={feelings[habit.name]}
-            onChange={changes => {
-              setFeelings({
-                ...feelings,
-                [habit.name]: changes
-              });
-            }}
-          />
-        </ListItemSecondaryAction>
-      </ListItem>
-    ))}
-  </List>
+  <FirebaseContext.Consumer>
+    {db => (
+      <List>
+        {habits.map(habit => (
+          <ListItem
+            key={habit.id}
+            divider={true}
+            component={Link}
+            to={`/habits/${habit.id}`}
+          >
+            <ListItemText
+              primary={<Typography variant={"h6"}>{habit.name}</Typography>}
+            />
+            <ListItemSecondaryAction>
+              <Feelings
+                selected={feelings[habit.name]}
+                onChange={changes => {
+                  setFeelings({
+                    ...feelings,
+                    [habit.name]: changes
+                  });
+                  db.collection("habits")
+                    .doc(habit.id)
+                    .collection("feelings")
+                    .add({
+                      feelings: changes,
+                      date: new Date()
+                    });
+                }}
+              />
+            </ListItemSecondaryAction>
+          </ListItem>
+        ))}
+      </List>
+    )}
+  </FirebaseContext.Consumer>
 );
 
 const IndexAppBarTopTabs = () => (
