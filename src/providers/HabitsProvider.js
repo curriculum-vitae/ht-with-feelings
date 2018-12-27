@@ -6,7 +6,7 @@ export const HabitsProviderWithFirebase = compose(
   withState("habits", "setHabits", []),
   lifecycle({
     componentDidMount() {
-      const { db } = this.props;
+      const { db, setHabits } = this.props;
       db.collection("habits")
         .get()
         .then(querySnapshot => {
@@ -17,7 +17,7 @@ export const HabitsProviderWithFirebase = compose(
               ...doc.data()
             })
           );
-          this.setState({ habits: result });
+          setHabits(result);
         })
         .catch(e => console.log(e));
     }

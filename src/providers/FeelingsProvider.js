@@ -10,8 +10,7 @@ export const FeelingsProviderWithFirebase = compose(
       db.collection("habits")
         .doc(idHabit)
         .collection("feelings")
-        .get()
-        .then(querySnapshot => {
+        .onSnapshot(querySnapshot => {
           const result = [];
           querySnapshot.forEach(doc =>
             result.push({
@@ -20,8 +19,7 @@ export const FeelingsProviderWithFirebase = compose(
             })
           );
           setFeelings(result);
-        })
-        .catch(e => console.log(e));
+        });
     }
   })
 )(({ children, feelings }) => (children ? children({ feelings }) : null));

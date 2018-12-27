@@ -19,7 +19,7 @@ import {
   Typography
 } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
-import { flow, map, flatten, uniq, last } from "lodash/fp";
+import { flow, map, flatten, uniq, filter, last } from "lodash/fp";
 import { FeelingsProvider } from "providers/FeelingsProvider";
 import { HabitsProvider } from "providers/HabitsProvider";
 import React from "react";
@@ -51,7 +51,7 @@ const Feelings = ({ selected = [], onChange }) => (
           e.stopPropagation();
           e.preventDefault();
           if (selected.includes(icon)) {
-            onChange([]);
+            onChange(flow(filter(item => item !== icon))(selected));
           } else {
             onChange([...selected, icon]);
           }
