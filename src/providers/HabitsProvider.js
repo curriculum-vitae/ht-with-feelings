@@ -7,19 +7,16 @@ export const HabitsProviderWithFirebase = compose(
   lifecycle({
     componentDidMount() {
       const { db, setHabits } = this.props;
-      db.collection("habits")
-        .get()
-        .then(querySnapshot => {
-          const result = [];
-          querySnapshot.forEach(doc =>
-            result.push({
-              id: doc.id,
-              ...doc.data()
-            })
-          );
-          setHabits(result);
-        })
-        .catch(e => console.log(e));
+      db.collection("habits").onSnapshot(querySnapshot => {
+        const result = [];
+        querySnapshot.forEach(doc =>
+          result.push({
+            id: doc.id,
+            ...doc.data()
+          })
+        );
+        setHabits(result);
+      });
     }
   })
 )(({ children, habits }) => (children ? children({ habits }) : null));
