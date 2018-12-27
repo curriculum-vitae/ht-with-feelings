@@ -1,43 +1,34 @@
 import {
   AppBar,
-  Avatar,
   Button,
   ButtonBase,
-  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Fab,
-  Grid,
   Icon,
   IconButton,
   List,
   ListItem,
-  Dialog,
-  ListItemAvatar,
   ListItemSecondaryAction,
   ListItemText,
   Paper,
-  DialogContent,
   Tab,
   Tabs,
-  Toolbar,
-  Typography,
   TextField,
-  DialogTitle,
-  DialogActions
+  Toolbar,
+  Typography
 } from "@material-ui/core";
-import { find, flow, map, reverse, slice, sortBy, times } from "lodash/fp";
-import moment from "moment";
-import React from "react";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import {
-  compose,
-  withState,
-  setDisplayName,
-  renderComponent,
-  lifecycle
-} from "recompose";
 import { FirebaseContext } from "contexts/FirebaseContext";
-import { Habit } from "screens/Habit";
+
+import React from "react";
+import { Link } from "react-router-dom";
+import { compose, setDisplayName, withState } from "recompose";
+
 import { FEELINGS } from "shared/constants";
+import { IndexAppBarTop } from "screens/Index/components/IndexAppBarTop";
+import { HabitsProvider } from "providers/HabitsProvider";
 
 const MAX_WIDTH_FOR_TESTS = 420;
 
@@ -73,28 +64,6 @@ const Feelings = ({ selected = [], onChange }) => (
     ))}
   </>
 );
-
-const HabitsProvider = compose(
-  withState("habits", "setHabits", []),
-  lifecycle({
-    componentDidMount() {
-      const { db } = this.props;
-      db.collection("habits")
-        .get()
-        .then(querySnapshot => {
-          const result = [];
-          querySnapshot.forEach(doc =>
-            result.push({
-              id: doc.id,
-              ...doc.data()
-            })
-          );
-          this.setState({ habits: result });
-        })
-        .catch(e => console.log(e));
-    }
-  })
-)(({ children, habits }) => (children ? children({ habits }) : null));
 
 const HabitAdd = compose(
   setDisplayName("HabitAdd"),
@@ -174,6 +143,27 @@ const Habits = ({ habits, feelings, setFeelings }) => (
   </List>
 );
 
+const IndexAppBarTopTabs = () => (
+  <>
+    <Tabs
+      indicatorColor="primary"
+      textColor="primary"
+      fullWidth
+      value={"/"}
+      centered
+      scrollButtons={"auto"}
+    >
+      <Tab label="Focus" component={Link} to={"/"} value={"/"} />
+      <Tab
+        label="Snoozed"
+        component={Link}
+        to={"/snoozed"}
+        value={"/snoozed"}
+      />
+    </Tabs>
+  </>
+);
+
 export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
   ({ feelings, setFeelings }) => (
     <Paper
@@ -187,119 +177,19 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
         minHeight: "100vh"
       }}
     >
-      <Router>
-        <>
-          <AppBar position={"static"} color={"default"}>
-            <Toolbar variant={"dense"}>
-              <Link to={"/"}>
-                <Typography
-                  style={{ padding: "16px 16px 8px 0px" }}
-                  variant={"h6"}
-                  gutterBottom
-                >
-                  Habits Tracker
-                </Typography>
-              </Link>
-            </Toolbar>
-          </AppBar>
-          <Route
-            path={"/"}
-            exact
-            render={() => (
-              <>
-                <Tabs
-                  indicatorColor="primary"
-                  textColor="primary"
-                  fullWidth
-                  value={"/"}
-                  centered
-                  scrollButtons={"auto"}
-                >
-                  <Tab label="Focus" component={Link} to={"/"} value={"/"} />
-                  <Tab
-                    label="Snoozed"
-                    component={Link}
-                    to={"/snoozed"}
-                    value={"/snoozed"}
-                  />
-                </Tabs>
+      <>
+        <IndexAppBarTop />
 
-                <FirebaseContext.Consumer>
-                  {db => (
-                    <HabitsProvider db={db}>
-                      {props => (
-                        <Habits
-                          habits={props.habits}
-                          feelings={feelings}
-                          setFeelings={setFeelings}
-                        />
-                      )}
-                    </HabitsProvider>
-                  )}
-                </FirebaseContext.Consumer>
-              </>
-            )}
-          />
-
-          <Route
-            path={"/snoozed"}
-            render={() => (
-              <>
-                <Tabs
-                  indicatorColor="primary"
-                  textColor="primary"
-                  fullWidth
-                  value={"/snoozed"}
-                  centered
-                  scrollButtons={"auto"}
-                >
-                  <Tab label="Focus" component={Link} to={"/"} value={"/"} />
-                  <Tab
-                    label="Snoozed"
-                    component={Link}
-                    to={"/snoozed"}
-                    value={"/snoozed"}
-                  />
-                </Tabs>
-                <FirebaseContext.Consumer>
-                  {db => (
-                    <HabitsProvider db={db}>
-                      {props => (
-                        <Habits
-                          habits={props.habits}
-                          feelings={feelings}
-                          setFeelings={setFeelings}
-                        />
-                      )}
-                    </HabitsProvider>
-                  )}
-                </FirebaseContext.Consumer>
-              </>
-            )}
-          />
-          <Route
-            path={"/habits/:idHabit"}
-            render={({ match: { params } }) => (
-              <FirebaseContext.Consumer>
-                {db => (
-                  <HabitsProvider db={db}>
-                    {props =>
-                      props.habits.length > 0 ? (
-                        <Habit
-                          habit={flow(
-                            props => props.habits,
-                            find(habit => habit.id === params.idHabit)
-                          )(props)}
-                        />
-                      ) : null
-                    }
-                  </HabitsProvider>
-                )}
-              </FirebaseContext.Consumer>
-            )}
-          />
-        </>
-      </Router>
+        <HabitsProvider>
+          {props => (
+            <Habits
+              habits={props.habits}
+              feelings={feelings}
+              setFeelings={setFeelings}
+            />
+          )}
+        </HabitsProvider>
+      </>
 
       <br />
       <br />
@@ -328,7 +218,7 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
           }}
         >
           <IconButton color="inherit" aria-label="Open drawer">
-            <Icon>filter</Icon>
+            <Icon>filter_list</Icon>
           </IconButton>
 
           <Toggler initialValue={false}>
