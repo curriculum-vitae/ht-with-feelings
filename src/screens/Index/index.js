@@ -14,21 +14,19 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   Paper,
-  Tab,
-  Tabs,
   TextField,
   Toolbar,
   Typography
 } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
-
+import { flow, map, flatten, uniq, last } from "lodash/fp";
+import { FeelingsProvider } from "providers/FeelingsProvider";
+import { HabitsProvider } from "providers/HabitsProvider";
 import React from "react";
 import { Link } from "react-router-dom";
 import { compose, setDisplayName, withState } from "recompose";
-
-import { FEELINGS } from "shared/constants";
 import { IndexAppBarTop } from "screens/Index/components/IndexAppBarTop";
-import { HabitsProvider } from "providers/HabitsProvider";
+import { FEELINGS } from "shared/constants";
 
 const MAX_WIDTH_FOR_TESTS = 420;
 
@@ -112,43 +110,50 @@ const HabitAdd = compose(
   </Dialog>
 ));
 
-const Habits = ({ habits, feelings, setFeelings }) => (
-  <FirebaseContext.Consumer>
-    {db => (
-      <List>
-        {habits.map(habit => (
-          <ListItem
-            key={habit.id}
-            divider={true}
-            component={Link}
-            to={`/habits/${habit.id}`}
-          >
-            <ListItemText
-              primary={<Typography variant={"h6"}>{habit.name}</Typography>}
-            />
-            <ListItemSecondaryAction>
-              <Feelings
-                selected={feelings[habit.name]}
-                onChange={changes => {
-                  setFeelings({
-                    ...feelings,
-                    [habit.name]: changes
-                  });
-                  db.collection("habits")
-                    .doc(habit.id)
-                    .collection("feelings")
-                    .add({
-                      feelings: changes,
-                      date: new Date()
-                    });
+const Habits = ({ habits, setFeelings }) => (
+  <List>
+    {habits.map(habit => (
+      <ListItem
+        key={habit.id}
+        divider={true}
+        component={Link}
+        to={`/habits/${habit.id}`}
+      >
+        <ListItemText
+          primary={<Typography variant={"h6"}>{habit.name}</Typography>}
+        />
+        <ListItemSecondaryAction>
+          <FirebaseContext.Consumer>
+            {db => (
+              <FeelingsProvider idHabit={habit.id}>
+                {props => {
+                  const feelingsRecord = flow(
+                    props => props.feelings,
+                    last
+                  )(props);
+
+                  return (
+                    <Feelings
+                      selected={feelingsRecord ? feelingsRecord.feelings : []}
+                      onChange={feelingsNew => {
+                        db.collection("habits")
+                          .doc(habit.id)
+                          .collection("feelings")
+                          .doc(feelingsRecord.id)
+                          .set({
+                            feelings: feelingsNew
+                          });
+                      }}
+                    />
+                  );
                 }}
-              />
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
-      </List>
-    )}
-  </FirebaseContext.Consumer>
+              </FeelingsProvider>
+            )}
+          </FirebaseContext.Consumer>
+        </ListItemSecondaryAction>
+      </ListItem>
+    ))}
+  </List>
 );
 
 export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
