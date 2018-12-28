@@ -34,7 +34,6 @@ export const HabitScreen = ({ match, stats, history }) => (
         return (
           <div
             style={{
-              marginTop: "40px",
               padding: "0px 20px"
             }}
           >
@@ -81,7 +80,6 @@ export const HabitScreen = ({ match, stats, history }) => (
             </Grid>
             <Grid container>
               {flow(
-                slice(1, FEELINGS.length),
                 map(feeling => (
                   <Grid
                     item

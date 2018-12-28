@@ -119,46 +119,60 @@ const Habits = ({ habits, setFeelings }) => (
         component={Link}
         to={`/habits/${habit.id}`}
       >
-        <ListItemText
-          primary={<Typography variant={"h6"}>{habit.name}</Typography>}
-        />
-        <ListItemSecondaryAction>
-          <FirebaseContext.Consumer>
-            {db => (
-              <FeelingsProvider idHabit={habit.id}>
-                {props => {
-                  const feelingsRecord = flow(
-                    props => props.feelings,
-                    last
-                  )(props);
+        <FirebaseContext.Consumer>
+          {db => (
+            <FeelingsProvider idHabit={habit.id}>
+              {props => {
+                const feelingsRecord = flow(
+                  props => props.feelings,
+                  last
+                )(props);
 
-                  return (
-                    <Feelings
-                      selected={feelingsRecord ? feelingsRecord.feelings : []}
-                      onChange={feelingsNew => {
-                        const dbFeelingsRef = db
-                          .collection("habits")
-                          .doc(habit.id)
-                          .collection("feelings");
-                        if (feelingsRecord) {
-                          dbFeelingsRef.doc(feelingsRecord.id).set({
-                            date: new Date(),
-                            feelings: feelingsNew
-                          });
-                        } else {
-                          dbFeelingsRef.add({
-                            date: new Date(),
-                            feelings: feelingsNew
-                          });
-                        }
-                      }}
+                return (
+                  <>
+                    <ListItemText
+                      primary={
+                        <Typography
+                          style={{
+                            opacity: !!feelingsRecord ? "0.33" : "1.0",
+                            textDecoration: !!feelingsRecord
+                              ? "line-through"
+                              : undefined
+                          }}
+                          variant={"h6"}
+                        >
+                          {habit.name}
+                        </Typography>
+                      }
                     />
-                  );
-                }}
-              </FeelingsProvider>
-            )}
-          </FirebaseContext.Consumer>
-        </ListItemSecondaryAction>
+                    <ListItemSecondaryAction>
+                      <Feelings
+                        selected={feelingsRecord ? feelingsRecord.feelings : []}
+                        onChange={feelingsNew => {
+                          const dbFeelingsRef = db
+                            .collection("habits")
+                            .doc(habit.id)
+                            .collection("feelings");
+                          if (feelingsRecord) {
+                            dbFeelingsRef.doc(feelingsRecord.id).set({
+                              date: new Date(),
+                              feelings: feelingsNew
+                            });
+                          } else {
+                            dbFeelingsRef.add({
+                              date: new Date(),
+                              feelings: feelingsNew
+                            });
+                          }
+                        }}
+                      />
+                    </ListItemSecondaryAction>
+                  </>
+                );
+              }}
+            </FeelingsProvider>
+          )}
+        </FirebaseContext.Consumer>
       </ListItem>
     ))}
   </List>
