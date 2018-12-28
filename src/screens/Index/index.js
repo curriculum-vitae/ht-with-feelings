@@ -170,10 +170,7 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
       elevation={0}
       square
       style={{
-        maxWidth: `${MAX_WIDTH_FOR_TESTS}px`,
-        width: "100%",
-        marginLeft: "auto",
-        marginRight: "auto",
+        position: "relative",
         minHeight: "100vh"
       }}
     >
@@ -201,13 +198,11 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
       <br />
       <AppBar
         color={"default"}
-        position={"fixed"}
+        position={"static"}
         style={{
           top: "auto",
-          bottom: "0",
-          width: `${MAX_WIDTH_FOR_TESTS}px`,
-          maxWidth: "100%",
-          left: `${(window.innerWidth - MAX_WIDTH_FOR_TESTS) / 2}px`
+          position: "absolute",
+          bottom: "0"
         }}
         elevation={2}
       >

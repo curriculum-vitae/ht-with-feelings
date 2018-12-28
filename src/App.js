@@ -5,7 +5,7 @@ import { HabitScreen } from "screens/Habit";
 import theme from "shared/theme";
 import { FirebaseContext } from "contexts/FirebaseContext";
 import { db } from "shared/db";
-
+import { Grid } from "@material-ui/core";
 import { Route, Router } from "react-router-dom";
 import { history } from "misc/history";
 
@@ -16,12 +16,16 @@ class App extends Component {
         <FirebaseContext.Provider value={db}>
           <MuiThemeProvider theme={theme}>
             <CssBaseline />
-            <Router history={history}>
-              <>
-                <Route path={"/"} exact component={IndexScreen} />
-                <Route path={"/habits/:idHabit"} component={HabitScreen} />
-              </>
-            </Router>
+            <Grid container justify={"center"}>
+              <Grid item xs={12} sm={12} md={6} lg={4}>
+                <Router history={history}>
+                  <>
+                    <Route path={"/"} exact component={IndexScreen} />
+                    <Route path={"/habits/:idHabit"} component={HabitScreen} />
+                  </>
+                </Router>
+              </Grid>
+            </Grid>
           </MuiThemeProvider>
         </FirebaseContext.Provider>
       </>
