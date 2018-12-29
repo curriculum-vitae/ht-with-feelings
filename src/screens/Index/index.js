@@ -3,8 +3,10 @@ import {
   ButtonBase,
   Grid,
   List,
+  IconButton,
   ListItem,
   ListItemSecondaryAction,
+  Icon,
   ListItemText,
   Paper,
   Typography
@@ -141,21 +143,37 @@ export const IndexScreen = () => (
     }}
   >
     <>
-      <IndexAppBarTop />
       <IndexDayPicker initialDate={moment()}>
         {({ date, setDatePrev, setDateNext }) => (
           <>
             <Grid container>
-              <Grid item xs={4}>
-                <Button onClick={setDatePrev}>PREV</Button>
+              <Grid item xs={6}>
+                <IndexAppBarTop />
               </Grid>
-              <Grid item xs={4}>
-                <Typography variant={"h6"}>
-                  {date.format("DD/MM/YY")}
-                </Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <Button onClick={setDateNext}>NEXT</Button>
+              <Grid item xs={6}>
+                <Grid container alignItems={"flex-end"}>
+                  <Grid item xs={4}>
+                    <IconButton
+                      onClick={setDatePrev}
+                      style={{ float: "right", marginTop: "8px" }}
+                    >
+                      <Icon>arrow_left</Icon>
+                    </IconButton>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography variant={"h6"} align={"center"}>
+                      {date.format("DD/MM/YY")}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <IconButton
+                      onClick={setDateNext}
+                      style={{ marginTop: "8px" }}
+                    >
+                      <Icon>arrow_right</Icon>
+                    </IconButton>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
             <ListsProvider>
@@ -167,11 +185,13 @@ export const IndexScreen = () => (
                     >
                       {({ selected, setSelected }) => (
                         <>
-                          <IndexLists
-                            selected={selected}
-                            lists={lists}
-                            onSelect={id => setSelected(id)}
-                          />
+                          <div style={{ padding: "20px" }}>
+                            <IndexLists
+                              selected={selected}
+                              lists={lists}
+                              onSelect={id => setSelected(id)}
+                            />
+                          </div>
                           <HabitsProvider>
                             {props => (
                               <Habits
