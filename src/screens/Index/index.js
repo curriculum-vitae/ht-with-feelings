@@ -1,40 +1,28 @@
 import {
-  AppBar,
   Button,
   ButtonBase,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Fab,
-  Icon,
-  IconButton,
+  Grid,
   List,
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
   Paper,
-  TextField,
-  Toolbar,
   Typography
 } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
-import { flow, map, flatten, uniq, filter, last } from "lodash/fp";
+import { filter, flow, last, find } from "lodash/fp";
+import moment from "moment";
 import { FeelingsProvider } from "providers/FeelingsProvider";
 import { HabitsProvider } from "providers/HabitsProvider";
 import React from "react";
 import { Link } from "react-router-dom";
-import { compose, setDisplayName, withState } from "recompose";
+import { compose, withState } from "recompose";
+import { IndexAppBarBottom } from "screens/Index/components/IndexAppBarBottom";
 import { IndexAppBarTop } from "screens/Index/components/IndexAppBarTop";
-import { FEELINGS } from "shared/constants";
+import { IndexDayPicker } from "screens/Index/components/IndexDayPicker";
 import { IndexLists } from "screens/Index/components/IndexLists";
-
-const MAX_WIDTH_FOR_TESTS = 420;
-
-const Toggler = compose(
-  withState("value", "setValue", ({ initialValue }) => initialValue),
-  setDisplayName("Toggler")
-)(({ children, value, setValue }) => children({ value, setValue }));
+import { FEELINGS } from "shared/constants";
+import { FAKE_LISTS } from "screens/Index/constants";
 
 const Feelings = ({ selected = [], onChange }) => (
   <>
@@ -65,53 +53,7 @@ const Feelings = ({ selected = [], onChange }) => (
   </>
 );
 
-const HabitAdd = compose(
-  setDisplayName("HabitAdd"),
-  withState("value", "setValue", "")
-)(({ isOpen, value, setValue, onClose }) => (
-  <Dialog open={isOpen} onClose={onClose}>
-    <DialogTitle>Add new habit</DialogTitle>
-    <DialogContent>
-      <form>
-        <TextField
-          fullWidth
-          value={value}
-          onChange={e => setValue(e.target.value)}
-          style={{
-            maxWidth: "320px",
-            minWidth: "280px"
-          }}
-        />
-      </form>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={onClose}>Cancel</Button>
-      <FirebaseContext.Consumer>
-        {db => (
-          <Button
-            onClick={() => {
-              db.collection("habits")
-                .add({
-                  name: value
-                })
-                .then(docRef => {
-                  setValue("");
-                  onClose();
-                })
-                .catch(error => {
-                  console.error("Error adding document: ", error);
-                });
-            }}
-          >
-            Create
-          </Button>
-        )}
-      </FirebaseContext.Consumer>
-    </DialogActions>
-  </Dialog>
-));
-
-const Habits = ({ habits, setFeelings }) => (
+const Habits = ({ habits, date }) => (
   <List>
     {habits.map(habit => (
       <ListItem
@@ -126,9 +68,13 @@ const Habits = ({ habits, setFeelings }) => (
               {props => {
                 const feelingsRecord = flow(
                   props => props.feelings,
-                  last
+                  find(
+                    feelingsRecord =>
+                      moment(feelingsRecord.date.toDate()).format(
+                        "DD/MM/YYYY"
+                      ) === date.format("DD/MM/YYYY")
+                  )
                 )(props);
-
                 return (
                   <>
                     <ListItemText
@@ -156,12 +102,12 @@ const Habits = ({ habits, setFeelings }) => (
                             .collection("feelings");
                           if (feelingsRecord) {
                             dbFeelingsRef.doc(feelingsRecord.id).set({
-                              date: new Date(),
+                              date: date.toDate(),
                               feelings: feelingsNew
                             });
                           } else {
                             dbFeelingsRef.add({
-                              date: new Date(),
+                              date: date.toDate(),
                               feelings: feelingsNew
                             });
                           }
@@ -179,132 +125,45 @@ const Habits = ({ habits, setFeelings }) => (
   </List>
 );
 
-export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
-  ({ feelings, setFeelings }) => (
-    <Paper
-      elevation={0}
-      square
-      style={{
-        position: "relative",
-        minHeight: "100vh"
-      }}
-    >
-      <>
-        <IndexAppBarTop />
-        <IndexLists
-          selected={"1"}
-          lists={[
-            { id: "1", name: "focus" },
-            {
-              id: "2",
-              name: "communication"
-            },
-            {
-              id: "3",
-              name: "weekly"
-            },
-            {
-              id: "4",
-              name: "coding"
-            },
-            {
-              id: "5",
-              name: "plannig"
-            },
-            {
-              id: "121",
-              name: "life"
-            }
-          ]}
-        />
-        <HabitsProvider>
-          {props => (
-            <Habits
-              habits={props.habits}
-              feelings={feelings}
-              setFeelings={setFeelings}
-            />
-          )}
-        </HabitsProvider>
-      </>
-
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <AppBar
-        color={"default"}
-        position={"static"}
-        style={{
-          top: "auto",
-          position: "absolute",
-          bottom: "0"
-        }}
-        elevation={2}
-      >
-        <Toolbar
-          style={{
-            alignItems: "center",
-            justifyContent: "space-between"
-          }}
-        >
-          <IconButton color="inherit" aria-label="Open drawer">
-            <Icon>filter_list</Icon>
-          </IconButton>
-
-          <Toggler initialValue={false}>
-            {({ value, setValue }) => (
-              <>
-                <HabitAdd isOpen={value} onClose={() => setValue(false)} />
-                <Fab
-                  color={"secondary"}
-                  aria-label={"Add"}
-                  style={{
-                    position: "absolute",
-                    zIndex: 1,
-                    top: -30,
-                    left: 0,
-                    right: 0,
-                    margin: "0 auto"
-                  }}
-                  onClick={() => {
-                    setValue(true);
-                  }}
-                >
-                  <Icon>add</Icon>
-                </Fab>
-              </>
-            )}
-          </Toggler>
-
-          <div>
-            {Object.keys(feelings).length === 0 &&
-            feelings.constructor === Object ? (
-              <>
-                <IconButton color="inherit">
-                  <Icon>search</Icon>
-                </IconButton>
-                <IconButton color="inherit">
-                  <Icon>more</Icon>
-                </IconButton>
-              </>
-            ) : (
-              <Button
-                onClick={() => {
-                  setFeelings({});
-                  window.alert("Success!");
-                }}
-              >
-                Submit
-              </Button>
-            )}
-          </div>
-        </Toolbar>
-      </AppBar>
-    </Paper>
-  )
+export const IndexScreen = () => (
+  <Paper
+    elevation={0}
+    square
+    style={{
+      position: "relative",
+      minHeight: "100vh"
+    }}
+  >
+    <>
+      <IndexAppBarTop />
+      <IndexDayPicker initialDate={moment()}>
+        {({ date, setDatePrev, setDateNext }) => (
+          <>
+            <Grid container>
+              <Grid item xs={4}>
+                <Button onClick={setDatePrev}>PREV</Button>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography variant={"h6"}>
+                  {date.format("DD/MM/YY")}
+                </Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Button onClick={setDateNext}>NEXT</Button>
+              </Grid>
+            </Grid>
+            <IndexLists selected={"1"} lists={FAKE_LISTS} />
+            <HabitsProvider>
+              {props => <Habits date={date} habits={props.habits} />}
+            </HabitsProvider>
+          </>
+        )}
+      </IndexDayPicker>
+    </>
+    <br />
+    <br />
+    <br />
+    <br />
+    <IndexAppBarBottom />
+  </Paper>
 );
