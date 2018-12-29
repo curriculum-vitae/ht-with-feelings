@@ -11,57 +11,90 @@ import {
   Toolbar,
   IconButton,
   Icon,
-  Fab
+  Fab,
+  Chip
 } from "@material-ui/core";
-
+import firebase from "firebase/app";
 import { compose, setDisplayName, withState } from "recompose";
-
+import { flow, map } from "lodash/fp";
 import { Toggler } from "components/Toggler";
+import { ListsProvider } from "providers/ListsProvider";
+import { SelectedMany } from "components/SelectedMany";
 
 const HabitAdd = compose(
   setDisplayName("HabitAdd"),
   withState("value", "setValue", "")
 )(({ isOpen, value, setValue, onClose }) => (
-  <Dialog open={isOpen} onClose={onClose}>
-    <DialogTitle>Add new habit</DialogTitle>
-    <DialogContent>
-      <form>
-        <TextField
-          fullWidth
-          value={value}
-          onChange={e => setValue(e.target.value)}
-          style={{
-            maxWidth: "320px",
-            minWidth: "280px"
-          }}
-        />
-      </form>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={onClose}>Cancel</Button>
-      <FirebaseContext.Consumer>
-        {db => (
-          <Button
-            onClick={() => {
-              db.collection("habits")
-                .add({
-                  name: value
-                })
-                .then(docRef => {
-                  setValue("");
-                  onClose();
-                })
-                .catch(error => {
-                  console.error("Error adding document: ", error);
-                });
+  <SelectedMany initialSelected={[]}>
+    {({ selected, add, remove }) => (
+      <Dialog open={isOpen} onClose={onClose}>
+        <DialogTitle>Add new habit</DialogTitle>
+        <DialogContent>
+          <TextField
+            fullWidth
+            value={value}
+            onChange={e => setValue(e.target.value)}
+            style={{
+              maxWidth: "320px",
+              minWidth: "280px"
             }}
-          >
-            Create
-          </Button>
-        )}
-      </FirebaseContext.Consumer>
-    </DialogActions>
-  </Dialog>
+          />
+          <br />
+          <br />
+          <ListsProvider>
+            {props =>
+              flow(
+                props => props.lists,
+                map(list => (
+                  <Chip
+                    key={list.id}
+                    label={list.name}
+                    style={{ marginRight: "5px" }}
+                    variant={"outlined"}
+                    color={selected.includes(list.id) ? "primary" : undefined}
+                    onClick={() => {
+                      if (selected.includes(list.id)) {
+                        remove(list.id);
+                      } else {
+                        add(list.id);
+                      }
+                    }}
+                  />
+                ))
+              )(props)
+            }
+          </ListsProvider>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>Cancel</Button>
+          <FirebaseContext.Consumer>
+            {db => (
+              <Button
+                onClick={() => {
+                  db.collection("habits")
+                    .add({
+                      name: value,
+                      lists: selected.map(id =>
+                        firebase.firestore().doc(`lists/${id}`)
+                      )
+                    })
+                    .then(docRef => {
+                      setValue("");
+                      onClose();
+                    })
+                    .catch(error => {
+                      console.error("Error adding document: ", error);
+                    });
+                }}
+              >
+                Create
+              </Button>
+            )}
+          </FirebaseContext.Consumer>
+        </DialogActions>
+      </Dialog>
+    )}
+  </SelectedMany>
 ));
 
 export const IndexAppBarBottom = () => (

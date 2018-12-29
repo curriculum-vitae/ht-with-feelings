@@ -58,12 +58,6 @@ const Feelings = ({ selected = [], onChange }) => (
 const Habits = ({ habits, date }) => (
   <List>
     {habits.map(habit => {
-      if (habit.lists && habit.lists.length > 0) {
-        habit.lists[0].get().then(docRef => {
-          console.log(docRef.data());
-        });
-      }
-
       return (
         <ListItem
           key={habit.id}
