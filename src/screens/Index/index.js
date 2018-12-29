@@ -27,6 +27,7 @@ import { Link } from "react-router-dom";
 import { compose, setDisplayName, withState } from "recompose";
 import { IndexAppBarTop } from "screens/Index/components/IndexAppBarTop";
 import { FEELINGS } from "shared/constants";
+import { IndexLists } from "screens/Index/components/IndexLists";
 
 const MAX_WIDTH_FOR_TESTS = 420;
 
@@ -190,7 +191,32 @@ export const IndexScreen = compose(withState("feelings", "setFeelings", {}))(
     >
       <>
         <IndexAppBarTop />
-
+        <IndexLists
+          selected={"1"}
+          lists={[
+            { id: "1", name: "focus" },
+            {
+              id: "2",
+              name: "communication"
+            },
+            {
+              id: "3",
+              name: "weekly"
+            },
+            {
+              id: "4",
+              name: "coding"
+            },
+            {
+              id: "5",
+              name: "plannig"
+            },
+            {
+              id: "121",
+              name: "life"
+            }
+          ]}
+        />
         <HabitsProvider>
           {props => (
             <Habits
