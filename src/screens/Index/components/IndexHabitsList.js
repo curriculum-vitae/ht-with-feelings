@@ -5,7 +5,10 @@ import {
   ListItemText,
   Icon,
   Typography,
-  IconButton
+  ListItemAvatar,
+  Avatar,
+  IconButton,
+  Checkbox
 } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
 import { find, flow } from "lodash/fp";
@@ -20,12 +23,7 @@ export const IndexHabitsList = ({ habits, date }) => (
   <List>
     {habits.map(habit => {
       return (
-        <ListItem
-          key={habit.id}
-          divider={true}
-          component={Link}
-          to={`/habits/${habit.id}`}
-        >
+        <ListItem key={habit.id} component={Link} to={`/habits/${habit.id}`}>
           <FirebaseContext.Consumer>
             {db => (
               <FeelingsProvider idHabit={habit.id}>
@@ -47,53 +45,51 @@ export const IndexHabitsList = ({ habits, date }) => (
                   return (
                     <>
                       <ListItemText
+                        style={{
+                          marginTop: "18px"
+                        }}
                         primary={
                           <Typography
-                            noWrap={true}
                             align={"center"}
+                            noWrap={true}
                             style={{
-                              marginTop: "18px",
-                              opacity: containsFeelings ? "0.75" : "1.0",
-                              textDecoration: containsFeelings
-                                ? "line-through"
-                                : undefined
+                              fontSize: "20px",
+                              opacity: containsFeelings ? "0.75" : "1.0"
                             }}
-                            variant={"h5"}
+                            variant={"overline"}
+                            gutterBottom
                           >
                             {habit.name}
                           </Typography>
                         }
                         secondary={
-                          <IndexFeelings
-                            feelings={FEELINGS}
-                            selected={
-                              feelingsRecord ? feelingsRecord.feelings : []
-                            }
-                            onChange={feelingsNew => {
-                              const dbFeelingsRef = db
-                                .collection("habits")
-                                .doc(habit.id)
-                                .collection("feelings");
-                              if (feelingsRecord) {
-                                dbFeelingsRef.doc(feelingsRecord.id).set({
-                                  date: date.toDate(),
-                                  feelings: feelingsNew
-                                });
-                              } else {
-                                dbFeelingsRef.add({
-                                  date: date.toDate(),
-                                  feelings: feelingsNew
-                                });
+                          <>
+                            <IndexFeelings
+                              feelings={FEELINGS}
+                              selected={
+                                feelingsRecord ? feelingsRecord.feelings : []
                               }
-                            }}
-                          />
+                              onChange={feelingsNew => {
+                                const dbFeelingsRef = db
+                                  .collection("habits")
+                                  .doc(habit.id)
+                                  .collection("feelings");
+                                if (feelingsRecord) {
+                                  dbFeelingsRef.doc(feelingsRecord.id).set({
+                                    date: date.toDate(),
+                                    feelings: feelingsNew
+                                  });
+                                } else {
+                                  dbFeelingsRef.add({
+                                    date: date.toDate(),
+                                    feelings: feelingsNew
+                                  });
+                                }
+                              }}
+                            />
+                          </>
                         }
                       />
-                      <ListItemSecondaryAction style={{ display: "none" }}>
-                        <IconButton>
-                          <Icon> send</Icon>
-                        </IconButton>
-                      </ListItemSecondaryAction>
                     </>
                   );
                 }}

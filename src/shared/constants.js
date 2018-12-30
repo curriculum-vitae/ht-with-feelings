@@ -1,1 +1,1 @@
-export const FEELINGS = [`😭`, `😐`, `🥳`];
+export const FEELINGS = [`😭`, `😐`, `🥳`, `📬`];
