@@ -40,7 +40,7 @@ const Feelings = ({ selected = [], onChange }) => (
         size={"small"}
         variant={"outlined"}
         style={{
-          opacity: selected.includes(icon) ? "1" : "0.25",
+          opacity: selected.includes(icon) ? undefined : "0.35",
           marginRight: "15px",
           fontSize: "32px",
           flexGrow: "1",
@@ -95,7 +95,7 @@ const Habits = ({ habits, date }) => (
                             align={"center"}
                             style={{
                               marginTop: "18px",
-                              opacity: !!feelingsRecord ? "0.33" : "1.0",
+                              opacity: !!feelingsRecord ? "0.75" : "1.0",
                               textDecoration: !!feelingsRecord
                                 ? "line-through"
                                 : undefined

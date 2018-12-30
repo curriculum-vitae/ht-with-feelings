@@ -53,7 +53,8 @@ const DATA = [
   ["Calibrate feelings", ["daily", "health"]],
   ["Reset the kithen", ["environment", "daily"]],
   ["Avoid social networks", ["daily", "computer"]],
-  ["Teach positively", ["teaching"]]
+  ["Teach positively", ["teaching"]],
+  ["Listen more", ["communication"]]
 ];
 
 const exec = async () => {
