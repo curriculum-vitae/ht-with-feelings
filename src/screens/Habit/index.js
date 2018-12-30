@@ -18,6 +18,7 @@ import { generateFakeStats } from "screens/Habit/helpers";
 import { HabitAppBar } from "screens/Habit/components/HabitAppBar";
 import { HabitsProvider } from "providers/HabitsProvider";
 import { FirebaseContext } from "contexts/FirebaseContext";
+import getRandomEmoji from "lib/random-emoji";
 
 export const HabitScreen = ({ match, stats, history }) => (
   <>
@@ -78,7 +79,7 @@ export const HabitScreen = ({ match, stats, history }) => (
                 </Typography>
               </Grid>
             </Grid>
-            <Grid container>
+            <Grid container spacing={40}>
               {flow(
                 map(feeling => (
                   <Grid
@@ -100,7 +101,15 @@ export const HabitScreen = ({ match, stats, history }) => (
                     </Typography>
                   </Grid>
                 ))
-              )(FEELINGS)}
+              )([
+                getRandomEmoji(),
+                getRandomEmoji(),
+                getRandomEmoji(),
+                getRandomEmoji(),
+                getRandomEmoji(),
+                getRandomEmoji(),
+                getRandomEmoji()
+              ])}
             </Grid>
             <br />
 

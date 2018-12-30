@@ -27,15 +27,16 @@ import { FEELINGS } from "shared/constants";
 
 import { ListsProvider } from "providers/ListsProvider";
 import { SelectedOnce } from "components/SelectedOnce";
+import getRandomEmoji from "lib/random-emoji";
 
-const Feelings = ({ selected = [], onChange }) => (
+const Feelings = ({ feelings, selected = [], onChange }) => (
   <div
     style={{
       display: "flex",
       marginTop: "8px"
     }}
   >
-    {FEELINGS.map(icon => (
+    {feelings.map(icon => (
       <ButtonBase
         size={"small"}
         variant={"outlined"}
@@ -107,6 +108,13 @@ const Habits = ({ habits, date }) => (
                         }
                         secondary={
                           <Feelings
+                            feelings={[
+                              getRandomEmoji(),
+                              getRandomEmoji(),
+                              getRandomEmoji(),
+                              getRandomEmoji(),
+                              getRandomEmoji()
+                            ]}
                             selected={
                               feelingsRecord ? feelingsRecord.feelings : []
                             }

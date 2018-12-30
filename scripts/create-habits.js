@@ -54,7 +54,11 @@ const DATA = [
   ["Reset the kithen", ["environment", "daily"]],
   ["Avoid social networks", ["daily", "computer"]],
   ["Teach positively", ["teaching"]],
-  ["Listen more", ["communication"]]
+  ["Listen more", ["communication"]],
+  ["Liste to podcasts", ["sleep", "daily"]],
+  ["Brush teeth", ["health"]],
+  ["Always understand what I am working on", ["coding"]],
+  ["Prefer learning from individuals", ["learning", "computer", "daily"]]
 ];
 
 const exec = async () => {
