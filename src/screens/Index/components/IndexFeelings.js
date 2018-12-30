@@ -1,11 +1,10 @@
 import React from "react";
 import { Avatar, Chip, ButtonBase, Badge } from "@material-ui/core";
-import { flow, filter } from "lodash/fp";
+import { flow, filter, map, reduce } from "lodash/fp";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   badge: {
-    display: "none",
     top: 8,
     right: -12,
     // The border color match the background color.
@@ -64,44 +63,49 @@ const IndexFeelingsWithChip = ({
       display: "flex"
     }}
   >
-    {feelings.map(icon => (
-      <div
-        style={{
-          marginLeft: "11px",
-          marginRight: "11px",
-          flexGrow: "1",
-          flexBasis: "0",
-          textAlign: "center"
-        }}
-      >
-        <Badge
+    {flow(
+      map(icon => (
+        <div
           key={icon}
-          badgeContent={selected.includes(icon) ? 1 : 0}
-          classes={{
-            badge: classes.badge
+          style={{
+            marginLeft: "11px",
+            marginRight: "11px",
+            flexGrow: "1",
+            flexBasis: "0",
+            textAlign: "center"
           }}
         >
-          <Chip
-            variant={"outlined"}
-            style={{
-              opacity: selected.includes(icon) ? undefined : "0.35",
-              fontSize: "28px",
-              border: "0px"
+          <Badge
+            key={icon}
+            badgeContent={selected.filter(i => i === icon).length}
+            classes={{
+              badge: classes.badge
             }}
-            onClick={e => {
-              e.stopPropagation();
-              e.preventDefault();
-              if (selected.includes(icon)) {
-                onChange(flow(filter(item => item !== icon))(selected));
-              } else {
+          >
+            <Chip
+              variant={"outlined"}
+              style={{
+                opacity: selected.includes(icon) ? undefined : "0.35",
+                fontSize: "28px",
+                border: "0px"
+              }}
+              onClick={e => {
+                e.stopPropagation();
+                e.preventDefault();
+
                 onChange([...selected, icon]);
-              }
-            }}
-            label={icon}
-          />
-        </Badge>
-      </div>
-    ))}
+                if (selected.includes(icon)) {
+                  // onChange(flow(filter(item => item !== icon))(selected));
+                } else {
+                  // onChange([...selected, icon]);
+                }
+              }}
+              label={icon}
+            />
+          </Badge>
+        </div>
+      ))
+    )(feelings)}
   </div>
 );
 
