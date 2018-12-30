@@ -52,9 +52,6 @@ export const IndexHabitsList = ({ habits, date }) => (
                         <Typography
                           align={"center"}
                           noWrap={true}
-                          style={{
-                            opacity: containsFeelings ? "0.75" : "1.0"
-                          }}
                           variant={"h5"}
                           gutterBottom
                         >
