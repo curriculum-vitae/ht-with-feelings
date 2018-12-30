@@ -32,7 +32,23 @@ const convertNameToID = flow(
   })
 );
 
-const DATA = [
+const LISTS = [
+  "daily",
+  "weekly",
+  "coding",
+  "coding",
+  "parties",
+  "lindy",
+  "health",
+  "teaching",
+  "computer",
+  "communication",
+  "sleep",
+  "learning",
+  "environment"
+];
+
+const HABBITS = [
   ["Drink more water", ["health"]],
   ["Avoid leg locking", ["health", "coding"]],
   ["No web after 24:00", ["health"]],
@@ -67,7 +83,7 @@ const exec = async () => {
       map(habit => habit[1]),
       flatten,
       uniq
-    )(DATA);
+    )(HABBITS);
 
     await flow(
       map(list =>
@@ -75,7 +91,8 @@ const exec = async () => {
           .collection("lists")
           .doc(list)
           .set({
-            name: list
+            name: list,
+            position: LISTS.indexOf(list)
           })
       ),
       req => Promise.all(req)
@@ -93,7 +110,7 @@ const exec = async () => {
           })
       ),
       requests => Promise.all(requests)
-    )(DATA);
+    )(HABBITS);
     console.log("Document successfully written!");
   } catch (e) {
     console.error("Error writing document: ", e);

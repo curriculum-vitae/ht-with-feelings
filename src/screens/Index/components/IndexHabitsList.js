@@ -3,7 +3,9 @@ import {
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
-  Typography
+  Icon,
+  Typography,
+  IconButton
 } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
 import { find, flow } from "lodash/fp";
@@ -87,7 +89,11 @@ export const IndexHabitsList = ({ habits, date }) => (
                           />
                         }
                       />
-                      <ListItemSecondaryAction />
+                      <ListItemSecondaryAction style={{ display: "none" }}>
+                        <IconButton>
+                          <Icon> send</Icon>
+                        </IconButton>
+                      </ListItemSecondaryAction>
                     </>
                   );
                 }}

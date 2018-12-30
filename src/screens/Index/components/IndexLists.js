@@ -1,6 +1,6 @@
 import React from "react";
 import { Chip, ButtonBase, Button, Avatar, Icon } from "@material-ui/core";
-import { flow, map } from "lodash/fp";
+import { flow, map, sortBy } from "lodash/fp";
 
 export const IndexLists = ({ lists, selected, onSelect }) => (
   <>

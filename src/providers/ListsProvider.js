@@ -1,6 +1,7 @@
 import React from "react";
 import { withState, compose, lifecycle } from "recompose";
 import { FirebaseContext } from "contexts/FirebaseContext";
+import { flow, map, reverse, sortBy } from "lodash/fp";
 
 export const ListsProviderWithFirebase = compose(
   withState("lists", "setLists", []),
@@ -15,7 +16,11 @@ export const ListsProviderWithFirebase = compose(
             ...doc.data()
           })
         );
-        setLists(result);
+
+        flow(
+          sortBy(list => list.position),
+          setLists
+        )(result);
       });
     }
   })
