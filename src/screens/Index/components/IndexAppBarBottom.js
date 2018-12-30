@@ -106,7 +106,7 @@ export const IndexAppBarBottom = () => (
       position: "absolute",
       bottom: "0"
     }}
-    elevation={2}
+    elevation={1}
   >
     <Toolbar
       style={{
