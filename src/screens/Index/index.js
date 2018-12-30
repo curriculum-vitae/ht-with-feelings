@@ -69,7 +69,8 @@ export const IndexScreen = () => (
                               overflow: "auto",
                               whiteSpace: "nowrap",
                               scrollX: "auto",
-                              padding: "0px 16px"
+                              padding: "0px 16px",
+                              height: "50px"
                             }}
                           >
                             <IndexLists
