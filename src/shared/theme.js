@@ -25,9 +25,10 @@ const dark = {
 
 const light = {
   palette: {
-    background: {
-      paper: "#111"
-    }
+    background: {}
+  },
+  shape: {
+    borderRadius: 12
   }
 };
 

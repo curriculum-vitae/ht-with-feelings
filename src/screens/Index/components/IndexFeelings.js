@@ -68,8 +68,6 @@ const IndexFeelingsWithChip = ({
         <div
           key={icon}
           style={{
-            marginLeft: "11px",
-            marginRight: "11px",
             flexGrow: "1",
             flexBasis: "0",
             textAlign: "center"

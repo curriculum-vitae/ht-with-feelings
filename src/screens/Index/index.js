@@ -78,22 +78,28 @@ export const IndexScreen = () => (
                               onSelect={id => setSelected(id)}
                             />
                           </div>
-                          <HabitsProvider>
-                            {props => (
-                              <IndexHabitsList
-                                date={date}
-                                habits={flow(
-                                  props => props.habits,
-                                  filter(
-                                    habit =>
-                                      !!find(list => list.id === selected)(
-                                        habit.lists
-                                      )
-                                  )
-                                )(props)}
-                              />
-                            )}
-                          </HabitsProvider>
+                          <div
+                            style={{
+                              padding: "0px 16px"
+                            }}
+                          >
+                            <HabitsProvider>
+                              {props => (
+                                <IndexHabitsList
+                                  date={date}
+                                  habits={flow(
+                                    props => props.habits,
+                                    filter(
+                                      habit =>
+                                        !!find(list => list.id === selected)(
+                                          habit.lists
+                                        )
+                                    )
+                                  )(props)}
+                                />
+                              )}
+                            </HabitsProvider>
+                          </div>
                         </>
                       )}
                     </SelectedOnce>

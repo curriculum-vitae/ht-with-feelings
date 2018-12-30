@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { Typography, Paper } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
 import { find, flow, map, flatten, uniq } from "lodash/fp";
 import moment from "moment";
@@ -37,47 +37,54 @@ export const IndexHabitsList = ({ habits, date }) => (
                   feelingsRecord.feelings.length > 0;
                 return (
                   <Link key={habit.id} to={`/habits/${habit.id}`}>
-                    <div
-                      style={{
-                        display: emojis.includes(FEELING_OF_THE_END)
-                          ? "none"
-                          : undefined,
-                        marginTop: "32px"
-                      }}
+                    <Paper
+                      style={{ padding: "8px 0px", margin: "16px 0px" }}
+                      elevation={0}
                     >
-                      <Typography
-                        align={"center"}
-                        noWrap={true}
+                      <div
                         style={{
-                          opacity: containsFeelings ? "0.75" : "1.0"
+                          display: emojis.includes(FEELING_OF_THE_END)
+                            ? "none"
+                            : undefined,
+                          marginTop: "12px"
                         }}
-                        variant={"h5"}
-                        gutterBottom
                       >
-                        {habit.name}
-                      </Typography>
-                      <IndexFeelings
-                        feelings={FEELINGS}
-                        selected={feelingsRecord ? feelingsRecord.feelings : []}
-                        onChange={feelingsNew => {
-                          const dbFeelingsRef = db
-                            .collection("habits")
-                            .doc(habit.id)
-                            .collection("feelings");
-                          if (feelingsRecord) {
-                            dbFeelingsRef.doc(feelingsRecord.id).set({
-                              date: date.toDate(),
-                              feelings: feelingsNew
-                            });
-                          } else {
-                            dbFeelingsRef.add({
-                              date: date.toDate(),
-                              feelings: feelingsNew
-                            });
+                        <Typography
+                          align={"center"}
+                          noWrap={true}
+                          style={{
+                            opacity: containsFeelings ? "0.75" : "1.0"
+                          }}
+                          variant={"h5"}
+                          gutterBottom
+                        >
+                          {habit.name}
+                        </Typography>
+                        <IndexFeelings
+                          feelings={FEELINGS}
+                          selected={
+                            feelingsRecord ? feelingsRecord.feelings : []
                           }
-                        }}
-                      />
-                    </div>
+                          onChange={feelingsNew => {
+                            const dbFeelingsRef = db
+                              .collection("habits")
+                              .doc(habit.id)
+                              .collection("feelings");
+                            if (feelingsRecord) {
+                              dbFeelingsRef.doc(feelingsRecord.id).set({
+                                date: date.toDate(),
+                                feelings: feelingsNew
+                              });
+                            } else {
+                              dbFeelingsRef.add({
+                                date: date.toDate(),
+                                feelings: feelingsNew
+                              });
+                            }
+                          }}
+                        />
+                      </div>
+                    </Paper>
                   </Link>
                 );
               }}
