@@ -18,12 +18,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { IndexFeelings } from "screens/Index/components/IndexFeelings";
 import { FEELINGS } from "shared/constants";
+import generateRandomEmoji from "lib/random-emoji";
 
 export const IndexHabitsList = ({ habits, date }) => (
-  <List>
+  <div>
     {habits.map(habit => {
       return (
-        <ListItem key={habit.id} component={Link} to={`/habits/${habit.id}`}>
+        <Link key={habit.id} to={`/habits/${habit.id}`}>
           <FirebaseContext.Consumer>
             {db => (
               <FeelingsProvider idHabit={habit.id}>
@@ -43,61 +44,51 @@ export const IndexHabitsList = ({ habits, date }) => (
                     feelingsRecord.feelings &&
                     feelingsRecord.feelings.length > 0;
                   return (
-                    <>
-                      <ListItemText
+                    <div
+                      style={{
+                        marginTop: "32px"
+                      }}
+                    >
+                      <Typography
+                        align={"center"}
+                        noWrap={true}
                         style={{
-                          marginTop: "18px"
+                          opacity: containsFeelings ? "0.75" : "1.0"
                         }}
-                        primary={
-                          <Typography
-                            align={"center"}
-                            noWrap={true}
-                            style={{
-                              fontSize: "20px",
-                              opacity: containsFeelings ? "0.75" : "1.0"
-                            }}
-                            variant={"overline"}
-                            gutterBottom
-                          >
-                            {habit.name}
-                          </Typography>
-                        }
-                        secondary={
-                          <>
-                            <IndexFeelings
-                              feelings={FEELINGS}
-                              selected={
-                                feelingsRecord ? feelingsRecord.feelings : []
-                              }
-                              onChange={feelingsNew => {
-                                const dbFeelingsRef = db
-                                  .collection("habits")
-                                  .doc(habit.id)
-                                  .collection("feelings");
-                                if (feelingsRecord) {
-                                  dbFeelingsRef.doc(feelingsRecord.id).set({
-                                    date: date.toDate(),
-                                    feelings: feelingsNew
-                                  });
-                                } else {
-                                  dbFeelingsRef.add({
-                                    date: date.toDate(),
-                                    feelings: feelingsNew
-                                  });
-                                }
-                              }}
-                            />
-                          </>
-                        }
+                        variant={"h5"}
+                        gutterBottom
+                      >
+                        {habit.name}
+                      </Typography>
+                      <IndexFeelings
+                        feelings={FEELINGS}
+                        selected={feelingsRecord ? feelingsRecord.feelings : []}
+                        onChange={feelingsNew => {
+                          const dbFeelingsRef = db
+                            .collection("habits")
+                            .doc(habit.id)
+                            .collection("feelings");
+                          if (feelingsRecord) {
+                            dbFeelingsRef.doc(feelingsRecord.id).set({
+                              date: date.toDate(),
+                              feelings: feelingsNew
+                            });
+                          } else {
+                            dbFeelingsRef.add({
+                              date: date.toDate(),
+                              feelings: feelingsNew
+                            });
+                          }
+                        }}
                       />
-                    </>
+                    </div>
                   );
                 }}
               </FeelingsProvider>
             )}
           </FirebaseContext.Consumer>
-        </ListItem>
+        </Link>
       );
     })}
-  </List>
+  </div>
 );

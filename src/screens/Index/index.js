@@ -15,7 +15,9 @@ export const IndexScreen = () => (
   <div
     style={{
       position: "relative",
-      minHeight: "100vh"
+      minHeight: "100vh",
+      borderLeft: "1px solid grey",
+      borderRight: "1px solid grey"
     }}
   >
     <>
@@ -61,12 +63,12 @@ export const IndexScreen = () => (
                         <>
                           <div
                             style={{
-                              padding: "20px",
                               width: "100%",
                               maxWidth: "100%",
                               overflow: "auto",
                               whiteSpace: "nowrap",
-                              scrollX: "auto"
+                              scrollX: "auto",
+                              padding: "0px 32px"
                             }}
                           >
                             <IndexLists

@@ -23,6 +23,12 @@ const dark = {
   }
 };
 
-const light = {};
+const light = {
+  palette: {
+    background: {
+      paper: "#111"
+    }
+  }
+};
 
 export default createMuiTheme(light);
