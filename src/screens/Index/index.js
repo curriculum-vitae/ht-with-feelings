@@ -10,6 +10,7 @@ import { IndexAppBarTop } from "screens/Index/components/IndexAppBarTop";
 import { IndexDayPicker } from "screens/Index/components/IndexDayPicker";
 import { IndexHabitsList } from "screens/Index/components/IndexHabitsList";
 import { IndexLists } from "screens/Index/components/IndexLists";
+import { FEELING_OF_THE_END } from "shared/constants";
 
 export const IndexScreen = () => (
   <div
