@@ -72,15 +72,22 @@ export const HabitScreen = ({ match, stats, history }) => (
 
             <Grid container alignItems={"flex-end"}>
               <Grid item xs={6}>
-                <Typography variant={"h6"}>Overview</Typography>
+                <Typography variant={"h6"} gutterBottom>
+                  Overview
+                </Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography variant={"caption"} style={{ textAlign: "right" }}>
+                <Typography
+                  variant={"caption"}
+                  gutterBottom
+                  style={{ textAlign: "right" }}
+                >
                   {" "}
                   last 21 day
                 </Typography>
               </Grid>
             </Grid>
+            <br />
             <Grid container spacing={40}>
               {flow(
                 map(feeling => (
