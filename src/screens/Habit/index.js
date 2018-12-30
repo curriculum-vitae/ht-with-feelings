@@ -3,6 +3,8 @@ import {
   Chip,
   Grid,
   List,
+  IconButton,
+  Icon,
   Button,
   ListItem,
   ListItemAvatar,
@@ -48,7 +50,7 @@ export const HabitScreen = ({ match, stats, history }) => (
               <Grid item xs={2}>
                 <FirebaseContext.Consumer>
                   {db => (
-                    <Button
+                    <IconButton
                       onClick={() => {
                         db.collection("habits")
                           .doc(habit.id)
@@ -61,8 +63,8 @@ export const HabitScreen = ({ match, stats, history }) => (
                           });
                       }}
                     >
-                      X
-                    </Button>
+                      <Icon>delete_outline</Icon>
+                    </IconButton>
                   )}
                 </FirebaseContext.Consumer>
               </Grid>
@@ -102,6 +104,8 @@ export const HabitScreen = ({ match, stats, history }) => (
                   </Grid>
                 ))
               )([
+                getRandomEmoji(),
+                getRandomEmoji(),
                 getRandomEmoji(),
                 getRandomEmoji(),
                 getRandomEmoji(),
