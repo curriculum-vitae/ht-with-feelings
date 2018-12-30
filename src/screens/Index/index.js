@@ -144,9 +144,7 @@ const Habits = ({ habits, date }) => (
 );
 
 export const IndexScreen = () => (
-  <Paper
-    elevation={0}
-    square
+  <div
     style={{
       position: "relative",
       minHeight: "100vh"
@@ -243,5 +241,5 @@ export const IndexScreen = () => (
     <br />
     <br />
     <IndexAppBarBottom />
-  </Paper>
+  </div>
 );
