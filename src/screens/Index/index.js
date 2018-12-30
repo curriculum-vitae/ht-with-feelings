@@ -29,16 +29,22 @@ import { ListsProvider } from "providers/ListsProvider";
 import { SelectedOnce } from "components/SelectedOnce";
 
 const Feelings = ({ selected = [], onChange }) => (
-  <>
+  <div
+    style={{
+      display: "flex",
+      marginTop: "8px"
+    }}
+  >
     {FEELINGS.map(icon => (
       <ButtonBase
         size={"small"}
         variant={"outlined"}
         style={{
-          borderRadius: "100%",
-          opacity: selected.includes(icon) ? "1" : "0.3",
+          opacity: selected.includes(icon) ? "1" : "0.25",
           marginRight: "15px",
-          fontSize: "24px"
+          fontSize: "32px",
+          flexGrow: "1",
+          flexBasis: "0"
         }}
         onClick={e => {
           e.stopPropagation();
@@ -54,7 +60,7 @@ const Feelings = ({ selected = [], onChange }) => (
         {icon}
       </ButtonBase>
     ))}
-  </>
+  </div>
 );
 
 const Habits = ({ habits, date }) => (
@@ -85,42 +91,46 @@ const Habits = ({ habits, date }) => (
                       <ListItemText
                         primary={
                           <Typography
+                            noWrap={true}
+                            align={"center"}
                             style={{
+                              marginTop: "18px",
                               opacity: !!feelingsRecord ? "0.33" : "1.0",
                               textDecoration: !!feelingsRecord
                                 ? "line-through"
                                 : undefined
                             }}
-                            variant={"h6"}
+                            variant={"h5"}
                           >
                             {habit.name}
                           </Typography>
                         }
-                      />
-                      <ListItemSecondaryAction>
-                        <Feelings
-                          selected={
-                            feelingsRecord ? feelingsRecord.feelings : []
-                          }
-                          onChange={feelingsNew => {
-                            const dbFeelingsRef = db
-                              .collection("habits")
-                              .doc(habit.id)
-                              .collection("feelings");
-                            if (feelingsRecord) {
-                              dbFeelingsRef.doc(feelingsRecord.id).set({
-                                date: date.toDate(),
-                                feelings: feelingsNew
-                              });
-                            } else {
-                              dbFeelingsRef.add({
-                                date: date.toDate(),
-                                feelings: feelingsNew
-                              });
+                        secondary={
+                          <Feelings
+                            selected={
+                              feelingsRecord ? feelingsRecord.feelings : []
                             }
-                          }}
-                        />
-                      </ListItemSecondaryAction>
+                            onChange={feelingsNew => {
+                              const dbFeelingsRef = db
+                                .collection("habits")
+                                .doc(habit.id)
+                                .collection("feelings");
+                              if (feelingsRecord) {
+                                dbFeelingsRef.doc(feelingsRecord.id).set({
+                                  date: date.toDate(),
+                                  feelings: feelingsNew
+                                });
+                              } else {
+                                dbFeelingsRef.add({
+                                  date: date.toDate(),
+                                  feelings: feelingsNew
+                                });
+                              }
+                            }}
+                          />
+                        }
+                      />
+                      <ListItemSecondaryAction />
                     </>
                   );
                 }}
