@@ -24,7 +24,7 @@ import { IndexAppBarTop } from "screens/Index/components/IndexAppBarTop";
 import { IndexDayPicker } from "screens/Index/components/IndexDayPicker";
 import { IndexLists } from "screens/Index/components/IndexLists";
 import { FEELINGS } from "shared/constants";
-import { FAKE_LISTS } from "screens/Index/constants";
+
 import { ListsProvider } from "providers/ListsProvider";
 import { SelectedOnce } from "components/SelectedOnce";
 
@@ -147,10 +147,10 @@ export const IndexScreen = () => (
         {({ date, setDatePrev, setDateNext }) => (
           <>
             <Grid container>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <IndexAppBarTop />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={6} style={{ display: "none" }}>
                 <Grid container alignItems={"flex-end"}>
                   <Grid item xs={4}>
                     <IconButton
@@ -185,7 +185,16 @@ export const IndexScreen = () => (
                     >
                       {({ selected, setSelected }) => (
                         <>
-                          <div style={{ padding: "20px" }}>
+                          <div
+                            style={{
+                              padding: "20px",
+                              width: "100%",
+                              maxWidth: "100%",
+                              overflow: "auto",
+                              whiteSpace: "nowrap",
+                              scrollX: "auto"
+                            }}
+                          >
                             <IndexLists
                               selected={selected}
                               lists={lists}

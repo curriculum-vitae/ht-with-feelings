@@ -1,6 +1,17 @@
 const config = require("../src/shared/db.config.json");
 const firebase = require("firebase/app");
-const { flow, uniq, map, flatten } = require("lodash/fp");
+const {
+  flow,
+  uniq,
+  map,
+  flatten,
+  sortBy,
+  replace,
+  slice,
+  capitalize,
+  truncate,
+  lowerCase
+} = require("lodash/fp");
 require("firebase/firestore");
 
 firebase.initializeApp(config);
@@ -12,12 +23,37 @@ db.settings({
   timestampsInSnapshots: true
 });
 
+const convertNameToID = flow(
+  replace(/\s/g)(""),
+  lowerCase,
+  truncate({
+    length: 24,
+    separator: ""
+  })
+);
+
 const DATA = [
   ["Drink more water", ["health"]],
   ["Avoid leg locking", ["health", "coding"]],
   ["No web after 24:00", ["health"]],
   ["Prepare for the next day", ["daily"]],
-  ["Perfect week planning", ["weekly"]]
+  ["Perfect week planning", ["weekly"]],
+  ["Use Pomodoro", ["health", "coding"]],
+  ["No dancing after 1:00", ["parties"]],
+  ["Do exercising", ["daily"]],
+  ["Do morning routine", ["daily"]],
+  ["Do evening routine", ["daily"]],
+  ["Avoid head bending", ["lindy"]],
+  ["Use malatonin", ["daily"]],
+  ["Avoid wasting morning time in bed", ["daily"]],
+  ["Avoid wasting evening time in bed", ["daily"]],
+  ["Eat nicely", ["daily", "health"]],
+  ["Avoid distractions", ["coding"]],
+  ["Prepare for teaching", ["weekly", "teaching"]],
+  ["Calibrate feelings", ["daily", "health"]],
+  ["Reset the kithen", ["environment", "daily"]],
+  ["Avoid social networks", ["daily", "computer"]],
+  ["Teach positively", ["teaching"]]
 ];
 
 const exec = async () => {
@@ -41,11 +77,15 @@ const exec = async () => {
     )(lists);
 
     await flow(
+      sortBy(habit => habit[0]),
       map(habit =>
-        db.collection("habits").add({
-          name: habit[0],
-          lists: map(list => db.doc(`lists/${list}`))(habit[1])
-        })
+        db
+          .collection("habits")
+          .doc(convertNameToID(habit[0]))
+          .set({
+            name: habit[0],
+            lists: map(list => db.doc(`lists/${list}`))(habit[1])
+          })
       ),
       requests => Promise.all(requests)
     )(DATA);
