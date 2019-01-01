@@ -14,13 +14,18 @@ import {
 import { flow, map, slice, find } from "lodash/fp";
 import moment from "moment";
 import React from "react";
-import { FEELINGS } from "shared/constants";
+
 import { getRandomFontSize } from "shared/helpers";
-import { generateFakeStats } from "screens/Habit/helpers";
+import {
+  generateFakeStats,
+  getStats,
+  getStatsItems
+} from "screens/Habit/helpers";
 import { HabitAppBar } from "screens/Habit/components/HabitAppBar";
 import { HabitsProvider } from "providers/HabitsProvider";
 import { FirebaseContext } from "contexts/FirebaseContext";
-import getRandomEmoji from "lib/random-emoji";
+
+import { FeelingsProvider } from "providers/FeelingsProvider";
 
 export const HabitScreen = ({ match, stats, history }) => (
   <>
@@ -88,41 +93,38 @@ export const HabitScreen = ({ match, stats, history }) => (
               </Grid>
             </Grid>
             <br />
-            <Grid container spacing={40}>
-              {flow(
-                map(feeling => (
-                  <Grid
-                    item
-                    xs={4}
-                    style={{ textAlign: "center" }}
-                    key={feeling}
-                  >
-                    <div
-                      style={{
-                        fontSize: `${getRandomFontSize()}px`,
-                        height: "80px"
-                      }}
-                    >
-                      {feeling}
-                    </div>
-                    <Typography>
-                      {Math.round(Math.random() * 100) / 1}%
-                    </Typography>
+
+            <FeelingsProvider idHabit={habit.id}>
+              {props => {
+                const stats = getStats(props.feelings);
+                const statsItems = getStatsItems(stats);
+
+                return (
+                  <Grid container spacing={40}>
+                    {flow(
+                      map(statsItem => (
+                        <Grid
+                          item
+                          xs={4}
+                          style={{ textAlign: "center" }}
+                          key={statsItem.emoji}
+                        >
+                          <div
+                            style={{
+                              fontSize: `${getRandomFontSize()}px`,
+                              height: "80px"
+                            }}
+                          >
+                            {statsItem.emoji}
+                          </div>
+                          <Typography>{statsItem.count}</Typography>
+                        </Grid>
+                      ))
+                    )(statsItems)}
                   </Grid>
-                ))
-              )([
-                getRandomEmoji(),
-                getRandomEmoji(),
-                getRandomEmoji(),
-                getRandomEmoji(),
-                getRandomEmoji(),
-                getRandomEmoji(),
-                getRandomEmoji(),
-                getRandomEmoji(),
-                getRandomEmoji()
-              ])}
-            </Grid>
-            <br />
+                );
+              }}
+            </FeelingsProvider>
 
             <Typography variant={"h6"} gutterBottom>
               Log
@@ -143,7 +145,7 @@ export const HabitScreen = ({ match, stats, history }) => (
                     />
                   </ListItem>
                 ))
-              )(50)}
+              )(0)}
             </List>
           </div>
         );
