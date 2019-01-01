@@ -16,36 +16,37 @@ export const IndexHabitsList = ({ habits, date }) => (
           {db => (
             <FeelingsProvider idHabit={habit.id}>
               {props => {
-                const feelingsRecord = flow(
+                const isFromToday = feelingsRecord =>
+                  moment(feelingsRecord.date.toDate()).format("DD/MM/YYYY") ===
+                  date.format("DD/MM/YYYY");
+
+                const feelings = flow(
                   props => props.feelings,
-                  find(
-                    feelingsRecord =>
-                      moment(feelingsRecord.date.toDate()).format(
-                        "DD/MM/YYYY"
-                      ) === date.format("DD/MM/YYYY")
-                  )
+                  find(isFromToday)
                 )(props);
+
                 const emojis = flow(
-                  props => props.feelings,
-                  map(record => record.feelings),
+                  feelings => (!!feelings ? feelings.feelings : []),
                   flatten,
                   uniq
-                )(props);
-                const containsFeelings =
-                  feelingsRecord &&
-                  feelingsRecord.feelings &&
-                  feelingsRecord.feelings.length > 0;
+                )(feelings);
+
                 return (
-                  <Link key={habit.id} to={`/habits/${habit.id}`}>
+                  <Link
+                    key={habit.id}
+                    to={`/habits/${habit.id}`}
+                    style={{
+                      display: emojis.includes(FEELING_OF_THE_END)
+                        ? "none"
+                        : undefined
+                    }}
+                  >
                     <Paper
                       style={{ padding: "8px 0px", margin: "16px 0px" }}
                       elevation={0}
                     >
                       <div
                         style={{
-                          display: emojis.includes(FEELING_OF_THE_END)
-                            ? "none"
-                            : undefined,
                           marginTop: "12px"
                         }}
                       >
@@ -59,16 +60,14 @@ export const IndexHabitsList = ({ habits, date }) => (
                         </Typography>
                         <IndexFeelings
                           feelings={FEELINGS}
-                          selected={
-                            feelingsRecord ? feelingsRecord.feelings : []
-                          }
+                          selected={feelings ? feelings.feelings : []}
                           onChange={feelingsNew => {
                             const dbFeelingsRef = db
                               .collection("habits")
                               .doc(habit.id)
                               .collection("feelings");
-                            if (feelingsRecord) {
-                              dbFeelingsRef.doc(feelingsRecord.id).set({
+                            if (feelings) {
+                              dbFeelingsRef.doc(feelings.id).set({
                                 date: date.toDate(),
                                 feelings: feelingsNew
                               });
