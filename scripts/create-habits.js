@@ -36,16 +36,14 @@ const LISTS = [
   "daily",
   "weekly",
   "coding",
-  "coding",
-  "parties",
-  "lindy",
   "health",
   "teaching",
-  "computer",
-  "communication",
-  "sleep",
+  "sitting",
+  "communicating",
+  "sleeping",
   "learning",
-  "environment"
+  "environment",
+  "dancing"
 ];
 
 const HABBITS = [
@@ -55,11 +53,11 @@ const HABBITS = [
   ["Prepare for the next day", ["daily"]],
   ["Perfect week planning", ["weekly"]],
   ["Use Pomodoro", ["health", "coding"]],
-  ["No dancing after 1:00", ["parties"]],
+  ["No dancing after 1:00", ["dancing"]],
   ["Do exercising", ["daily"]],
   ["Do morning routine", ["daily"]],
   ["Do evening routine", ["daily"]],
-  ["Avoid head bending", ["lindy"]],
+  ["Avoid head bending", ["dancing"]],
   ["Use malatonin", ["daily"]],
   ["Avoid coffee after 18:00", ["daily"]],
   ["Avoid wasting morning time in bed", ["daily"]],
@@ -69,13 +67,13 @@ const HABBITS = [
   ["Prepare for teaching", ["weekly", "teaching"]],
   ["Calibrate feelings", ["daily", "health"]],
   ["Reset the kithen", ["environment", "daily"]],
-  ["Avoid social networks", ["daily", "computer"]],
+  ["Avoid social networks", ["daily", "sitting"]],
   ["Teach positively", ["teaching"]],
-  ["Listen more", ["communication"]],
-  ["Liste to podcasts", ["sleep", "daily"]],
+  ["Listen more", ["communicating"]],
+  ["Liste to podcasts", ["sleeping", "daily"]],
   ["Brush teeth", ["health"]],
   ["Always understand what I am working on", ["coding"]],
-  ["Prefer learning from individuals", ["learning", "computer", "daily"]]
+  ["Prefer learning from individuals", ["learning", "sitting", "daily"]]
 ];
 
 const exec = async () => {
