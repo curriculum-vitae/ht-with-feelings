@@ -49,7 +49,7 @@ const IndexFeelingsWithChip = ({
               variant={"outlined"}
               style={{
                 opacity: selected.includes(icon) ? undefined : "0.35",
-                fontSize: "28px",
+                fontSize: "20px",
                 border: "0px"
               }}
               onClick={e => {
@@ -66,17 +66,17 @@ const IndexFeelingsWithChip = ({
 
     <div
       style={{
-        display: "none",
         flexGrow: "1",
         flexBasis: "0",
-        textAlign: "center"
+        textAlign: "right"
       }}
     >
       <Chip
         variant={"outlined"}
         style={{
+          width: "100%",
           opacity: selected.length > 0 ? "1" : "0",
-          fontSize: "28px",
+          fontSize: "20px",
           border: "0px"
         }}
         icon={<Icon>send</Icon>}

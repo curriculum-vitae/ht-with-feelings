@@ -61,13 +61,9 @@ export const IndexHabitsList = ({ habits, date }) => (
                     }}
                   >
                     <br />
-                    <div
-                      style={{
-                        width: "90%",
-                        display: "inline-block"
-                      }}
-                    >
-                      <Typography noWrap={true} variant={"h5"} gutterBottom>
+                    <br />
+                    <div>
+                      <Typography noWrap={true} variant={"h5"}>
                         {habit.name}
                       </Typography>
                       <Paper style={{ padding: "8px 0px" }} elevation={0}>
@@ -78,24 +74,6 @@ export const IndexHabitsList = ({ habits, date }) => (
                         />
                       </Paper>
                     </div>
-                    <div
-                      style={{
-                        opacity:
-                          !!feelings &&
-                          !!feelings.feelings &&
-                          !!feelings.feelings.length > 0
-                            ? 1
-                            : 0,
-                        display: "inline-block",
-                        width: "10%"
-                      }}
-                    >
-                      <IconButton>
-                        <Icon>send</Icon>
-                      </IconButton>
-                    </div>
-
-                    <br />
                   </Link>
                 );
               }}

@@ -61,6 +61,7 @@ const HABBITS = [
   ["Do evening routine", ["daily"]],
   ["Avoid head bending", ["lindy"]],
   ["Use malatonin", ["daily"]],
+  ["Avoid coffee after 18:00", ["daily"]],
   ["Avoid wasting morning time in bed", ["daily"]],
   ["Avoid wasting evening time in bed", ["daily"]],
   ["Eat nicely", ["daily", "health"]],
