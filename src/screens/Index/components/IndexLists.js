@@ -8,30 +8,34 @@ import {
   Typography
 } from "@material-ui/core";
 import { flow, map, sortBy } from "lodash/fp";
-import { grey } from "@material-ui/core/colors";
+import { grey, green } from "@material-ui/core/colors";
 
-const Progress = ({ percentage }) => (
-  <div>
-    <div
-      style={{
-        display: "inline-block",
-        height: "5px",
-        borderRadius: "2px",
-        backgroundColor: `${grey[600]}`,
-        width: `${percentage}%`
-      }}
-    />
-    <div
-      style={{
-        display: "inline-block",
-        height: "5px",
-        borderRadius: "2px",
-        backgroundColor: `${grey[400]}`,
-        width: `${100 - percentage}%`
-      }}
-    />
-  </div>
-);
+const Progress = ({ percentage, height = 4 }) => {
+  const isDone = percentage > 80;
+  const palette = isDone ? green : grey;
+  return (
+    <>
+      <div
+        style={{
+          display: "inline-block",
+          height: `${height}px`,
+          borderRadius: "2px",
+          backgroundColor: `${palette[500]}`,
+          width: `${percentage}%`
+        }}
+      />
+      <div
+        style={{
+          display: isDone ? "none" : "inline-block",
+          height: `${height}px`,
+          borderRadius: "2px",
+          backgroundColor: `${palette[300]}`,
+          width: `${100 - percentage}%`
+        }}
+      />
+    </>
+  );
+};
 
 export const IndexLists = ({ lists, selected, onSelect }) => (
   <>
@@ -41,20 +45,27 @@ export const IndexLists = ({ lists, selected, onSelect }) => (
           key={list.id}
           style={{
             display: "inline-block",
-            marginRight: "14px"
+            marginRight: "20px"
           }}
         >
           <Typography
             style={{
-              cursor: "pointer"
+              cursor: "pointer",
+              fontWeight: list.id === selected ? "bold" : undefined
             }}
             variant={"subtitle1"}
-            color={list.id === selected ? "primary" : undefined}
             onClick={() => onSelect(list.id)}
           >
             #{list.name}
           </Typography>
-          <Progress percentage={Math.random() * 100} />
+
+          <div
+            style={{
+              marginTop: "-6px"
+            }}
+          >
+            <Progress percentage={Math.random() * 100} />
+          </div>
         </div>
       ))
     )(lists)}

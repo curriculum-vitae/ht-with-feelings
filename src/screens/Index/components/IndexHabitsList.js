@@ -61,12 +61,11 @@ export const IndexHabitsList = ({ habits, date }) => (
                     }}
                   >
                     <br />
-                    <br />
                     <div>
-                      <Typography noWrap={true} variant={"h5"}>
+                      <Typography noWrap={true} variant={"h6"}>
                         {habit.name}
                       </Typography>
-                      <Paper style={{ padding: "8px 0px" }} elevation={0}>
+                      <Paper style={{ padding: "4px 0px" }} elevation={0}>
                         <IndexFeelings
                           feelings={FEELINGS}
                           selected={feelings ? feelings.feelings : []}
