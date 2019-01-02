@@ -102,33 +102,39 @@ export const HabitScreen = ({ match, stats, history }) => (
                           filter(
                             statsItem => statsItem.emoji !== FEELING_OF_THE_END
                           ),
-                          map(statsItem => (
-                            <Grid
-                              item
-                              xs={4}
-                              style={{ textAlign: "center" }}
-                              key={statsItem.emoji}
-                            >
-                              <div
-                                style={{
-                                  fontSize: `${getPopularityScale(20)(80)(
-                                    statsItem.percentage
-                                  )}px`,
-                                  height: "80px"
-                                }}
+                          map(statsItem => {
+                            const size = getPopularityScale(8)(120)(
+                              statsItem.percentage
+                            );
+                            return (
+                              <Grid
+                                item
+                                xs={4}
+                                style={{ textAlign: "center" }}
+                                key={statsItem.emoji}
                               >
-                                {statsItem.emoji}
-                              </div>
+                                <div
+                                  style={{
+                                    fontSize: `${size}px`,
+                                    paddingTop: `${(120 - size) / 2}px`,
+                                    height: "120px"
+                                  }}
+                                >
+                                  {statsItem.emoji}
+                                </div>
 
-                              <Typography variant={"caption"}>
-                                {String((statsItem.percentage * 100) / 1).slice(
-                                  0,
-                                  4
-                                )}
-                                %
-                              </Typography>
-                            </Grid>
-                          ))
+                                <Typography
+                                  variant={"caption"}
+                                  style={{ marginTop: "12px" }}
+                                >
+                                  {String(
+                                    (statsItem.percentage * 100) / 1
+                                  ).slice(0, 4)}
+                                  %
+                                </Typography>
+                              </Grid>
+                            );
+                          })
                         )(statsItems)}
                       </Grid>
                     </>
