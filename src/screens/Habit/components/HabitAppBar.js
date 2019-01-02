@@ -1,7 +1,7 @@
-import React from "react";
-import { AppBar, Toolbar, Icon, IconButton } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Icon, IconButton, Toolbar } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
+import React from "react";
+import { Link } from "react-router-dom";
 
 export const HabitAppBar = ({ onDelete }) => (
   <Toolbar>

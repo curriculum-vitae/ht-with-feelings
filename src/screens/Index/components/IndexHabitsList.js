@@ -16,8 +16,8 @@ export const IndexHabitsList = ({ habits, date }) => (
           {db => (
             <FeelingsProvider idHabit={habit.id}>
               {props => {
-                const isFromToday = feelingsRecord =>
-                  moment(feelingsRecord.date.toDate()).format("DD/MM/YYYY") ===
+                const isFromToday = record =>
+                  moment(record.date.toDate()).format("DD/MM/YYYY") ===
                   date.format("DD/MM/YYYY");
 
                 const feelings = flow(
@@ -41,23 +41,15 @@ export const IndexHabitsList = ({ habits, date }) => (
                         : undefined
                     }}
                   >
-                    <Paper
-                      style={{ padding: "8px 0px", margin: "16px 0px" }}
-                      elevation={0}
+                    <div
+                      style={{
+                        margin: "30px 0px"
+                      }}
                     >
-                      <div
-                        style={{
-                          marginTop: "12px"
-                        }}
-                      >
-                        <Typography
-                          align={"center"}
-                          noWrap={true}
-                          variant={"h5"}
-                          gutterBottom
-                        >
-                          {habit.name}
-                        </Typography>
+                      <Typography noWrap={true} variant={"h5"} gutterBottom>
+                        {habit.name}
+                      </Typography>
+                      <Paper style={{ padding: "8px 0px" }} elevation={0}>
                         <IndexFeelings
                           feelings={FEELINGS}
                           selected={feelings ? feelings.feelings : []}
@@ -79,8 +71,8 @@ export const IndexHabitsList = ({ habits, date }) => (
                             }
                           }}
                         />
-                      </div>
-                    </Paper>
+                      </Paper>
+                    </div>
                   </Link>
                 );
               }}

@@ -61,7 +61,11 @@ export const getStatsItems = stats => {
     map(([emoji, count]) => ({
       emoji,
       count,
-      percentagae: count / countOfAll
+      percentage: count / countOfAll
     }))
   )(occurence);
+};
+
+export const getPopularityScale = from => to => percentage => {
+  return from + (to - from) * percentage;
 };
