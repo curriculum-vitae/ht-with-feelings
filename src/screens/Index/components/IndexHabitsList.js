@@ -31,6 +31,24 @@ export const IndexHabitsList = ({ habits, date }) => (
                   uniq
                 )(feelings);
 
+                const updateFeelings = feelingsNew => {
+                  const dbFeelingsRef = db
+                    .collection("habits")
+                    .doc(habit.id)
+                    .collection("feelings");
+                  if (feelings) {
+                    dbFeelingsRef.doc(feelings.id).set({
+                      date: date.toDate(),
+                      feelings: feelingsNew
+                    });
+                  } else {
+                    dbFeelingsRef.add({
+                      date: date.toDate(),
+                      feelings: feelingsNew
+                    });
+                  }
+                };
+
                 return (
                   <Link
                     key={habit.id}
@@ -53,23 +71,7 @@ export const IndexHabitsList = ({ habits, date }) => (
                         <IndexFeelings
                           feelings={FEELINGS}
                           selected={feelings ? feelings.feelings : []}
-                          onChange={feelingsNew => {
-                            const dbFeelingsRef = db
-                              .collection("habits")
-                              .doc(habit.id)
-                              .collection("feelings");
-                            if (feelings) {
-                              dbFeelingsRef.doc(feelings.id).set({
-                                date: date.toDate(),
-                                feelings: feelingsNew
-                              });
-                            } else {
-                              dbFeelingsRef.add({
-                                date: date.toDate(),
-                                feelings: feelingsNew
-                              });
-                            }
-                          }}
+                          onChange={updateFeelings}
                         />
                       </Paper>
                     </div>

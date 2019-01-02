@@ -1,56 +1,20 @@
 import React from "react";
-import { Avatar, Chip, ButtonBase, Badge } from "@material-ui/core";
+import { Avatar, Chip, ButtonBase, Badge, Icon } from "@material-ui/core";
 import { flow, filter, map, reduce } from "lodash/fp";
 import { withStyles } from "@material-ui/core/styles";
+import { FEELING_OF_THE_END } from "shared/constants";
 
 const styles = theme => ({
   badge: {
-    top: 8,
-    right: -12,
+    top: 10,
+    right: 0,
     // The border color match the background color.
-    backgroundColor: theme.palette.grey[100],
-    border: `2px solid ${
-      theme.palette.type === "light"
-        ? theme.palette.grey[200]
-        : theme.palette.grey[900]
+    backgroundColor: theme.palette.grey[200],
+    border: `3px solid ${
+      theme.palette.type === "light" ? "white" : theme.palette.grey[900]
     }`
   }
 });
-
-const IndexFeelingsWithButton = ({ feelings, selected = [], onChange }) => (
-  <div
-    style={{
-      display: "flex",
-      marginTop: "8px"
-    }}
-  >
-    {feelings.map(icon => (
-      <ButtonBase
-        size={"small"}
-        variant={"outlined"}
-        style={{
-          opacity: selected.includes(icon) ? undefined : "0.35",
-          marginRight: "15px",
-          fontSize: "32px",
-          flexGrow: "1",
-          flexBasis: "0"
-        }}
-        onClick={e => {
-          e.stopPropagation();
-          e.preventDefault();
-          if (selected.includes(icon)) {
-            onChange(flow(filter(item => item !== icon))(selected));
-          } else {
-            onChange([...selected, icon]);
-          }
-        }}
-        key={icon}
-      >
-        {icon}
-      </ButtonBase>
-    ))}
-  </div>
-);
 
 const IndexFeelingsWithChip = ({
   feelings,
@@ -79,6 +43,7 @@ const IndexFeelingsWithChip = ({
             classes={{
               badge: classes.badge
             }}
+            invisible={selected.filter(i => i === icon).length <= 1}
           >
             <Chip
               variant={"outlined"}
@@ -104,6 +69,30 @@ const IndexFeelingsWithChip = ({
         </div>
       ))
     )(feelings)}
+
+    <div
+      style={{
+        flexGrow: "1",
+        flexBasis: "0",
+        textAlign: "center"
+      }}
+    >
+      <Chip
+        variant={"outlined"}
+        style={{
+          opacity: selected.length > 0 ? "1" : "0",
+          fontSize: "28px",
+          border: "0px"
+        }}
+        icon={<Icon>send</Icon>}
+        onClick={e => {
+          e.stopPropagation();
+          e.preventDefault();
+
+          onChange([...selected, FEELING_OF_THE_END]);
+        }}
+      />
+    </div>
   </div>
 );
 
