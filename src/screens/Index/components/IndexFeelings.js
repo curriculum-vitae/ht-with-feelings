@@ -55,13 +55,7 @@ const IndexFeelingsWithChip = ({
               onClick={e => {
                 e.stopPropagation();
                 e.preventDefault();
-
                 onChange([...selected, icon]);
-                if (selected.includes(icon)) {
-                  // onChange(flow(filter(item => item !== icon))(selected));
-                } else {
-                  // onChange([...selected, icon]);
-                }
               }}
               label={icon}
             />
@@ -72,6 +66,7 @@ const IndexFeelingsWithChip = ({
 
     <div
       style={{
+        display: "none",
         flexGrow: "1",
         flexBasis: "0",
         textAlign: "center"

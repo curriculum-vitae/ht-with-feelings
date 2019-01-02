@@ -1,4 +1,4 @@
-import { Typography, Paper } from "@material-ui/core";
+import { Typography, Paper, Icon, IconButton } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
 import { find, flow, map, flatten, uniq } from "lodash/fp";
 import moment from "moment";
@@ -56,12 +56,15 @@ export const IndexHabitsList = ({ habits, date }) => (
                     style={{
                       display: emojis.includes(FEELING_OF_THE_END)
                         ? "none"
-                        : undefined
+                        : undefined,
+                      margin: "30px 0px"
                     }}
                   >
+                    <br />
                     <div
                       style={{
-                        margin: "30px 0px"
+                        width: "90%",
+                        display: "inline-block"
                       }}
                     >
                       <Typography noWrap={true} variant={"h5"} gutterBottom>
@@ -75,6 +78,24 @@ export const IndexHabitsList = ({ habits, date }) => (
                         />
                       </Paper>
                     </div>
+                    <div
+                      style={{
+                        opacity:
+                          !!feelings &&
+                          !!feelings.feelings &&
+                          !!feelings.feelings.length > 0
+                            ? 1
+                            : 0,
+                        display: "inline-block",
+                        width: "10%"
+                      }}
+                    >
+                      <IconButton>
+                        <Icon>send</Icon>
+                      </IconButton>
+                    </div>
+
+                    <br />
                   </Link>
                 );
               }}
