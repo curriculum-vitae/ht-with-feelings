@@ -2,7 +2,7 @@ import { createMuiTheme } from "@material-ui/core";
 import { teal, red } from "@material-ui/core/colors";
 
 const THEMES = {};
-const THEME_TO_USE = "dark";
+const THEME_TO_USE = "light";
 
 THEMES["dark"] = {
   palette: {
