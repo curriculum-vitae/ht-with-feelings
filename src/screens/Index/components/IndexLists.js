@@ -43,7 +43,7 @@ export const IndexListsItem = ({ list, isSelected, onClick, percentage }) => (
         fontWeight: isSelected ? "bold" : undefined
       }}
       color={isSelected ? "primary" : undefined}
-      variant={"subtitle1"}
+      variant={"button"}
       onClick={onClick}
     >
       #{list.name}

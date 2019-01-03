@@ -62,9 +62,13 @@ export const IndexHabitsList = ({ habits, date, displayDone = false }) =>
                       : undefined
                   }}
                 >
-                  <Grid container spacing={16}>
+                  <Grid container spacing={16} style={{ marginTop: "4px" }}>
                     <Grid item xs={7}>
-                      <Typography noWrap={true} variant={"h6"}>
+                      <Typography
+                        noWrap={true}
+                        variant={"subtitle1"}
+                        style={{ marginTop: "6px" }}
+                      >
                         {habit.name}
                       </Typography>
                     </Grid>
@@ -78,9 +82,7 @@ export const IndexHabitsList = ({ habits, date, displayDone = false }) =>
                       </div>
                     </Grid>
                   </Grid>
-
                   <Divider />
-                  <br />
                 </Link>
               );
             }}
