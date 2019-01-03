@@ -25,6 +25,8 @@ import {
 } from "screens/Habit/helpers";
 import { FEELING_OF_THE_END } from "shared/constants";
 
+import { RANGE_OF_EMOJI } from "screens/Habit/constants";
+
 export const HabitScreen = ({ match, stats, history }) => (
   <>
     <HabitsProvider>
@@ -80,16 +82,6 @@ export const HabitScreen = ({ match, stats, history }) => (
                             Overview
                           </Typography>
                         </Grid>
-                        <Grid item xs={6}>
-                          <Typography
-                            variant={"caption"}
-                            gutterBottom
-                            style={{ textAlign: "right" }}
-                          >
-                            {" "}
-                            last 21 day
-                          </Typography>
-                        </Grid>
                       </Grid>
                       <br />
                       <Grid container spacing={40}>
@@ -98,9 +90,9 @@ export const HabitScreen = ({ match, stats, history }) => (
                             statsItem => statsItem.emoji !== FEELING_OF_THE_END
                           ),
                           map(statsItem => {
-                            const size = getPopularityScale(8)(120)(
-                              statsItem.percentage
-                            );
+                            const size = getPopularityScale(RANGE_OF_EMOJI[0])(
+                              RANGE_OF_EMOJI[1]
+                            )(statsItem.percentage);
                             return (
                               <Grid
                                 item
@@ -111,8 +103,9 @@ export const HabitScreen = ({ match, stats, history }) => (
                                 <div
                                   style={{
                                     fontSize: `${size}px`,
-                                    paddingTop: `${(120 - size) / 2}px`,
-                                    height: "120px"
+                                    paddingTop: `${(RANGE_OF_EMOJI[1] - size) /
+                                      2}px`,
+                                    height: `${RANGE_OF_EMOJI[1]}px`
                                   }}
                                 >
                                   {statsItem.emoji}
