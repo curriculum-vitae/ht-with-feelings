@@ -30,36 +30,53 @@ const Progress = ({ percentage, height = 4 }) => {
   );
 };
 
+export const IndexListsItem = ({ list, isSelected, onClick, percentage }) => (
+  <div
+    style={{
+      display: "inline-block",
+      marginRight: "20px"
+    }}
+  >
+    <Typography
+      style={{
+        cursor: "pointer",
+        fontWeight: isSelected ? "bold" : undefined
+      }}
+      variant={"subtitle1"}
+      onClick={onClick}
+    >
+      #{list.name}
+    </Typography>
+
+    <div
+      style={{
+        marginTop: "-6px"
+      }}
+    >
+      <Progress percentage={percentage} />
+    </div>
+  </div>
+);
+
 export const IndexLists = ({ lists, selected, onSelect }) => (
   <>
+    <IndexListsItem
+      list={{
+        name: "all"
+      }}
+      isSelected={selected === "all"}
+      onClick={() => onSelect("all")}
+      percentage={Math.random() * 100}
+    />
     {flow(
       map(list => (
-        <div
+        <IndexListsItem
           key={list.id}
-          style={{
-            display: "inline-block",
-            marginRight: "20px"
-          }}
-        >
-          <Typography
-            style={{
-              cursor: "pointer",
-              fontWeight: list.id === selected ? "bold" : undefined
-            }}
-            variant={"subtitle1"}
-            onClick={() => onSelect(list.id)}
-          >
-            #{list.name}
-          </Typography>
-
-          <div
-            style={{
-              marginTop: "-6px"
-            }}
-          >
-            <Progress percentage={Math.random() * 100} />
-          </div>
-        </div>
+          list={list}
+          isSelected={list.id === selected}
+          onClick={() => onSelect(list.id)}
+          percentage={Math.random() * 100}
+        />
       ))
     )(lists)}
   </>

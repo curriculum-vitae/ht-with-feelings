@@ -57,9 +57,7 @@ export const IndexScreen = () => (
               {({ lists }) => (
                 <>
                   {lists.length > 0 ? (
-                    <SelectedOnce
-                      initialSelected={lists[0] ? lists[0].id : undefined}
-                    >
+                    <SelectedOnce initialSelected={"all"}>
                       {({ selected, setSelected }) => (
                         <>
                           <div
@@ -89,8 +87,10 @@ export const IndexScreen = () => (
                                 <IndexHabitsList
                                   date={date}
                                   habits={flow(
-                                    props => props.habits
-                                    // filter(isHabitIsFromList(selected))
+                                    props => props.habits,
+                                    selected === "all"
+                                      ? p => p
+                                      : filter(isHabitIsFromList(selected))
                                   )(props)}
                                 />
                               )}
