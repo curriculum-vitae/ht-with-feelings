@@ -10,6 +10,7 @@ import { IndexAppBarTop } from "screens/Index/components/IndexAppBarTop";
 import { IndexDayPicker } from "screens/Index/components/IndexDayPicker";
 import { IndexHabitsList } from "screens/Index/components/IndexHabitsList";
 import { IndexLists } from "screens/Index/components/IndexLists";
+import { isHabitIsFromList } from "shared/helpers";
 
 export const IndexScreen = () => (
   <div
@@ -88,13 +89,8 @@ export const IndexScreen = () => (
                                 <IndexHabitsList
                                   date={date}
                                   habits={flow(
-                                    props => props.habits,
-                                    filter(
-                                      habit =>
-                                        !!find(list => list.id === selected)(
-                                          habit.lists
-                                        )
-                                    )
+                                    props => props.habits
+                                    // filter(isHabitIsFromList(selected))
                                   )(props)}
                                 />
                               )}

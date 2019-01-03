@@ -12,7 +12,7 @@ export const IndexHabitsList = ({ habits, date }) => (
   <div>
     {habits.map(habit => {
       return (
-        <FirebaseContext.Consumer>
+        <FirebaseContext.Consumer key={habit.id}>
           {db => (
             <FeelingsProvider idHabit={habit.id}>
               {props => {

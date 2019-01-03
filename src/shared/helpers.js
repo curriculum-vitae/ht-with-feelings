@@ -1,4 +1,4 @@
-import { flow } from "lodash/fp";
+import { flow, find } from "lodash/fp";
 import { FEELINGS } from "shared/constants";
 
 export const getRandomFontSize = () => {
@@ -15,3 +15,10 @@ export const getRandomEmotion = flow(
   Math.floor,
   index => FEELINGS[index]
 );
+
+export const isHabitIsFromList = idList => habit => {
+  return !!flow(
+    habit => habit.lists,
+    find(list => list.id === idList)
+  )(habit);
+};
