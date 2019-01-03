@@ -113,7 +113,7 @@ export const HabitScreen = ({ match, stats, history }) => (
 
                                 <Typography
                                   variant={"caption"}
-                                  style={{ marginTop: "12px" }}
+                                  style={{ marginTop: "18px" }}
                                 >
                                   {String(
                                     (statsItem.percentage * 100) / 1

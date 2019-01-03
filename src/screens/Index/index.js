@@ -16,9 +16,7 @@ export const IndexScreen = () => (
   <div
     style={{
       position: "relative",
-      minHeight: "100vh",
-      borderLeft: "1px solid grey",
-      borderRight: "1px solid grey"
+      minHeight: "100vh"
     }}
   >
     <>
