@@ -15,7 +15,7 @@ import {
 import { flow, map, slice, find, filter, sortBy, reverse } from "lodash/fp";
 import moment from "moment";
 import React from "react";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import { getRandomFontSize } from "shared/helpers";
 import {
   generateFakeStats,
