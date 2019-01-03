@@ -1,6 +1,6 @@
-import { Grid, Icon, IconButton, Typography } from "@material-ui/core";
+import { Grid, Icon, IconButton, Button, Typography } from "@material-ui/core";
 import { SelectedOnce } from "components/SelectedOnce";
-import { filter, find, flow } from "lodash/fp";
+import { filter, flow } from "lodash/fp";
 import moment from "moment";
 import { HabitsProvider } from "providers/HabitsProvider";
 import { ListsProvider } from "providers/ListsProvider";
@@ -11,6 +11,7 @@ import { IndexDayPicker } from "screens/Index/components/IndexDayPicker";
 import { IndexHabitsList } from "screens/Index/components/IndexHabitsList";
 import { IndexLists } from "screens/Index/components/IndexLists";
 import { isHabitIsFromList } from "shared/helpers";
+import { Toggler } from "components/Toggler";
 
 export const IndexScreen = () => (
   <div
@@ -82,15 +83,57 @@ export const IndexScreen = () => (
                           >
                             <HabitsProvider>
                               {props => (
-                                <IndexHabitsList
-                                  date={date}
-                                  habits={flow(
-                                    props => props.habits,
-                                    selected === "all"
-                                      ? p => p
-                                      : filter(isHabitIsFromList(selected))
-                                  )(props)}
-                                />
+                                <>
+                                  <IndexHabitsList
+                                    date={date}
+                                    displayDone={false}
+                                    habits={flow(
+                                      props => props.habits,
+                                      selected === "all"
+                                        ? p => p
+                                        : filter(isHabitIsFromList(selected))
+                                    )(props)}
+                                  />
+                                  <br />
+                                  <Toggler initialValue={false}>
+                                    {({ value, setValue }) => (
+                                      <>
+                                        <br />
+                                        <Button
+                                          variant={"outlined"}
+                                          style={{
+                                            width: "100%"
+                                          }}
+                                          onClick={() => setValue(!value)}
+                                        >
+                                          {value
+                                            ? "Hide completed"
+                                            : "Show completed"}
+                                        </Button>
+                                        {value ? (
+                                          <>
+                                            <br />
+                                            <br />
+                                            <IndexHabitsList
+                                              date={date}
+                                              displayDone={true}
+                                              habits={flow(
+                                                props => props.habits,
+                                                selected === "all"
+                                                  ? p => p
+                                                  : filter(
+                                                      isHabitIsFromList(
+                                                        selected
+                                                      )
+                                                    )
+                                              )(props)}
+                                            />
+                                          </>
+                                        ) : null}
+                                      </>
+                                    )}
+                                  </Toggler>
+                                </>
                               )}
                             </HabitsProvider>
                           </div>
@@ -105,6 +148,8 @@ export const IndexScreen = () => (
         )}
       </IndexDayPicker>
     </>
+    <br />
+    <br />
     <br />
     <br />
     <br />

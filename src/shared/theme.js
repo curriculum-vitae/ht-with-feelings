@@ -29,9 +29,6 @@ THEMES["dark"] = {
 THEMES["light"] = {
   palette: {
     background: {}
-  },
-  shape: {
-    borderRadius: 12
   }
 };
 

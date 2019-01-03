@@ -8,77 +8,75 @@ import { Link } from "react-router-dom";
 import { IndexFeelings } from "screens/Index/components/IndexFeelings";
 import { FEELINGS, FEELING_OF_THE_END } from "shared/constants";
 
-export const IndexHabitsList = ({ habits, date }) => (
-  <div>
-    {habits.map(habit => {
-      return (
-        <FirebaseContext.Consumer key={habit.id}>
-          {db => (
-            <FeelingsProvider idHabit={habit.id}>
-              {props => {
-                const isFromToday = record =>
-                  moment(record.date.toDate()).format("DD/MM/YYYY") ===
-                  date.format("DD/MM/YYYY");
+export const IndexHabitsList = ({ habits, date, displayDone = false }) =>
+  habits.map(habit => {
+    return (
+      <FirebaseContext.Consumer key={habit.id}>
+        {db => (
+          <FeelingsProvider idHabit={habit.id}>
+            {props => {
+              const isFromToday = record =>
+                moment(record.date.toDate()).format("DD/MM/YYYY") ===
+                date.format("DD/MM/YYYY");
 
-                const feelings = flow(
-                  props => props.feelings,
-                  find(isFromToday)
-                )(props);
+              const feelings = flow(
+                props => props.feelings,
+                find(isFromToday)
+              )(props);
 
-                const emojis = flow(
-                  feelings => (!!feelings ? feelings.feelings : []),
-                  flatten,
-                  uniq
-                )(feelings);
+              const emojis = flow(
+                feelings => (!!feelings ? feelings.feelings : []),
+                flatten,
+                uniq
+              )(feelings);
 
-                const updateFeelings = feelingsNew => {
-                  const dbFeelingsRef = db
-                    .collection("habits")
-                    .doc(habit.id)
-                    .collection("feelings");
-                  if (feelings) {
-                    dbFeelingsRef.doc(feelings.id).set({
-                      date: date.toDate(),
-                      feelings: feelingsNew
-                    });
-                  } else {
-                    dbFeelingsRef.add({
-                      date: date.toDate(),
-                      feelings: feelingsNew
-                    });
-                  }
-                };
+              const updateFeelings = feelingsNew => {
+                const dbFeelingsRef = db
+                  .collection("habits")
+                  .doc(habit.id)
+                  .collection("feelings");
+                if (feelings) {
+                  dbFeelingsRef.doc(feelings.id).set({
+                    date: date.toDate(),
+                    feelings: feelingsNew
+                  });
+                } else {
+                  dbFeelingsRef.add({
+                    date: date.toDate(),
+                    feelings: feelingsNew
+                  });
+                }
+              };
 
-                return (
-                  <Link
-                    key={habit.id}
-                    to={`/habits/${habit.id}`}
-                    style={{
-                      display: emojis.includes(FEELING_OF_THE_END)
-                        ? "none"
-                        : undefined,
-                      margin: "40px 0px"
-                    }}
-                  >
-                    <div>
-                      <Typography noWrap={true} variant={"h6"}>
-                        {habit.name}
-                      </Typography>
-                      <Paper style={{ padding: "4px 0px" }} elevation={0}>
-                        <IndexFeelings
-                          feelings={FEELINGS}
-                          selected={feelings ? feelings.feelings : []}
-                          onChange={updateFeelings}
-                        />
-                      </Paper>
-                    </div>
-                  </Link>
-                );
-              }}
-            </FeelingsProvider>
-          )}
-        </FirebaseContext.Consumer>
-      );
-    })}
-  </div>
-);
+              return (
+                <Link
+                  key={habit.id}
+                  to={`/habits/${habit.id}`}
+                  style={{
+                    display: emojis.includes(FEELING_OF_THE_END)
+                      ? displayDone
+                        ? undefined
+                        : "none"
+                      : displayDone
+                      ? "none"
+                      : undefined
+                  }}
+                >
+                  <Typography noWrap={true} variant={"h6"}>
+                    {habit.name}
+                  </Typography>
+                  <Paper style={{ padding: "4px 0px" }} elevation={0}>
+                    <IndexFeelings
+                      feelings={FEELINGS}
+                      selected={feelings ? feelings.feelings : []}
+                      onChange={updateFeelings}
+                    />
+                  </Paper>
+                </Link>
+              );
+            }}
+          </FeelingsProvider>
+        )}
+      </FirebaseContext.Consumer>
+    );
+  });
