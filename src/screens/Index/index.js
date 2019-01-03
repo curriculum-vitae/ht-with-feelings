@@ -20,6 +20,15 @@ export const IndexScreen = () => (
       minHeight: "100vh"
     }}
   >
+    <div
+      style={{
+        position: "absolute",
+        bottom: "0",
+        height: "200px"
+      }}
+    >
+      wow
+    </div>
     <>
       <IndexDayPicker initialDate={moment()}>
         {({ date, setDatePrev, setDateNext }) => (
@@ -78,7 +87,7 @@ export const IndexScreen = () => (
                           </div>
                           <div
                             style={{
-                              padding: "0px 16px"
+                              padding: "0px 0px"
                             }}
                           >
                             <HabitsProvider>

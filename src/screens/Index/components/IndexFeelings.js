@@ -4,7 +4,7 @@ import { flow, map } from "lodash/fp";
 import React from "react";
 import { FEELING_OF_THE_END } from "shared/constants";
 
-const EMOJI_SIZE = 16;
+const EMOJI_SIZE = 20;
 
 const styles = theme => ({
   badge: {
@@ -26,13 +26,16 @@ const IndexFeelingsWithChip = ({
 }) => (
   <div
     style={{
-      display: "flex",
-      flexDirection: "row-reverse"
+      display: "flex"
     }}
   >
     {flow(
       map(icon => (
         <Badge
+          style={{
+            flexGrow: 1,
+            flexBasis: 0
+          }}
           key={icon}
           badgeContent={selected.filter(i => i === icon).length}
           classes={{
@@ -43,10 +46,10 @@ const IndexFeelingsWithChip = ({
           <Chip
             variant={"outlined"}
             style={{
-              width: `${EMOJI_SIZE + 16}px`,
+              width: `100%`,
               opacity: selected.includes(icon) ? undefined : "0.3",
               fontSize: `${EMOJI_SIZE}px`,
-              border: "0px"
+              marginRight: "px"
             }}
             onClick={e => {
               e.stopPropagation();
@@ -62,12 +65,12 @@ const IndexFeelingsWithChip = ({
       variant={"outlined"}
       style={{
         opacity: selected.length > 0 ? "1" : "0.2",
-        marginLeft: "4px",
+        marginLeft: "16px",
         fontSize: `${EMOJI_SIZE}px`,
-        border: "0px",
-        width: `${EMOJI_SIZE + 16}px`
+        width: `${EMOJI_SIZE + 32}px`,
+        border: "0px"
       }}
-      icon={<Icon style={{ marginLeft: "6px" }}>send</Icon>}
+      icon={<Icon style={{ marginLeft: "22px" }}>send</Icon>}
       onClick={e => {
         e.stopPropagation();
         e.preventDefault();
