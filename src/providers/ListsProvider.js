@@ -1,7 +1,7 @@
-import React from "react";
-import { withState, compose, lifecycle } from "recompose";
 import { FirebaseContext } from "contexts/FirebaseContext";
-import { flow, map, reverse, sortBy } from "lodash/fp";
+import { flow, sortBy } from "lodash/fp";
+import React from "react";
+import { compose, lifecycle, withState } from "recompose";
 
 export const ListsProviderWithFirebase = compose(
   withState("lists", "setLists", []),

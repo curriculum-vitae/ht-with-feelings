@@ -1,6 +1,6 @@
-import { Typography, Paper, Icon, IconButton } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
-import { find, flow, map, flatten, uniq } from "lodash/fp";
+import { find, flatten, flow, uniq } from "lodash/fp";
 import moment from "moment";
 import { FeelingsProvider } from "providers/FeelingsProvider";
 import React from "react";

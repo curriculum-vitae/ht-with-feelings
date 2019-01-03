@@ -1,33 +1,28 @@
 import {
   Avatar,
-  Chip,
   Grid,
-  List,
-  IconButton,
   Icon,
-  Button,
+  IconButton,
+  List,
   ListItem,
   ListItemAvatar,
+  ListItemSecondaryAction,
   ListItemText,
-  Typography,
-  ListItemSecondaryAction
+  Typography
 } from "@material-ui/core";
-import { flow, map, slice, find, filter, sortBy, reverse } from "lodash/fp";
-import moment from "moment";
-import React from "react";
-import firebase from "firebase/app";
-import { getRandomFontSize } from "shared/helpers";
-import {
-  generateFakeStats,
-  getStats,
-  getStatsItems,
-  getPopularityScale
-} from "screens/Habit/helpers";
-import { HabitAppBar } from "screens/Habit/components/HabitAppBar";
-import { HabitsProvider } from "providers/HabitsProvider";
 import { FirebaseContext } from "contexts/FirebaseContext";
-
+import firebase from "firebase/app";
+import { filter, find, flow, map, reverse, sortBy } from "lodash/fp";
+import moment from "moment";
 import { FeelingsProvider } from "providers/FeelingsProvider";
+import { HabitsProvider } from "providers/HabitsProvider";
+import React from "react";
+import { HabitAppBar } from "screens/Habit/components/HabitAppBar";
+import {
+  getPopularityScale,
+  getStats,
+  getStatsItems
+} from "screens/Habit/helpers";
 import { FEELING_OF_THE_END } from "shared/constants";
 
 export const HabitScreen = ({ match, stats, history }) => (

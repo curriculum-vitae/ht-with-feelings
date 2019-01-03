@@ -1,6 +1,5 @@
-import React from "react";
-import { compose, withStateHandlers, setDisplayName } from "recompose";
 import moment from "moment";
+import { compose, setDisplayName, withStateHandlers } from "recompose";
 
 const addBehavior = compose(
   withStateHandlers(

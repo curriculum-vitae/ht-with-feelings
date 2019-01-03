@@ -1,16 +1,14 @@
-import {
-  flow,
-  times,
-  toPairs,
-  sortBy,
-  reverse,
-  filter,
-  map,
-  flatten,
-  reduce
-} from "lodash/fp";
-import { getRandomEmotion } from "shared/helpers";
 import getRandomEmoji from "lib/random-emoji";
+import {
+  filter,
+  flatten,
+  flow,
+  map,
+  reverse,
+  sortBy,
+  times,
+  toPairs
+} from "lodash/fp";
 
 export const generateFakeStat = () => ({
   dates: [new Date(Date.now() - Math.random() * 10000000000)],
@@ -31,14 +29,8 @@ export const getEmojis = flow(
   flatten
 );
 
-const logAndPass = arg => {
-  console.log(arg);
-  return arg;
-};
-
 export const getStats = flow(
   getEmojis,
-  // logAndPass,
   emojis => {
     return emojis.reduce((stats, emoji) => {
       stats.count = stats.count || 0;

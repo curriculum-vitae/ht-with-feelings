@@ -1,14 +1,7 @@
+import { Typography } from "@material-ui/core";
+import { green, grey } from "@material-ui/core/colors";
+import { flow, map } from "lodash/fp";
 import React from "react";
-import {
-  Chip,
-  ButtonBase,
-  Button,
-  Avatar,
-  Icon,
-  Typography
-} from "@material-ui/core";
-import { flow, map, sortBy } from "lodash/fp";
-import { grey, green } from "@material-ui/core/colors";
 
 const Progress = ({ percentage, height = 4 }) => {
   const isDone = percentage > 80;

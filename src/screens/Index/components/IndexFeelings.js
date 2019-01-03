@@ -1,7 +1,7 @@
-import React from "react";
-import { Avatar, Chip, ButtonBase, Badge, Icon } from "@material-ui/core";
-import { flow, filter, map, reduce } from "lodash/fp";
+import { Badge, Chip, Icon } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
+import { flow, map } from "lodash/fp";
+import React from "react";
 import { FEELING_OF_THE_END } from "shared/constants";
 
 const styles = theme => ({
