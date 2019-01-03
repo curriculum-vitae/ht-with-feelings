@@ -20,7 +20,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "git push"
+    "deploy": "git push",
+    "add-to-hotel": "hotel add 'npm start' --port 3000"
   },
   "eslintConfig": {
     "extends": "react-app"

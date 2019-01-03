@@ -57,10 +57,9 @@ export const IndexHabitsList = ({ habits, date }) => (
                       display: emojis.includes(FEELING_OF_THE_END)
                         ? "none"
                         : undefined,
-                      margin: "30px 0px"
+                      margin: "40px 0px"
                     }}
                   >
-                    <br />
                     <div>
                       <Typography noWrap={true} variant={"h6"}>
                         {habit.name}
