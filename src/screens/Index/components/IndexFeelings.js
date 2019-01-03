@@ -29,14 +29,7 @@ const IndexFeelingsWithChip = ({
   >
     {flow(
       map(icon => (
-        <div
-          key={icon}
-          style={{
-            flexGrow: "1",
-            flexBasis: "0",
-            textAlign: "center"
-          }}
-        >
+        <div key={icon}>
           <Badge
             key={icon}
             badgeContent={selected.filter(i => i === icon).length}
@@ -48,7 +41,8 @@ const IndexFeelingsWithChip = ({
             <Chip
               variant={"outlined"}
               style={{
-                opacity: selected.includes(icon) ? undefined : "0.35",
+                width: "100%",
+                opacity: selected.includes(icon) ? undefined : "0.3",
                 fontSize: "20px",
                 border: "0px"
               }}
@@ -64,30 +58,23 @@ const IndexFeelingsWithChip = ({
       ))
     )(feelings)}
 
-    <div
+    <Chip
+      variant={"outlined"}
       style={{
-        flexGrow: "1",
-        flexBasis: "0",
-        textAlign: "right"
+        opacity: selected.length > 0 ? "1" : "0.2",
+        marginLeft: "4px",
+        fontSize: "20px",
+        border: "0px",
+        width: "40px"
       }}
-    >
-      <Chip
-        variant={"outlined"}
-        style={{
-          width: "100%",
-          opacity: selected.length > 0 ? "1" : "0",
-          fontSize: "20px",
-          border: "0px"
-        }}
-        icon={<Icon>send</Icon>}
-        onClick={e => {
-          e.stopPropagation();
-          e.preventDefault();
-
-          onChange([...selected, FEELING_OF_THE_END]);
-        }}
-      />
-    </div>
+      icon={<Icon style={{ marginLeft: "6px" }}>send</Icon>}
+      onClick={e => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (selected.length === 0) return null;
+        onChange([...selected, FEELING_OF_THE_END]);
+      }}
+    />
   </div>
 );
 

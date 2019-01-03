@@ -1,4 +1,4 @@
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography, Divider, Grid } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
 import { find, flatten, flow, uniq } from "lodash/fp";
 import moment from "moment";
@@ -62,16 +62,25 @@ export const IndexHabitsList = ({ habits, date, displayDone = false }) =>
                       : undefined
                   }}
                 >
-                  <Typography noWrap={true} variant={"h6"}>
-                    {habit.name}
-                  </Typography>
-                  <Paper style={{ padding: "4px 0px" }} elevation={0}>
-                    <IndexFeelings
-                      feelings={FEELINGS}
-                      selected={feelings ? feelings.feelings : []}
-                      onChange={updateFeelings}
-                    />
-                  </Paper>
+                  <Grid container spacing={16}>
+                    <Grid item xs={7}>
+                      <Typography noWrap={true} variant={"h6"}>
+                        {habit.name}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={5}>
+                      <div style={{ padding: "4px 0px" }} elevation={0}>
+                        <IndexFeelings
+                          feelings={FEELINGS}
+                          selected={feelings ? feelings.feelings : []}
+                          onChange={updateFeelings}
+                        />
+                      </div>
+                    </Grid>
+                  </Grid>
+
+                  <Divider />
+                  <br />
                 </Link>
               );
             }}

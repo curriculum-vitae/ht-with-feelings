@@ -98,7 +98,6 @@ export const IndexScreen = () => (
                                   <Toggler initialValue={false}>
                                     {({ value, setValue }) => (
                                       <>
-                                        <br />
                                         <Button
                                           variant={"outlined"}
                                           style={{
