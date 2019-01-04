@@ -1,22 +1,27 @@
 import React from "react";
 import { withState, compose, lifecycle } from "recompose";
 import { FirebaseContext } from "contexts/FirebaseContext";
+import firebase from "firebase/app";
 
 export const HabitsProviderWithFirebase = compose(
   withState("habits", "setHabits", []),
   lifecycle({
     componentDidMount() {
       const { db, setHabits } = this.props;
-      db.collection("habits").onSnapshot(querySnapshot => {
-        const result = [];
-        querySnapshot.forEach(doc =>
-          result.push({
-            id: doc.id,
-            ...doc.data()
-          })
-        );
-        setHabits(result);
-      });
+      const { uid } = firebase.auth().currentUser;
+      // const uid = "NONONO";
+      db.collection("habits")
+        .where("uid", "==", uid)
+        .onSnapshot(querySnapshot => {
+          const result = [];
+          querySnapshot.forEach(doc =>
+            result.push({
+              id: doc.id,
+              ...doc.data()
+            })
+          );
+          setHabits(result);
+        });
     }
   })
 )(({ children, habits }) => (children ? children({ habits }) : null));

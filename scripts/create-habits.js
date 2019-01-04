@@ -18,6 +18,7 @@ firebase.initializeApp(config);
 
 const db = firebase.firestore();
 
+const MY_USER_ID = "elYllDGPEAcPpnBAgJkOyPLGdW02";
 // Disable deprecated features
 db.settings({
   timestampsInSnapshots: true
@@ -94,6 +95,7 @@ const exec = async () => {
           .doc(list)
           .set({
             name: list,
+            uid: MY_USER_ID,
             position: LISTS.indexOf(list)
           })
       ),
@@ -108,6 +110,7 @@ const exec = async () => {
           .doc(convertNameToID(habit[0]))
           .set({
             name: habit[0],
+            uid: MY_USER_ID,
             lists: map(list => db.doc(`lists/${list}`))(habit[1])
           })
       ),

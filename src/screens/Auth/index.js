@@ -5,29 +5,7 @@ import { Paper, Typography, Button } from "@material-ui/core";
 
 import { Link } from "react-router-dom";
 
-class AuthObserver extends React.Component {
-  // The component's Local state.
-  state = {
-    isSignedIn: false
-  };
-
-  // Listen to the Firebase Auth state and set the local state.
-  componentDidMount() {
-    this.unregisterAuthObserver = firebase
-      .auth()
-      .onAuthStateChanged(user => this.setState({ isSignedIn: !!user }));
-  }
-
-  // Make sure we un-register Firebase observers when the component unmounts.
-  componentWillUnmount() {
-    this.unregisterAuthObserver();
-  }
-  render() {
-    const { children } = this.props;
-    const { isSignedIn } = this.state;
-    return children({ isSignedIn });
-  }
-}
+import { AuthObserver } from "features/AuthObserver";
 
 class SignInScreen extends React.Component {
   // Configure FirebaseUI.
@@ -46,14 +24,7 @@ class SignInScreen extends React.Component {
     return (
       <AuthObserver>
         {({ isSignedIn }) =>
-          !isSignedIn ? (
-            <Paper>
-              <StyledFirebaseAuth
-                uiConfig={this.uiConfig}
-                firebaseAuth={firebase.auth()}
-              />
-            </Paper>
-          ) : (
+          isSignedIn ? (
             <Paper>
               <Typography variant={"h5"} gutterBottom>
                 Hello, {firebase.auth().currentUser.displayName}!
@@ -66,6 +37,13 @@ class SignInScreen extends React.Component {
               <Link to={"/"}>
                 <Button>Main page</Button>
               </Link>
+            </Paper>
+          ) : (
+            <Paper>
+              <StyledFirebaseAuth
+                uiConfig={this.uiConfig}
+                firebaseAuth={firebase.auth()}
+              />
             </Paper>
           )
         }
