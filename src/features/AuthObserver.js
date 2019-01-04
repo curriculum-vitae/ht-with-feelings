@@ -11,7 +11,6 @@ export class AuthObserver extends React.Component {
   // Listen to the Firebase Auth state and set the local state.
   componentDidMount() {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
-      console.log(user);
       this.setState({ isSignedIn: !!user, loading: false });
     });
   }
