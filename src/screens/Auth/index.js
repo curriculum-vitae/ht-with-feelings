@@ -3,7 +3,7 @@ import React from "react";
 import * as firebase from "firebase";
 import { Paper, Typography, Button } from "@material-ui/core";
 
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import { AuthObserver } from "features/AuthObserver";
 
@@ -25,21 +25,17 @@ class SignInScreen extends React.Component {
       <AuthObserver>
         {({ isSignedIn }) =>
           isSignedIn ? (
-            <Paper>
-              <Typography variant={"h5"} gutterBottom>
-                Hello, {firebase.auth().currentUser.displayName}!
-              </Typography>
-              <Typography variant={"body1"}>You are now signed-in!</Typography>
-              <Button onClick={() => firebase.auth().signOut()}>
-                Sign-out
-              </Button>
-
-              <Link to={"/"}>
-                <Button>Main page</Button>
-              </Link>
-            </Paper>
+            <Redirect to={"/"} />
           ) : (
-            <Paper>
+            <Paper
+              style={{
+                height: "100vh",
+                paddingTop: "25%"
+              }}
+            >
+              <Typography variant={"h4"} gutterBottom align={"center"}>
+                Log in
+              </Typography>
               <StyledFirebaseAuth
                 uiConfig={this.uiConfig}
                 firebaseAuth={firebase.auth()}

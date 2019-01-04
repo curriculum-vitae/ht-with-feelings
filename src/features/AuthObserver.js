@@ -4,14 +4,16 @@ import * as firebase from "firebase";
 export class AuthObserver extends React.Component {
   // The component's Local state.
   state = {
-    isSignedIn: false
+    isSignedIn: false,
+    loading: true
   };
 
   // Listen to the Firebase Auth state and set the local state.
   componentDidMount() {
-    this.unregisterAuthObserver = firebase
-      .auth()
-      .onAuthStateChanged(user => this.setState({ isSignedIn: !!user }));
+    this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+      console.log(user);
+      this.setState({ isSignedIn: !!user, loading: false });
+    });
   }
 
   // Make sure we un-register Firebase observers when the component unmounts.
@@ -20,7 +22,7 @@ export class AuthObserver extends React.Component {
   }
   render() {
     const { children } = this.props;
-    const { isSignedIn } = this.state;
-    return children({ isSignedIn });
+    const { isSignedIn, loading } = this.state;
+    return children({ isSignedIn, loading });
   }
 }

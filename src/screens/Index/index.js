@@ -20,6 +20,7 @@ import { IndexLists } from "screens/Index/components/IndexLists";
 import { isHabitIsFromList } from "shared/helpers";
 import { Toggler } from "components/Toggler";
 import { AuthObserver } from "features/AuthObserver";
+import { Redirect } from "react-router-dom";
 
 export const IndexScreen = () => (
   <div
@@ -30,8 +31,10 @@ export const IndexScreen = () => (
   >
     <>
       <AuthObserver>
-        {({ isSignedIn }) =>
-          isSignedIn ? (
+        {({ isSignedIn, loading }) =>
+          loading ? (
+            <CircularProgress />
+          ) : isSignedIn ? (
             <IndexDayPicker initialDate={moment()}>
               {({ date, setDatePrev, setDateNext }) => (
                 <>
@@ -89,7 +92,7 @@ export const IndexScreen = () => (
                                 </div>
                                 <div
                                   style={{
-                                    padding: "0px 0px"
+                                    padding: "0px 20px"
                                   }}
                                 >
                                   <HabitsProvider>
@@ -160,7 +163,7 @@ export const IndexScreen = () => (
               )}
             </IndexDayPicker>
           ) : (
-            <CircularProgress />
+            <Redirect to={"/auth"} />
           )
         }
       </AuthObserver>
