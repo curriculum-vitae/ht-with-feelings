@@ -2,6 +2,7 @@ import { CssBaseline, MuiThemeProvider } from "@material-ui/core";
 import React, { Component } from "react";
 import { IndexScreen } from "screens/Index";
 import { HabitScreen } from "screens/Habit";
+import { AuthScreen } from "screens/Auth";
 import theme from "shared/theme";
 import { FirebaseContext } from "contexts/FirebaseContext";
 import { db } from "shared/db";
@@ -21,6 +22,7 @@ class App extends Component {
                 <Router history={history}>
                   <>
                     <Route path={"/"} exact component={IndexScreen} />
+                    <Route path={"/auth"} component={AuthScreen} />
                     <Route path={"/habits/:idHabit"} component={HabitScreen} />
                   </>
                 </Router>
