@@ -26,45 +26,51 @@ const IndexFeelingsWithChip = ({
 }) => (
   <div
     style={{
-      display: "flex"
+      display: "flex",
+      width: "100%"
     }}
   >
     {flow(
       map(icon => (
-        <Badge
+        <div
+          key={icon}
           style={{
             flexGrow: 1,
-            flexBasis: 0
+            flexBasis: 0,
+            width: "100%"
           }}
-          key={icon}
-          badgeContent={selected.filter(i => i === icon).length}
-          classes={{
-            badge: classes.badge
-          }}
-          invisible={selected.filter(i => i === icon).length <= 1}
         >
-          <Chip
-            variant={"outlined"}
-            style={{
-              width: `100%`,
-              opacity: selected.includes(icon) ? undefined : "0.3",
-              fontSize: `${EMOJI_SIZE}px`,
-              marginRight: "px"
+          <Badge
+            badgeContent={selected.filter(i => i === icon).length}
+            classes={{
+              badge: classes.badge
             }}
-            onClick={e => {
-              e.stopPropagation();
-              e.preventDefault();
-              onChange([...selected, icon]);
-            }}
-            label={icon}
-          />
-        </Badge>
+            invisible={selected.filter(i => i === icon).length <= 1}
+          >
+            <Chip
+              variant={"outlined"}
+              style={{
+                width: `100%`,
+                opacity: selected.includes(icon) ? undefined : "0.1",
+                fontSize: `${EMOJI_SIZE}px`,
+                marginRight: "px",
+                border: "0px"
+              }}
+              onClick={e => {
+                e.stopPropagation();
+                e.preventDefault();
+                onChange([...selected, icon]);
+              }}
+              label={icon}
+            />
+          </Badge>
+        </div>
       ))
     )(feelings)}
     <Chip
       variant={"outlined"}
       style={{
-        opacity: selected.length > 0 ? "1" : "0.2",
+        opacity: selected.length > 0 ? "1" : "0.1",
         marginLeft: "16px",
         fontSize: `${EMOJI_SIZE}px`,
         width: `${EMOJI_SIZE + 32}px`,
