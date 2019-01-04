@@ -8,7 +8,7 @@ export const ListsProviderWithFirebase = compose(
   lifecycle({
     componentDidMount() {
       const { db, setLists } = this.props;
-      db.collection("lists").onSnapshot(querySnapshot => {
+      this.unsub = db.collection("lists").onSnapshot(querySnapshot => {
         const result = [];
         querySnapshot.forEach(doc =>
           result.push({
@@ -22,6 +22,9 @@ export const ListsProviderWithFirebase = compose(
           setLists
         )(result);
       });
+    },
+    componentWillUnmount() {
+      this.unsub();
     }
   })
 )(({ children, lists }) => (children ? children({ lists }) : null));

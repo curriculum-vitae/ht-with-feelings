@@ -32,9 +32,10 @@ const Progress = ({ percentage, height = 5 }) => {
 
 export const IndexListsItem = ({ list, isSelected, onClick, percentage }) => (
   <div
+    onClick={onClick}
     style={{
       display: "inline-block",
-      marginRight: "20px"
+      marginRight: "22px"
     }}
   >
     <Typography
@@ -44,14 +45,13 @@ export const IndexListsItem = ({ list, isSelected, onClick, percentage }) => (
       }}
       color={isSelected ? "primary" : undefined}
       variant={"button"}
-      onClick={onClick}
     >
       #{list.name}
     </Typography>
 
     <div
       style={{
-        marginTop: "-6px"
+        marginTop: "-2px"
       }}
     >
       <Progress percentage={percentage} />

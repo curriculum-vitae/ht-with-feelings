@@ -10,7 +10,8 @@ export const HabitsProviderWithFirebase = compose(
       const { db, setHabits } = this.props;
       const { uid } = firebase.auth().currentUser;
       // const uid = "NONONO";
-      db.collection("habits")
+      this.unsub = db
+        .collection("habits")
         .where("uid", "==", uid)
         .onSnapshot(querySnapshot => {
           const result = [];
@@ -22,6 +23,9 @@ export const HabitsProviderWithFirebase = compose(
           );
           setHabits(result);
         });
+    },
+    componentWillUnmount() {
+      this.unsub();
     }
   })
 )(({ children, habits }) => (children ? children({ habits }) : null));

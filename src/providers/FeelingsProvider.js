@@ -7,7 +7,8 @@ export const FeelingsProviderWithFirebase = compose(
   lifecycle({
     componentDidMount() {
       const { db, idHabit, setFeelings } = this.props;
-      db.collection("habits")
+      this.unsub = db
+        .collection("habits")
         .doc(idHabit)
         .collection("feelings")
         .onSnapshot(querySnapshot => {
@@ -20,6 +21,9 @@ export const FeelingsProviderWithFirebase = compose(
           );
           setFeelings(result);
         });
+    },
+    componentWillUnmount() {
+      this.unsub();
     }
   })
 )(({ children, feelings }) => (children ? children({ feelings }) : null));
