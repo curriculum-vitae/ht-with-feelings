@@ -1,4 +1,4 @@
-import getRandomEmoji from "lib/random-emoji";
+import { getRandomEmoji } from "lib/random-emoji";
 import {
   filter,
   flatten,

@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { flow, map } from "lodash/fp";
 import React from "react";
 import { FEELING_OF_THE_END } from "shared/constants";
+import { getRandomEmoji } from "lib/random-emoji";
 
 const EMOJI_SIZE = 20;
 
