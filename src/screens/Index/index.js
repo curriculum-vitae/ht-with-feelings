@@ -4,6 +4,7 @@ import {
   IconButton,
   Button,
   Typography,
+  Paper,
   CircularProgress
 } from "@material-ui/core";
 import { SelectedOnce } from "components/SelectedOnce";
@@ -33,7 +34,9 @@ export const IndexScreen = () => (
       <AuthObserver>
         {({ isSignedIn, loading }) =>
           loading ? (
-            <CircularProgress />
+            <Paper style={{ height: "100vh", padding: "50% 50%" }}>
+              <CircularProgress />
+            </Paper>
           ) : isSignedIn ? (
             <IndexDayPicker initialDate={moment()}>
               {({ date, setDatePrev, setDateNext }) => (

@@ -35,7 +35,8 @@ export const IndexListsItem = ({ list, isSelected, onClick, percentage }) => (
     onClick={onClick}
     style={{
       display: "inline-block",
-      marginRight: "22px"
+      marginRight: "22px",
+      cursor: "pointer"
     }}
   >
     <Typography
