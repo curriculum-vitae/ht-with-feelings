@@ -18,8 +18,12 @@ import firebase from "firebase/app";
 import { flow, map } from "lodash/fp";
 import { ListsProvider } from "providers/ListsProvider";
 import { SelectedMany } from "components/SelectedMany";
+import { compose, setDisplayName, withState } from "recompose";
 
-const HabitEdit = ({ habit, open, onClose, onSave }) => (
+const HabitEdit = compose(
+  setDisplayName("HabitEdit"),
+  withState("name", "setName", props => props.habit.name)
+)(({ habit, open, onClose, onSave, name, setName }) => (
   <Dialog open={open}>
     <DialogTitle>Edit</DialogTitle>
 
@@ -27,7 +31,11 @@ const HabitEdit = ({ habit, open, onClose, onSave }) => (
       {({ add, remove, selected }) => (
         <>
           <DialogContent>
-            <TextField fullWidth value={habit.name} />
+            <TextField
+              fullWidth
+              value={name}
+              onChange={e => setName(e.target.value)}
+            />
             <br />
             <br />
             <ListsProvider>
@@ -68,7 +76,7 @@ const HabitEdit = ({ habit, open, onClose, onSave }) => (
               color={"primary"}
               onClick={() => {
                 const data = {
-                  name: habit.name,
+                  name,
                   lists: selected.map(idList => {
                     return firebase.firestore().doc(`lists/${idList}`);
                   })
@@ -84,7 +92,7 @@ const HabitEdit = ({ habit, open, onClose, onSave }) => (
       )}
     </SelectedMany>
   </Dialog>
-);
+));
 
 export const HabitAppBar = ({ habit, onDelete }) => (
   <Toolbar>
@@ -111,7 +119,7 @@ export const HabitAppBar = ({ habit, onDelete }) => (
       )}
     </FirebaseContext.Consumer>
 
-    <Toggler initialValue={true}>
+    <Toggler initialValue={false}>
       {({ value, setValue }) => (
         <>
           <IconButton
@@ -129,12 +137,11 @@ export const HabitAppBar = ({ habit, onDelete }) => (
                   habit={habit}
                   onClose={() => setValue(false)}
                   onSave={data => {
+                    setValue(false);
                     db.collection("habits")
                       .doc(habit.id)
                       .update(data)
-                      .then(() => {
-                        setValue(false);
-                      })
+                      .then(() => console.log("Done"))
                       .catch(e => console.log(e));
                   }}
                 />

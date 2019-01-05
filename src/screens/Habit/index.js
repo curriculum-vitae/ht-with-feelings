@@ -71,19 +71,28 @@ export const HabitScreen = ({ match, history }) => (
 
                         <FeelingsProvider idHabit={habit.id}>
                           {props => {
+                            const statsItems = flow(
+                              props => props.feelings,
+                              getStats,
+                              getStatsItems
+                            )(props);
                             return (
                               <>
                                 <Typography variant={"h6"} gutterBottom>
                                   Overview
                                 </Typography>
-
-                                <HabitEmojiOverview
-                                  statsItems={flow(
-                                    props => props.feelings,
-                                    getStats,
-                                    getStatsItems
-                                  )(props)}
-                                />
+                                {statsItems.length === 0 ? (
+                                  <Typography variant={"body2"} gutterBottom>
+                                    Nothing to show (yet)
+                                  </Typography>
+                                ) : (
+                                  <>
+                                    WHAT?
+                                    <HabitEmojiOverview
+                                      statsItems={statsItems}
+                                    />
+                                  </>
+                                )}
                               </>
                             );
                           }}
