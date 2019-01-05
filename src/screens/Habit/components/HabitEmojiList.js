@@ -35,7 +35,7 @@ export const HabitEmojiList = ({ records, onDelete }) => (
                     onDelete({
                       record,
                       emoji,
-                      position: undefined
+                      position: record.feelings.indexOf(emoji)
                     })
                   }
                 >

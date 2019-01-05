@@ -80,13 +80,17 @@ export const HabitScreen = ({ match, history }) => (
                               {db => (
                                 <HabitEmojiList
                                   records={props.feelings}
-                                  onDelete={({ record, emoji }) => {
+                                  onDelete={({ record, emoji, position }) => {
                                     db.collection("records")
                                       .doc(record.id)
                                       .update({
-                                        feelings: firebase.firestore.FieldValue.arrayRemove(
-                                          emoji
-                                        )
+                                        feelings: [
+                                          ...record.feelings.slice(0, position),
+                                          ...record.feelings.slice(
+                                            position + 1,
+                                            record.feelings.length
+                                          )
+                                        ]
                                       });
                                   }}
                                 />
