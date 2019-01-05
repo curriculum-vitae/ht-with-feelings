@@ -19,6 +19,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { IndexFeelings } from "screens/Index/components/IndexFeelings";
 import { FEELINGS, FEELING_OF_THE_END } from "shared/constants";
+import firebase from "firebase/app";
 
 const IndexHabitsListItemV1 = ({ habit, feelings, updateFeelings }) => (
   <>
@@ -88,7 +89,7 @@ export const IndexHabitsList = ({ habits, date, displayDone = false }) => (
                 const isFromToday = record =>
                   moment(record.date.toDate()).format("DD/MM/YYYY") ===
                   date.format("DD/MM/YYYY");
-
+                const { uid } = firebase.auth().currentUser;
                 const feelings = flow(
                   props => props.feelings,
                   find(isFromToday)
@@ -101,17 +102,18 @@ export const IndexHabitsList = ({ habits, date, displayDone = false }) => (
                 )(feelings);
 
                 const updateFeelings = feelingsNew => {
-                  const dbFeelingsRef = db
-                    .collection("habits")
-                    .doc(habit.id)
-                    .collection("feelings");
+                  const dbFeelingsRef = db.collection("feelings");
                   if (feelings) {
                     dbFeelingsRef.doc(feelings.id).set({
+                      uid,
+                      idHabit: habit.id,
                       date: date.toDate(),
                       feelings: feelingsNew
                     });
                   } else {
                     dbFeelingsRef.add({
+                      uid,
+                      idHabit: habit.id,
                       date: date.toDate(),
                       feelings: feelingsNew
                     });
