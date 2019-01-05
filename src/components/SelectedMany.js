@@ -1,5 +1,5 @@
 import { compose, withStateHandlers } from "recompose";
-import { filter } from "lodash/fp";
+import { filter, flow } from "lodash/fp";
 
 export const SelectedMany = compose(
   withStateHandlers(
@@ -11,7 +11,10 @@ export const SelectedMany = compose(
         selected: [...props.selected, id]
       }),
       remove: props => id => ({
-        selected: filter(item => item.id !== id)(props.selected)
+        selected: flow(
+          props => props.selected,
+          filter(item => item !== id)
+        )(props)
       })
     }
   )
