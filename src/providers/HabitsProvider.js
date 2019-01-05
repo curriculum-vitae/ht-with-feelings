@@ -9,7 +9,7 @@ export const HabitsProviderWithFirebase = compose(
     componentDidMount() {
       const { db, setHabits } = this.props;
       const { uid } = firebase.auth().currentUser;
-      // const uid = "NONONO";
+
       this.unsub = db
         .collection("habits")
         .where("uid", "==", uid)

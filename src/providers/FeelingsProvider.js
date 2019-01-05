@@ -8,7 +8,7 @@ export const FeelingsProviderWithFirebase = compose(
     componentDidMount() {
       const { db, idHabit, setFeelings } = this.props;
       this.unsub = db
-        .collection("feelings")
+        .collection("records")
         .where("idHabit", "==", idHabit)
         .onSnapshot(querySnapshot => {
           const result = [];

@@ -102,7 +102,7 @@ export const IndexHabitsList = ({ habits, date, displayDone = false }) => (
                 )(feelings);
 
                 const updateFeelings = feelingsNew => {
-                  const dbFeelingsRef = db.collection("feelings");
+                  const dbFeelingsRef = db.collection("records");
                   if (feelings) {
                     dbFeelingsRef.doc(feelings.id).set({
                       uid,

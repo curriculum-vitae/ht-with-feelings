@@ -158,6 +158,7 @@ export const HabitScreen = ({ match, stats, history }) => (
                                     />
                                     <ListItemSecondaryAction
                                       onClick={() => {
+                                        // TODO FIX ME
                                         db.collection("habits")
                                           .doc(habit.id)
                                           .collection("feelings")
