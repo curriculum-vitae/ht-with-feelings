@@ -41,7 +41,12 @@ export const HabitScreen = ({ match, history }) => (
                   isSignedIn ? (
                     <>
                       <FirebaseContext.Consumer>
-                        {db => <HabitAppBar onDelete={() => deleteHabit(db)} />}
+                        {db => (
+                          <HabitAppBar
+                            habit={habit}
+                            onDelete={() => deleteHabit(db)}
+                          />
+                        )}
                       </FirebaseContext.Consumer>
                       <div
                         style={{

@@ -1,7 +1,8 @@
-import { compose, withStateHandlers } from "recompose";
+import { compose, withStateHandlers, setDisplayName } from "recompose";
 import { filter, flow } from "lodash/fp";
 
 export const SelectedMany = compose(
+  setDisplayName("SelectedMany"),
   withStateHandlers(
     props => ({
       selected: props.initialSelected
