@@ -8,9 +8,13 @@ import {
   ListItemSecondaryAction,
   ListItemText
 } from "@material-ui/core";
-import { flow, map, reverse, sortBy } from "lodash/fp";
+import { flow, map, reverse, sortBy, findIndex } from "lodash/fp";
 import moment from "moment";
 import React from "react";
+
+const arrayToIndexedArray = arr => {
+  return arr.map((element, index) => ({ element, index }));
+};
 
 export const HabitEmojiList = ({ records, onDelete }) => (
   <List dense>
@@ -21,8 +25,8 @@ export const HabitEmojiList = ({ records, onDelete }) => (
         <React.Fragment key={record.id}>
           {flow(
             record => record.feelings,
-            reverse,
-            map(emoji => (
+            arrayToIndexedArray,
+            map(({ element: emoji, index: position }) => (
               <ListItem key={Math.random()} divider>
                 <ListItemAvatar>
                   <Avatar>{emoji}</Avatar>
@@ -31,13 +35,14 @@ export const HabitEmojiList = ({ records, onDelete }) => (
                   primary={moment(record.date.toDate()).format("DD/MM/YYYY")}
                 />
                 <ListItemSecondaryAction
-                  onClick={() =>
+                  onClick={() => {
+                    debugger;
                     onDelete({
                       record,
                       emoji,
-                      position: record.feelings.indexOf(emoji)
-                    })
-                  }
+                      position
+                    });
+                  }}
                 >
                   <IconButton>
                     <Icon>remove</Icon>

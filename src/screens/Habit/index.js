@@ -80,7 +80,8 @@ export const HabitScreen = ({ match, history }) => (
                               {db => (
                                 <HabitEmojiList
                                   records={props.feelings}
-                                  onDelete={({ record, emoji, position }) => {
+                                  onDelete={({ record, position }) => {
+                                    debugger;
                                     db.collection("records")
                                       .doc(record.id)
                                       .update({
