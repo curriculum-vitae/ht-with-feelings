@@ -1,9 +1,9 @@
 import { StyledFirebaseAuth } from "react-firebaseui";
 import React from "react";
 import * as firebase from "firebase";
-import { Paper, Typography, Button } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 import { AuthObserver } from "features/AuthObserver";
 

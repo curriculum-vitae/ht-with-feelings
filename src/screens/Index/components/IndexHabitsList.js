@@ -1,21 +1,18 @@
 import {
-  Paper,
-  Typography,
-  List,
-  Divider,
-  Grid,
-  ListItem,
-  ListItemText,
+  Avatar,
   Card,
-  CardContent,
   CardActions,
   CardHeader,
-  ListItemAvatar,
-  Avatar,
-  ListItemSecondaryAction
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  Typography
 } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
-import { find, flatten, flow, uniq, map } from "lodash/fp";
+import { find, flatten, flow, uniq } from "lodash/fp";
 import moment from "moment";
 import { FeelingsProvider } from "providers/FeelingsProvider";
 import React from "react";

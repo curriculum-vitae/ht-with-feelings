@@ -1,27 +1,27 @@
 import {
+  Button,
+  CircularProgress,
   Grid,
   Icon,
   IconButton,
-  Button,
-  Typography,
   Paper,
-  CircularProgress
+  Typography
 } from "@material-ui/core";
 import { SelectedOnce } from "components/SelectedOnce";
+import { Toggler } from "components/Toggler";
+import { AuthObserver } from "features/AuthObserver";
 import { filter, flow } from "lodash/fp";
 import moment from "moment";
 import { HabitsProvider } from "providers/HabitsProvider";
 import { ListsProvider } from "providers/ListsProvider";
 import React from "react";
+import { Redirect } from "react-router-dom";
 import { IndexAppBarBottom } from "screens/Index/components/IndexAppBarBottom";
 import { IndexAppBarTop } from "screens/Index/components/IndexAppBarTop";
 import { IndexDayPicker } from "screens/Index/components/IndexDayPicker";
 import { IndexHabitsList } from "screens/Index/components/IndexHabitsList";
 import { IndexLists } from "screens/Index/components/IndexLists";
 import { isHabitIsFromList } from "shared/helpers";
-import { Toggler } from "components/Toggler";
-import { AuthObserver } from "features/AuthObserver";
-import { Redirect } from "react-router-dom";
 
 export const IndexScreen = () => (
   <div
