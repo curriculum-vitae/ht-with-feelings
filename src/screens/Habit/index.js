@@ -1,4 +1,4 @@
-import { Typography, Chip } from "@material-ui/core";
+import { Typography, Chip, Button } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
 
 import { find, flow, map } from "lodash/fp";
@@ -11,6 +11,8 @@ import { getStats, getStatsItems } from "screens/Habit/helpers";
 //
 import { HabitEmojiList } from "screens/Habit/components/HabitEmojiList";
 import { AuthObserver } from "features/AuthObserver";
+//
+import { Link } from "react-router-dom";
 
 export const HabitScreen = ({ match, history }) => (
   <AuthObserver>
@@ -133,7 +135,26 @@ export const HabitScreen = ({ match, history }) => (
           }}
         </HabitsProvider>
       ) : (
-        "Please sign in"
+        <>
+          <br />
+          <Typography
+            align={"center"}
+            style={{ padding: "40px" }}
+            variant={"h3"}
+          >
+            Please log in
+          </Typography>
+          <br />
+          <div
+            style={{
+              textAlign: "center"
+            }}
+          >
+            <Link to={"/auth"}>
+              <Button variant={"contained"}>Log in</Button>
+            </Link>
+          </div>
+        </>
       )
     }
   </AuthObserver>
