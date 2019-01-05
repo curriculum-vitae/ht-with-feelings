@@ -1,82 +1,13 @@
-import {
-  Avatar,
-  Card,
-  CardActions,
-  CardHeader,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-  Typography
-} from "@material-ui/core";
+import { List } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
+import firebase from "firebase/app";
 import { find, flatten, flow, uniq } from "lodash/fp";
 import moment from "moment";
 import { FeelingsProvider } from "providers/FeelingsProvider";
 import React from "react";
 import { Link } from "react-router-dom";
-import { IndexFeelings } from "screens/Index/components/IndexFeelings";
-import { FEELINGS, FEELING_OF_THE_END } from "shared/constants";
-import firebase from "firebase/app";
-
-const IndexHabitsListItemV1 = ({ habit, feelings, updateFeelings }) => (
-  <>
-    <Grid container spacing={0} style={{ marginTop: "4px" }}>
-      <Grid item xs={7}>
-        <Typography noWrap={true} variant={"subtitle1"}>
-          {habit.name}
-        </Typography>
-      </Grid>
-      <Grid item xs={5}>
-        <IndexFeelings
-          feelings={FEELINGS}
-          selected={feelings ? feelings.feelings : []}
-          onChange={updateFeelings}
-        />
-      </Grid>
-    </Grid>
-    <Divider />
-  </>
-);
-
-const IndexHabitsListItemV2 = ({ habit, feelings, updateFeelings }) => (
-  <ListItem divider>
-    <Avatar>+</Avatar>
-
-    <ListItemText
-      primary={habit.name}
-      primaryTypographyProps={{
-        noWrap: true
-      }}
-    />
-    <ListItemSecondaryAction>
-      <IndexFeelings
-        feelings={flow(
-          feelings => (!!feelings ? feelings.feelings : []),
-          uniq
-        )(feelings)}
-        selected={feelings ? feelings.feelings : []}
-        onChange={updateFeelings}
-      />
-    </ListItemSecondaryAction>
-  </ListItem>
-);
-
-const IndexHabitsListItemV3 = ({ habit, feelings, updateFeelings }) => (
-  <Card style={{ marginBottom: "16px" }} elevation={0}>
-    <CardHeader title={habit.name} />
-
-    <CardActions>
-      <IndexFeelings
-        feelings={FEELINGS}
-        selected={feelings ? feelings.feelings : []}
-        onChange={updateFeelings}
-      />
-    </CardActions>
-  </Card>
-);
+import { IndexHabitsListItemV3 } from "screens/Index/components/IndexHabitsListItemV3";
+import { FEELING_OF_THE_END } from "shared/constants";
 
 export const IndexHabitsList = ({ habits, date, displayDone = false }) => (
   <List>
