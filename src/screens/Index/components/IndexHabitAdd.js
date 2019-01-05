@@ -132,6 +132,7 @@ export const IndexHabitAdd = compose(
                   db.collection("habits")
                     .add({
                       name: value,
+                      uid: firebase.auth().currentUser.uid,
                       lists: selected.map(id =>
                         firebase.firestore().doc(`lists/${id}`)
                       )

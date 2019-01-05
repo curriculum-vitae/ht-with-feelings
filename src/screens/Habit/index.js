@@ -1,7 +1,7 @@
-import { Typography } from "@material-ui/core";
+import { Typography, Chip } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
-import firebase from "firebase/app";
-import { find, flow } from "lodash/fp";
+
+import { find, flow, map } from "lodash/fp";
 import { FeelingsProvider } from "providers/FeelingsProvider";
 import { HabitsProvider } from "providers/HabitsProvider";
 import React from "react";
@@ -52,6 +52,18 @@ export const HabitScreen = ({ match, history }) => (
                           {habit.name}
                         </Typography>
 
+                        {flow(
+                          habit => habit.lists,
+                          map(list => (
+                            <Chip
+                              key={list.id}
+                              style={{ margin: "0px 4px 4px 0px" }}
+                              variant={"outlined"}
+                              label={list.id}
+                            />
+                          ))
+                        )(habit)}
+
                         <FeelingsProvider idHabit={habit.id}>
                           {props => {
                             return (
@@ -59,7 +71,7 @@ export const HabitScreen = ({ match, history }) => (
                                 <Typography variant={"h6"} gutterBottom>
                                   Overview
                                 </Typography>
-                                <br />
+
                                 <HabitEmojiOverview
                                   statsItems={flow(
                                     props => props.feelings,
@@ -81,7 +93,6 @@ export const HabitScreen = ({ match, history }) => (
                                 <HabitEmojiList
                                   records={props.feelings}
                                   onDelete={({ record, position }) => {
-                                    debugger;
                                     db.collection("records")
                                       .doc(record.id)
                                       .update({
