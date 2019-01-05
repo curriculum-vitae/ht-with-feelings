@@ -5,7 +5,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField
+  TextField,
+  Icon
 } from "@material-ui/core";
 import { SelectedMany } from "components/SelectedMany";
 import { FirebaseContext } from "contexts/FirebaseContext";
@@ -14,6 +15,51 @@ import { flow, map } from "lodash/fp";
 import { ListsProvider } from "providers/ListsProvider";
 import React from "react";
 import { compose, setDisplayName, withState } from "recompose";
+import { Toggler } from "components/Toggler";
+
+export const IndexHabitAddListAdd = compose(
+  setDisplayName("HabitAddListAdd"),
+  withState("value", "setValue", "")
+)(({ isOpen, onClose, value, setValue }) => (
+  <Dialog open={isOpen} onClose={onClose}>
+    <DialogTitle>Add new list</DialogTitle>
+    <DialogContent>
+      <TextField
+        fullWidth
+        autoFocus
+        value={value}
+        onChange={e => setValue(e.target.value)}
+        style={{}}
+      />
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={onClose}>Cancel</Button>
+      <FirebaseContext.Consumer>
+        {db => (
+          <Button
+            color={"primary"}
+            variant={"contained"}
+            onClick={() => {
+              db.collection("lists")
+                .add({
+                  name: value
+                })
+                .then(docRef => {
+                  setValue("");
+                })
+                .catch(error => {
+                  console.error("Error adding document: ", error);
+                });
+              onClose();
+            }}
+          >
+            Create
+          </Button>
+        )}
+      </FirebaseContext.Consumer>
+    </DialogActions>
+  </Dialog>
+));
 
 export const IndexHabitAdd = compose(
   setDisplayName("HabitAdd"),
@@ -26,44 +72,62 @@ export const IndexHabitAdd = compose(
         <DialogContent>
           <TextField
             fullWidth
+            autoFocus
             value={value}
             onChange={e => setValue(e.target.value)}
-            style={{
-              maxWidth: "320px",
-              minWidth: "280px"
-            }}
+            style={{}}
           />
           <br />
           <br />
-          <ListsProvider>
-            {props =>
-              flow(
-                props => props.lists,
-                map(list => (
+          <div>
+            <ListsProvider>
+              {props =>
+                flow(
+                  props => props.lists,
+                  map(list => (
+                    <Chip
+                      key={list.id}
+                      label={list.name}
+                      style={{ margin: "0px 5px 5px 0px" }}
+                      variant={"outlined"}
+                      color={selected.includes(list.id) ? "primary" : undefined}
+                      onClick={() => {
+                        if (selected.includes(list.id)) {
+                          remove(list.id);
+                        } else {
+                          add(list.id);
+                        }
+                      }}
+                    />
+                  ))
+                )(props)
+              }
+            </ListsProvider>
+            <Toggler initialValue={false}>
+              {({ value, setValue }) => (
+                <>
                   <Chip
-                    key={list.id}
-                    label={list.name}
-                    style={{ marginRight: "5px" }}
                     variant={"outlined"}
-                    color={selected.includes(list.id) ? "primary" : undefined}
-                    onClick={() => {
-                      if (selected.includes(list.id)) {
-                        remove(list.id);
-                      } else {
-                        add(list.id);
-                      }
-                    }}
+                    icon={<Icon>add</Icon>}
+                    label={"add new list"}
+                    onClick={() => setValue(true)}
                   />
-                ))
-              )(props)
-            }
-          </ListsProvider>
+                  <IndexHabitAddListAdd
+                    isOpen={value}
+                    onClose={() => setValue(false)}
+                  />
+                </>
+              )}
+            </Toggler>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>
           <FirebaseContext.Consumer>
             {db => (
               <Button
+                color={"primary"}
+                variant={"contained"}
                 onClick={() => {
                   db.collection("habits")
                     .add({
