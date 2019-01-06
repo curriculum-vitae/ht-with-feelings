@@ -72,93 +72,91 @@ export const IndexScreen = () => (
                   <ListsProvider>
                     {({ lists }) => (
                       <>
-                        {lists.length > 0 ? (
-                          <SelectedOnce initialSelected={"all"}>
-                            {({ selected, setSelected }) => (
-                              <>
-                                <div
-                                  style={{
-                                    width: "100%",
-                                    maxWidth: "100%",
-                                    overflow: "auto",
-                                    whiteSpace: "nowrap",
-                                    scrollX: "auto",
-                                    padding: "0px 16px",
-                                    height: "50px"
-                                  }}
-                                >
-                                  <IndexLists
-                                    selected={selected}
-                                    lists={lists}
-                                    onSelect={id => setSelected(id)}
-                                  />
-                                </div>
-                                <div
-                                  style={{
-                                    padding: "0px 20px"
-                                  }}
-                                >
-                                  <HabitsProvider>
-                                    {props => (
-                                      <>
-                                        <IndexHabitsList
-                                          date={date}
-                                          displayDone={false}
-                                          habits={flow(
-                                            props => props.habits,
-                                            selected === "all"
-                                              ? p => p
-                                              : filter(
-                                                  isHabitIsFromList(selected)
-                                                )
-                                          )(props)}
-                                        />
-                                        <br />
-                                        <Toggler initialValue={false}>
-                                          {({ value, setValue }) => (
-                                            <>
-                                              <Button
-                                                variant={"outlined"}
-                                                style={{
-                                                  width: "100%"
-                                                }}
-                                                onClick={() => setValue(!value)}
-                                              >
-                                                {value
-                                                  ? "Hide completed"
-                                                  : "Show completed"}
-                                              </Button>
-                                              {value ? (
-                                                <>
-                                                  <br />
-                                                  <br />
-                                                  <IndexHabitsList
-                                                    date={date}
-                                                    displayDone={true}
-                                                    habits={flow(
-                                                      props => props.habits,
-                                                      selected === "all"
-                                                        ? p => p
-                                                        : filter(
-                                                            isHabitIsFromList(
-                                                              selected
-                                                            )
+                        <SelectedOnce initialSelected={"all"}>
+                          {({ selected, setSelected }) => (
+                            <>
+                              <div
+                                style={{
+                                  width: "100%",
+                                  maxWidth: "100%",
+                                  overflow: "auto",
+                                  whiteSpace: "nowrap",
+                                  scrollX: "auto",
+                                  padding: "0px 16px",
+                                  height: "50px"
+                                }}
+                              >
+                                <IndexLists
+                                  selected={selected}
+                                  lists={lists}
+                                  onSelect={id => setSelected(id)}
+                                />
+                              </div>
+                              <div
+                                style={{
+                                  padding: "0px 20px"
+                                }}
+                              >
+                                <HabitsProvider>
+                                  {props => (
+                                    <>
+                                      <IndexHabitsList
+                                        date={date}
+                                        displayDone={false}
+                                        habits={flow(
+                                          props => props.habits,
+                                          selected === "all"
+                                            ? p => p
+                                            : filter(
+                                                isHabitIsFromList(selected)
+                                              )
+                                        )(props)}
+                                      />
+                                      <br />
+                                      <Toggler initialValue={false}>
+                                        {({ value, setValue }) => (
+                                          <>
+                                            <Button
+                                              variant={"outlined"}
+                                              style={{
+                                                width: "100%"
+                                              }}
+                                              onClick={() => setValue(!value)}
+                                            >
+                                              {value
+                                                ? "Hide completed"
+                                                : "Show completed"}
+                                            </Button>
+                                            {value ? (
+                                              <>
+                                                <br />
+                                                <br />
+                                                <IndexHabitsList
+                                                  date={date}
+                                                  displayDone={true}
+                                                  habits={flow(
+                                                    props => props.habits,
+                                                    selected === "all"
+                                                      ? p => p
+                                                      : filter(
+                                                          isHabitIsFromList(
+                                                            selected
                                                           )
-                                                    )(props)}
-                                                  />
-                                                </>
-                                              ) : null}
-                                            </>
-                                          )}
-                                        </Toggler>
-                                      </>
-                                    )}
-                                  </HabitsProvider>
-                                </div>
-                              </>
-                            )}
-                          </SelectedOnce>
-                        ) : null}
+                                                        )
+                                                  )(props)}
+                                                />
+                                              </>
+                                            ) : null}
+                                          </>
+                                        )}
+                                      </Toggler>
+                                    </>
+                                  )}
+                                </HabitsProvider>
+                              </div>
+                            </>
+                          )}
+                        </SelectedOnce>
                       </>
                     )}
                   </ListsProvider>

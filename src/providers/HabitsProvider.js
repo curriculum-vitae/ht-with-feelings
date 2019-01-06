@@ -1,5 +1,5 @@
 import React from "react";
-import { withState, compose, lifecycle } from "recompose";
+import { withState, compose, lifecycle, setDisplayName } from "recompose";
 import { FirebaseContext } from "contexts/FirebaseContext";
 import firebase from "firebase/app";
 
@@ -27,7 +27,8 @@ export const HabitsProviderWithFirebase = compose(
     componentWillUnmount() {
       this.unsub();
     }
-  })
+  }),
+  setDisplayName("HabitsProvider")
 )(({ children, habits }) => (children ? children({ habits }) : null));
 
 export const HabitsProvider = props => (

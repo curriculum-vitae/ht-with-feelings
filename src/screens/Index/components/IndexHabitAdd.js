@@ -40,10 +40,14 @@ export const IndexHabitAddListAdd = compose(
             color={"primary"}
             variant={"contained"}
             onClick={() => {
+              const { uid } = firebase.auth().currentUser;
+              const data = {
+                name: value,
+                uid
+              };
+
               db.collection("lists")
-                .add({
-                  name: value
-                })
+                .add(data)
                 .then(docRef => {
                   setValue("");
                 })
