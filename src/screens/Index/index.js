@@ -180,22 +180,26 @@ export const IndexScreen = () => (
                                     const countofUnfinished = habitsCurrentUnfinishedByList(
                                       selected
                                     ).length;
+
+                                    const countOfLists = lists.length;
                                     return (
                                       <>
                                         <IndexListsWrapper>
-                                          <IndexLists
-                                            selected={selected}
-                                            lists={flow(
-                                              map(list => ({
-                                                ...list,
-                                                progress: getListProgress(
-                                                  list.id
-                                                )
-                                              }))
-                                            )(lists)}
-                                            onSelect={id => setSelected(id)}
-                                            progress={getListProgress("all")}
-                                          />
+                                          {countOfLists > 0 ? (
+                                            <IndexLists
+                                              selected={selected}
+                                              lists={flow(
+                                                map(list => ({
+                                                  ...list,
+                                                  progress: getListProgress(
+                                                    list.id
+                                                  )
+                                                }))
+                                              )(lists)}
+                                              onSelect={id => setSelected(id)}
+                                              progress={getListProgress("all")}
+                                            />
+                                          ) : null}
                                         </IndexListsWrapper>
                                         <IndexHabitsListWrapper>
                                           {countofUnfinished > 0 ? (
