@@ -36,7 +36,6 @@ export const HabitEmojiList = ({ records, onDelete }) => (
                 />
                 <ListItemSecondaryAction
                   onClick={() => {
-                    debugger;
                     onDelete({
                       record,
                       emoji,

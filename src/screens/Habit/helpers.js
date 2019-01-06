@@ -7,6 +7,7 @@ import {
   reverse,
   sortBy,
   times,
+  compact,
   toPairs
 } from "lodash/fp";
 
@@ -61,3 +62,12 @@ export const getStatsItems = stats => {
 export const getPopularityScale = from => to => percentage => {
   return from + (to - from) * percentage;
 };
+
+export const isRecordsHasNoFeelings = records =>
+  flow(
+    records => records || [],
+    map(record => record.feelings),
+    flatten,
+    compact,
+    arr => arr.length > 0
+  );

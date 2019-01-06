@@ -7,7 +7,11 @@ import { HabitsProvider } from "providers/HabitsProvider";
 import React from "react";
 import { HabitAppBar } from "screens/Habit/components/HabitAppBar";
 import { HabitEmojiOverview } from "screens/Habit/components/HabitEmojiOverview";
-import { getStats, getStatsItems } from "screens/Habit/helpers";
+import {
+  getStats,
+  getStatsItems,
+  isRecordsHasNoFeelings
+} from "screens/Habit/helpers";
 //
 import { HabitEmojiList } from "screens/Habit/components/HabitEmojiList";
 import { AuthObserver } from "features/AuthObserver";
@@ -105,24 +109,31 @@ export const HabitScreen = ({ match, history }) => (
                         <FeelingsProvider idHabit={habit.id}>
                           {props => (
                             <FirebaseContext.Consumer>
-                              {db => (
-                                <HabitEmojiList
-                                  records={props.feelings}
-                                  onDelete={({ record, position }) => {
-                                    db.collection("records")
-                                      .doc(record.id)
-                                      .update({
-                                        feelings: [
-                                          ...record.feelings.slice(0, position),
-                                          ...record.feelings.slice(
-                                            position + 1,
-                                            record.feelings.length
-                                          )
-                                        ]
-                                      });
-                                  }}
-                                />
-                              )}
+                              {db =>
+                                isRecordsHasNoFeelings(props.feelings) ? (
+                                  <Typography>No records</Typography>
+                                ) : (
+                                  <HabitEmojiList
+                                    records={props.feelings}
+                                    onDelete={({ record, position }) => {
+                                      db.collection("records")
+                                        .doc(record.id)
+                                        .update({
+                                          feelings: [
+                                            ...record.feelings.slice(
+                                              0,
+                                              position
+                                            ),
+                                            ...record.feelings.slice(
+                                              position + 1,
+                                              record.feelings.length
+                                            )
+                                          ]
+                                        });
+                                    }}
+                                  />
+                                )
+                              }
                             </FirebaseContext.Consumer>
                           )}
                         </FeelingsProvider>
