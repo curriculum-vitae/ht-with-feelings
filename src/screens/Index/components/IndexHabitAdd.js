@@ -21,7 +21,7 @@ export const IndexHabitAddListAdd = compose(
   setDisplayName("HabitAddListAdd"),
   withState("value", "setValue", "")
 )(({ isOpen, onClose, value, setValue }) => (
-  <Dialog open={isOpen} onClose={onClose}>
+  <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth={"sm"}>
     <DialogTitle>Add new list</DialogTitle>
     <DialogContent>
       <TextField
@@ -71,7 +71,7 @@ export const IndexHabitAdd = compose(
 )(({ isOpen, value, setValue, onClose }) => (
   <SelectedMany initialSelected={[]}>
     {({ selected, add, remove }) => (
-      <Dialog open={isOpen} onClose={onClose}>
+      <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth={"sm"}>
         <DialogTitle>Add new habit</DialogTitle>
         <DialogContent>
           <TextField
