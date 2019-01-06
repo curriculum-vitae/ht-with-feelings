@@ -6,7 +6,8 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
-  Icon
+  Icon,
+  Slide
 } from "@material-ui/core";
 import { SelectedMany } from "components/SelectedMany";
 import { FirebaseContext } from "contexts/FirebaseContext";
@@ -17,11 +18,22 @@ import React from "react";
 import { compose, setDisplayName, withState } from "recompose";
 import { Toggler } from "components/Toggler";
 
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
+
 export const IndexHabitAddListAdd = compose(
   setDisplayName("HabitAddListAdd"),
   withState("value", "setValue", "")
 )(({ isOpen, onClose, value, setValue }) => (
-  <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth={"sm"}>
+  <Dialog
+    open={isOpen}
+    onClose={onClose}
+    fullWidth
+    maxWidth={"sm"}
+    fullScreen
+    TransitionComponent={Transition}
+  >
     <DialogTitle>Add new list</DialogTitle>
     <DialogContent>
       <TextField
@@ -71,7 +83,14 @@ export const IndexHabitAdd = compose(
 )(({ isOpen, value, setValue, onClose }) => (
   <SelectedMany initialSelected={[]}>
     {({ selected, add, remove }) => (
-      <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth={"sm"}>
+      <Dialog
+        open={isOpen}
+        onClose={onClose}
+        fullWidth
+        maxWidth={"sm"}
+        fullScreen
+        TransitionComponent={Transition}
+      >
         <DialogTitle>Add new habit</DialogTitle>
         <DialogContent>
           <TextField
