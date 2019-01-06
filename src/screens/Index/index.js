@@ -26,6 +26,7 @@ import { RecordsProvider } from "providers/RecordsProvider";
 import { FEELING_OF_THE_END } from "shared/constants";
 import { IndexButtonToggleFinished } from "screens/Index/components/IndexButtonToggleFinished";
 import { IndexHabitsListEmpty } from "./components/IndexHabitsListEmpty";
+import { ProgressFullScreen } from "components/ProgressFullScreen";
 
 const IndexListsWrapper = ({ children }) => (
   <div
@@ -62,9 +63,7 @@ export const IndexScreen = () => (
       <AuthObserver>
         {({ isSignedIn, loading }) =>
           loading ? (
-            <Paper style={{ height: "100vh", padding: "50% 50%" }}>
-              <CircularProgress />
-            </Paper>
+            <ProgressFullScreen />
           ) : isSignedIn ? (
             <IndexDayPicker initialDate={moment()}>
               {({ date, setDatePrev, setDateNext }) => (
