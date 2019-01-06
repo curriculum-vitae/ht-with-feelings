@@ -25,6 +25,7 @@ import { isHabitIsFromList } from "shared/helpers";
 import { RecordsProvider } from "providers/RecordsProvider";
 import { FEELING_OF_THE_END } from "shared/constants";
 import { IndexButtonToggleFinished } from "screens/Index/components/IndexButtonToggleFinished";
+import { IndexHabitsListEmpty } from "./components/IndexHabitsListEmpty";
 
 const IndexListsWrapper = ({ children }) => (
   <div
@@ -176,8 +177,11 @@ export const IndexScreen = () => (
                                             .length)
                                       );
                                     };
-
                                     const countOfFinished = habitsCurrentFinishedByList(
+                                      selected
+                                    ).length;
+
+                                    const countofUnfinished = habitsCurrentUnfinishedByList(
                                       selected
                                     ).length;
                                     return (
@@ -198,14 +202,20 @@ export const IndexScreen = () => (
                                           />
                                         </IndexListsWrapper>
                                         <IndexHabitsListWrapper>
-                                          <IndexHabitsList
-                                            date={date}
-                                            habits={habitsCurrentUnfinishedByList(
-                                              selected
-                                            )}
-                                          />
+                                          {countofUnfinished > 0 ? (
+                                            <IndexHabitsList
+                                              date={date}
+                                              habits={habitsCurrentUnfinishedByList(
+                                                selected
+                                              )}
+                                            />
+                                          ) : (
+                                            <>
+                                              <IndexHabitsListEmpty />
+                                              <br />
+                                            </>
+                                          )}
                                         </IndexHabitsListWrapper>
-
                                         <Toggler initialValue={false}>
                                           {({ value, setValue }) => (
                                             <>
