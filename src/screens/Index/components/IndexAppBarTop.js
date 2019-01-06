@@ -9,7 +9,6 @@ export const IndexAppBarTop = () => (
       style={{
         display: "flex",
         alignItems: "flex-end",
-        marginBottom: "16px",
         padding: "16px 32px 0px 16px"
       }}
     >

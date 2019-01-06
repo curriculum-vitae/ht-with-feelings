@@ -68,13 +68,17 @@ export const IndexScreen = () => (
               {({ date, setDatePrev, setDateNext }) => (
                 <>
                   <IndexAppBarTop />
-                  <Grid container style={{ display: "none" }}>
-                    <Grid item xs={6}>
-                      <Grid container alignItems={"flex-end"}>
+                  <Grid container spacing={0}>
+                    <Grid item xs={12}>
+                      <Grid
+                        container
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                      >
                         <Grid item xs={4}>
                           <IconButton
                             onClick={setDatePrev}
-                            style={{ float: "right", marginTop: "8px" }}
+                            style={{ float: "right" }}
                           >
                             <Icon>arrow_left</Icon>
                           </IconButton>
@@ -85,10 +89,7 @@ export const IndexScreen = () => (
                           </Typography>
                         </Grid>
                         <Grid item xs={4}>
-                          <IconButton
-                            onClick={setDateNext}
-                            style={{ marginTop: "8px" }}
-                          >
+                          <IconButton onClick={setDateNext}>
                             <Icon>arrow_right</Icon>
                           </IconButton>
                         </Grid>
