@@ -1,15 +1,18 @@
 import React from "react";
 import { withState, compose, lifecycle } from "recompose";
 import { FirebaseContext } from "contexts/FirebaseContext";
+import firebase from "firebase/app";
 
 export const FeelingsProviderWithFirebase = compose(
   withState("feelings", "setFeelings", []),
   lifecycle({
     componentDidMount() {
       const { db, idHabit, setFeelings } = this.props;
+      const { uid } = firebase.auth().currentUser;
       this.unsub = db
         .collection("records")
         .where("idHabit", "==", idHabit)
+        .where("uid", "==", uid)
         .onSnapshot(querySnapshot => {
           const result = [];
           querySnapshot.forEach(doc =>
