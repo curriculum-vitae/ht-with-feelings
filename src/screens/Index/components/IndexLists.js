@@ -13,7 +13,7 @@ const Progress = ({ percentage, height = 5 }) => {
           display: "inline-block",
           height: `${height}px`,
           borderRadius: "2px 0px 0px 2px",
-          backgroundColor: `${palette[500]}`,
+          backgroundColor: `${palette[800]}`,
           width: `${percentage}%`
         }}
       />
@@ -77,7 +77,7 @@ export const IndexLists = ({ lists, selected, onSelect }) => (
           list={list}
           isSelected={list.id === selected}
           onClick={() => onSelect(list.id)}
-          percentage={Math.random() * 100}
+          percentage={list.progress}
         />
       ))
     )(lists)}

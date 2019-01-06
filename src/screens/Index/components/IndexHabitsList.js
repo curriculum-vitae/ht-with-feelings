@@ -9,18 +9,18 @@ import { Link } from "react-router-dom";
 import { IndexHabitsListItemV3 } from "screens/Index/components/IndexHabitsListItemV3";
 import { FEELING_OF_THE_END } from "shared/constants";
 
-export const IndexHabitsList = ({ habits, date, displayDone = false }) => (
-  <List>
+export const IndexHabitsList = ({ habits, date }) => (
+  <>
     {habits.map(habit => {
       return (
         <FirebaseContext.Consumer key={habit.id}>
           {db => (
             <FeelingsProvider idHabit={habit.id}>
               {props => {
+                const { uid } = firebase.auth().currentUser;
                 const isFromToday = record =>
                   moment(record.date.toDate()).format("DD/MM/YYYY") ===
                   date.format("DD/MM/YYYY");
-                const { uid } = firebase.auth().currentUser;
                 const feelings = flow(
                   props => props.feelings,
                   find(isFromToday)
@@ -52,19 +52,7 @@ export const IndexHabitsList = ({ habits, date, displayDone = false }) => (
                 };
 
                 return (
-                  <Link
-                    key={habit.id}
-                    to={`/habits/${habit.id}`}
-                    style={{
-                      display: emojis.includes(FEELING_OF_THE_END)
-                        ? displayDone
-                          ? undefined
-                          : "none"
-                        : displayDone
-                        ? "none"
-                        : undefined
-                    }}
-                  >
+                  <Link key={habit.id} to={`/habits/${habit.id}`}>
                     <IndexHabitsListItemV3
                       habit={habit}
                       updateFeelings={updateFeelings}
@@ -78,5 +66,5 @@ export const IndexHabitsList = ({ habits, date, displayDone = false }) => (
         </FirebaseContext.Consumer>
       );
     })}
-  </List>
+  </>
 );
