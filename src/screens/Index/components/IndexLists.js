@@ -4,7 +4,7 @@ import { flow, map } from "lodash/fp";
 import React from "react";
 
 const Progress = ({ percentage, height = 5 }) => {
-  const isDone = percentage > 80;
+  const isDone = percentage === 100;
   const palette = isDone ? green : grey;
   return (
     <>
@@ -60,7 +60,7 @@ export const IndexListsItem = ({ list, isSelected, onClick, percentage }) => (
   </div>
 );
 
-export const IndexLists = ({ lists, selected, onSelect }) => (
+export const IndexLists = ({ lists, selected, onSelect, progress }) => (
   <>
     <IndexListsItem
       list={{
@@ -68,7 +68,7 @@ export const IndexLists = ({ lists, selected, onSelect }) => (
       }}
       isSelected={selected === "all"}
       onClick={() => onSelect("all")}
-      percentage={Math.random() * 100}
+      percentage={progress}
     />
     {flow(
       map(list => (

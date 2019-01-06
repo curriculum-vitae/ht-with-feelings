@@ -140,27 +140,40 @@ export const IndexScreen = () => (
                                       );
                                     };
 
-                                    const habitsCurrentUnfinished = flow(
-                                      props => props.habits,
-                                      filterHabitsByList(selected),
-                                      filter(
-                                        habit =>
-                                          !isHabitIsDoneForThisDate(date)(
+                                    const habitsCurrentUnfinishedByList = idList =>
+                                      flow(
+                                        props => props.habits,
+                                        filterHabitsByList(idList),
+                                        filter(
+                                          habit =>
+                                            !isHabitIsDoneForThisDate(date)(
+                                              habit.id
+                                            )(records)
+                                        )
+                                      )(props);
+
+                                    const habitsCurrentFinishedByList = idList =>
+                                      flow(
+                                        props => props.habits,
+                                        filterHabitsByList(idList),
+                                        filter(habit =>
+                                          isHabitIsDoneForThisDate(date)(
                                             habit.id
                                           )(records)
-                                      )
-                                    )(props);
+                                        )
+                                      )(props);
 
-                                    const habitsCurrentFinished = flow(
-                                      props => props.habits,
-                                      filterHabitsByList(selected),
-                                      filter(habit =>
-                                        isHabitIsDoneForThisDate(date)(
-                                          habit.id
-                                        )(records)
-                                      )
-                                    )(props);
-
+                                    const getListProgress = idList => {
+                                      return (
+                                        (100 *
+                                          habitsCurrentFinishedByList(idList)
+                                            .length) /
+                                        (habitsCurrentUnfinishedByList(idList)
+                                          .length +
+                                          habitsCurrentFinishedByList(idList)
+                                            .length)
+                                      );
+                                    };
                                     return (
                                       <>
                                         <IndexListsWrapper>
@@ -169,20 +182,21 @@ export const IndexScreen = () => (
                                             lists={flow(
                                               map(list => ({
                                                 ...list,
-                                                progress:
-                                                  (100 *
-                                                    habitsCurrentFinished.length) /
-                                                  (habitsCurrentUnfinished.length +
-                                                    habitsCurrentFinished.length)
+                                                progress: getListProgress(
+                                                  list.id
+                                                )
                                               }))
                                             )(lists)}
                                             onSelect={id => setSelected(id)}
+                                            progress={getListProgress("all")}
                                           />
                                         </IndexListsWrapper>
                                         <IndexHabitsListWrapper>
                                           <IndexHabitsList
                                             date={date}
-                                            habits={habitsCurrentUnfinished}
+                                            habits={habitsCurrentUnfinishedByList(
+                                              selected
+                                            )}
                                           />
                                         </IndexHabitsListWrapper>
                                         <br />
@@ -207,9 +221,9 @@ export const IndexScreen = () => (
                                                   <IndexHabitsListWrapper>
                                                     <IndexHabitsList
                                                       date={date}
-                                                      habits={
-                                                        habitsCurrentFinished
-                                                      }
+                                                      habits={habitsCurrentFinishedByList(
+                                                        selected
+                                                      )}
                                                     />
                                                   </IndexHabitsListWrapper>
                                                 </>
