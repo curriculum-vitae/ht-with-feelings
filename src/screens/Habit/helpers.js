@@ -69,5 +69,5 @@ export const isRecordsHasNoFeelings = records =>
     map(record => record.feelings),
     flatten,
     compact,
-    arr => arr.length > 0
-  );
+    arr => arr.length === 0
+  )(records);
