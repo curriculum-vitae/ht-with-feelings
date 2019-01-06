@@ -4,50 +4,55 @@ import React from "react";
 import { IndexHabitAdd } from "screens/Index/components/IndexHabitAdd";
 
 export const IndexAppBarBottom = () => (
-  <AppBar
-    color={"default"}
-    position={"static"}
+  <div
     style={{
-      top: "auto",
-      position: "absolute",
-      bottom: "0"
+      width: "200px"
     }}
-    elevation={1}
   >
-    <Toolbar
+    <AppBar
+      color={"default"}
+      position={"fixed"}
       style={{
-        alignItems: "center",
-        justifyContent: "space-between"
+        top: "auto",
+        bottom: "0"
       }}
+      elevation={1}
     >
-      <IconButton color="inherit" aria-label="Open drawer">
-        <Icon>filter_list</Icon>
-      </IconButton>
+      <Toolbar
+        style={{
+          alignItems: "center",
+          justifyContent: "space-between"
+        }}
+      >
+        <IconButton color="inherit" aria-label="Open drawer">
+          <Icon>filter_list</Icon>
+        </IconButton>
 
-      <Toggler initialValue={false}>
-        {({ value, setValue }) => (
-          <>
-            <IndexHabitAdd isOpen={value} onClose={() => setValue(false)} />
-            <Fab
-              color={"secondary"}
-              aria-label={"Add"}
-              style={{
-                position: "absolute",
-                zIndex: 1,
-                top: -30,
-                left: 0,
-                right: 0,
-                margin: "0 auto"
-              }}
-              onClick={() => {
-                setValue(true);
-              }}
-            >
-              <Icon>add</Icon>
-            </Fab>
-          </>
-        )}
-      </Toggler>
-    </Toolbar>
-  </AppBar>
+        <Toggler initialValue={false}>
+          {({ value, setValue }) => (
+            <>
+              <IndexHabitAdd isOpen={value} onClose={() => setValue(false)} />
+              <Fab
+                color={"secondary"}
+                aria-label={"Add"}
+                style={{
+                  position: "absolute",
+                  zIndex: 1,
+                  top: -30,
+                  left: 0,
+                  right: 0,
+                  margin: "0 auto"
+                }}
+                onClick={() => {
+                  setValue(true);
+                }}
+              >
+                <Icon>add</Icon>
+              </Fab>
+            </>
+          )}
+        </Toggler>
+      </Toolbar>
+    </AppBar>
+  </div>
 );

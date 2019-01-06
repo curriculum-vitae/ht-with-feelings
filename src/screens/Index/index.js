@@ -24,6 +24,7 @@ import { IndexLists } from "screens/Index/components/IndexLists";
 import { isHabitIsFromList } from "shared/helpers";
 import { RecordsProvider } from "providers/RecordsProvider";
 import { FEELING_OF_THE_END } from "shared/constants";
+import { IndexButtonToggleFinished } from "screens/Index/components/IndexButtonToggleFinished";
 
 const IndexListsWrapper = ({ children }) => (
   <div
@@ -175,6 +176,10 @@ export const IndexScreen = () => (
                                             .length)
                                       );
                                     };
+
+                                    const countOfFinished = habitsCurrentFinishedByList(
+                                      selected
+                                    ).length;
                                     return (
                                       <>
                                         <IndexListsWrapper>
@@ -200,24 +205,25 @@ export const IndexScreen = () => (
                                             )}
                                           />
                                         </IndexHabitsListWrapper>
-                                        <br />
+
                                         <Toggler initialValue={false}>
                                           {({ value, setValue }) => (
                                             <>
-                                              <Button
-                                                variant={"outlined"}
-                                                style={{
-                                                  width: "100%"
-                                                }}
-                                                onClick={() => setValue(!value)}
-                                              >
-                                                {value
-                                                  ? "Hide completed"
-                                                  : "Show completed"}
-                                              </Button>
+                                              {countOfFinished > 0 ? (
+                                                <IndexHabitsListWrapper>
+                                                  <IndexButtonToggleFinished
+                                                    onClick={() =>
+                                                      setValue(!value)
+                                                    }
+                                                  >
+                                                    {value
+                                                      ? `Hide`
+                                                      : `Show completed (${countOfFinished})`}
+                                                  </IndexButtonToggleFinished>
+                                                </IndexHabitsListWrapper>
+                                              ) : null}
                                               {value ? (
                                                 <>
-                                                  <br />
                                                   <br />
                                                   <IndexHabitsListWrapper>
                                                     <IndexHabitsList
