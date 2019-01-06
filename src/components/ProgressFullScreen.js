@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Paper, Grid, CircularProgress } from "@material-ui/core";
+import { Paper, CircularProgress } from "@material-ui/core";
 
 export const ProgressFullScreen = () => (
   <>
