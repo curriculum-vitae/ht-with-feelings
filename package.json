@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "3.8.1",
+    "@material-ui/lab": "3.0.0-alpha.27",
     "firebase": "5.7.2",
     "history": "4.7.2",
     "lodash": "4.17.11",
