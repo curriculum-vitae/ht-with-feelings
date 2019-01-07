@@ -81,7 +81,11 @@ export const IndexAppBarBottom = () => (
           justifyContent: "space-between"
         }}
       >
-        <IconButton color="inherit" aria-label="Open drawer">
+        <IconButton
+          color="inherit"
+          aria-label="Open drawer"
+          style={{ opacity: "0" }}
+        >
           <Icon>filter_list</Icon>
         </IconButton>
 
