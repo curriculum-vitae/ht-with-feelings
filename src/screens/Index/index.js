@@ -1,32 +1,25 @@
-import {
-  Button,
-  CircularProgress,
-  Grid,
-  Icon,
-  IconButton,
-  Paper,
-  Typography
-} from "@material-ui/core";
+import { Grid, Icon, IconButton, Typography } from "@material-ui/core";
+import { ProgressFullScreen } from "components/ProgressFullScreen";
 import { SelectedOnce } from "components/SelectedOnce";
 import { Toggler } from "components/Toggler";
 import { AuthObserver } from "features/AuthObserver";
-import { filter, flow, map, noop, find } from "lodash/fp";
+import { filter, find, flow, map } from "lodash/fp";
 import moment from "moment";
 import { HabitsProvider } from "providers/HabitsProvider";
 import { ListsProvider } from "providers/ListsProvider";
+import { RecordsProvider } from "providers/RecordsProvider";
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { IndexAppBarBottom } from "screens/Index/components/IndexAppBarBottom";
 import { IndexAppBarTop } from "screens/Index/components/IndexAppBarTop";
+import { IndexButtonToggleFinished } from "screens/Index/components/IndexButtonToggleFinished";
 import { IndexDayPicker } from "screens/Index/components/IndexDayPicker";
 import { IndexHabitsList } from "screens/Index/components/IndexHabitsList";
+import { IndexHabitsListEmpty } from "screens/Index/components/IndexHabitsListEmpty";
 import { IndexLists } from "screens/Index/components/IndexLists";
-import { isHabitIsFromList } from "shared/helpers";
-import { RecordsProvider } from "providers/RecordsProvider";
+import { formatMomentForCalendarHeader } from "screens/Index/helpers";
 import { FEELING_OF_THE_END } from "shared/constants";
-import { IndexButtonToggleFinished } from "screens/Index/components/IndexButtonToggleFinished";
-import { IndexHabitsListEmpty } from "./components/IndexHabitsListEmpty";
-import { ProgressFullScreen } from "components/ProgressFullScreen";
+import { isHabitIsFromList } from "shared/helpers";
 
 const IndexListsWrapper = ({ children }) => (
   <div
@@ -69,24 +62,24 @@ export const IndexScreen = () => (
               {({ date, setDatePrev, setDateNext }) => (
                 <>
                   <IndexAppBarTop />
-                  <Grid container spacing={0}>
+                  <Grid container spacing={0} style={{ margin: "10px 0px" }}>
                     <Grid item xs={12}>
                       <Grid container alignItems={"center"}>
                         <Grid item xs={4}>
-                          <IconButton
-                            onClick={setDatePrev}
-                            style={{ float: "right" }}
-                          >
+                          <IconButton onClick={setDatePrev}>
                             <Icon>arrow_left</Icon>
                           </IconButton>
                         </Grid>
                         <Grid item xs={4}>
                           <Typography variant={"h6"} align={"center"}>
-                            {date.format("DD/MM/YY")}
+                            {formatMomentForCalendarHeader(date)}
                           </Typography>
                         </Grid>
                         <Grid item xs={4}>
-                          <IconButton onClick={setDateNext}>
+                          <IconButton
+                            onClick={setDateNext}
+                            style={{ float: "right" }}
+                          >
                             <Icon>arrow_right</Icon>
                           </IconButton>
                         </Grid>
