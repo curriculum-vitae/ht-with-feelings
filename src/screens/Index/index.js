@@ -281,7 +281,8 @@ export const IndexScreen = () => (
     <br />
     <br />
     <br />
-
+    {/*
     <IndexAppBarBottom />
+        */}
   </div>
 );
