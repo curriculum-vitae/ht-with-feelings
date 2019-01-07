@@ -61,31 +61,46 @@ export const IndexScreen = () => (
             <IndexDayPicker initialDate={moment()}>
               {({ date, setDatePrev, setDateNext }) => (
                 <>
-                  <IndexAppBarTop />
-                  <Grid container spacing={0} style={{ margin: "16px 0px" }}>
-                    <Grid item xs={12}>
-                      <Grid container alignItems={"center"}>
-                        <Grid item xs={4}>
-                          <IconButton onClick={setDatePrev}>
-                            <Icon>arrow_left</Icon>
-                          </IconButton>
+                  <Toggler initialValue={false}>
+                    {props => (
+                      <>
+                        <IndexAppBarTop
+                          onClickDate={() => props.setValue(!props.value)}
+                        />
+                        <Grid
+                          container
+                          spacing={0}
+                          style={{
+                            margin: "16px 0px",
+                            display: !!props.value ? undefined : "none"
+                          }}
+                        >
+                          <Grid item xs={12}>
+                            <Grid container alignItems={"center"}>
+                              <Grid item xs={4}>
+                                <IconButton onClick={setDatePrev}>
+                                  <Icon>arrow_left</Icon>
+                                </IconButton>
+                              </Grid>
+                              <Grid item xs={4}>
+                                <Typography variant={"h6"} align={"center"}>
+                                  {formatMomentForCalendarHeader(date)}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={4}>
+                                <IconButton
+                                  onClick={setDateNext}
+                                  style={{ float: "right" }}
+                                >
+                                  <Icon>arrow_right</Icon>
+                                </IconButton>
+                              </Grid>
+                            </Grid>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={4}>
-                          <Typography variant={"h6"} align={"center"}>
-                            {formatMomentForCalendarHeader(date)}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <IconButton
-                            onClick={setDateNext}
-                            style={{ float: "right" }}
-                          >
-                            <Icon>arrow_right</Icon>
-                          </IconButton>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
+                      </>
+                    )}
+                  </Toggler>
                   <ListsProvider>
                     {({ lists }) => (
                       <SelectedOnce initialSelected={"all"}>

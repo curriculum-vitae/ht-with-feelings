@@ -1,8 +1,8 @@
-import { Typography } from "@material-ui/core";
+import { Typography, IconButton, Icon } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const IndexAppBarTop = () => (
+export const IndexAppBarTop = ({ onClickDate }) => (
   <>
     <div
       style={{
@@ -16,6 +16,9 @@ export const IndexAppBarTop = () => (
       <Link to={"/"} style={{ flexGrow: "1", flexBasis: "0" }}>
         <Typography variant={"h4"}>My habits</Typography>
       </Link>
+      <IconButton onClick={onClickDate}>
+        <Icon>date_range</Icon>
+      </IconButton>
     </div>
   </>
 );
