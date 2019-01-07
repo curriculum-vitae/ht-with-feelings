@@ -25,7 +25,7 @@ const HabitEdit = compose(
   setDisplayName("HabitEdit"),
   withState("name", "setName", props => props.habit.name)
 )(({ habit, open, onClose, onSave, name, setName }) => (
-  <Dialog open={open} fullScreen>
+  <Dialog open={open} fullScreen fullWidth maxWidth={"sm"} onClose={onClose}>
     <DialogTitle>Edit</DialogTitle>
 
     <SelectedMany initialSelected={habit.lists.map(l => l.id)}>
