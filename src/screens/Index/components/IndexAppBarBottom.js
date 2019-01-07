@@ -67,13 +67,13 @@ export const IndexAppBarBottom = () => (
     }}
   >
     <AppBar
-      color={"primary"}
+      color={"default"}
       position={"fixed"}
       style={{
         top: "auto",
         bottom: "0"
       }}
-      elevation={2}
+      elevation={3}
     >
       <Toolbar
         style={{
