@@ -1,22 +1,20 @@
-import { Typography, Chip, Button } from "@material-ui/core";
+import { Button, Chip, Typography } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
-
-import { find, flow, map } from "lodash/fp";
+import { AuthObserver } from "features/AuthObserver";
+import { filter, find, flow, map } from "lodash/fp";
 import { FeelingsProvider } from "providers/FeelingsProvider";
 import { HabitsProvider } from "providers/HabitsProvider";
+import { ListsProvider } from "providers/ListsProvider";
 import React from "react";
+import { Link } from "react-router-dom";
 import { HabitAppBar } from "screens/Habit/components/HabitAppBar";
+import { HabitEmojiList } from "screens/Habit/components/HabitEmojiList";
 import { HabitEmojiOverview } from "screens/Habit/components/HabitEmojiOverview";
 import {
   getStats,
   getStatsItems,
   isRecordsHasNoFeelings
 } from "screens/Habit/helpers";
-//
-import { HabitEmojiList } from "screens/Habit/components/HabitEmojiList";
-import { AuthObserver } from "features/AuthObserver";
-//
-import { Link } from "react-router-dom";
 
 export const HabitScreen = ({ match, history }) => (
   <AuthObserver>
@@ -63,18 +61,25 @@ export const HabitScreen = ({ match, history }) => (
                           {habit.name}
                         </Typography>
 
-                        {flow(
-                          habit => habit.lists,
-                          map(list => (
-                            <Chip
-                              key={list.id}
-                              style={{ margin: "0px 4px 4px 0px" }}
-                              variant={"outlined"}
-                              label={list.id}
-                            />
-                          ))
-                        )(habit)}
-
+                        <ListsProvider>
+                          {props =>
+                            flow(
+                              props => props.lists,
+                              filter(
+                                list =>
+                                  !!find(l => l.id === list.id)(habit.lists)
+                              ),
+                              map(list => (
+                                <Chip
+                                  key={list.id}
+                                  style={{ margin: "0px 4px 4px 0px" }}
+                                  variant={"outlined"}
+                                  label={list.name}
+                                />
+                              ))
+                            )(props)
+                          }
+                        </ListsProvider>
                         <FeelingsProvider idHabit={habit.id}>
                           {props => {
                             const statsItems = flow(
@@ -93,7 +98,6 @@ export const HabitScreen = ({ match, history }) => (
                                   </Typography>
                                 ) : (
                                   <>
-                                    WHAT?
                                     <HabitEmojiOverview
                                       statsItems={statsItems}
                                     />
