@@ -62,7 +62,7 @@ export const IndexScreen = () => (
               {({ date, setDatePrev, setDateNext }) => (
                 <>
                   <IndexAppBarTop />
-                  <Grid container spacing={0} style={{ margin: "10px 0px" }}>
+                  <Grid container spacing={0} style={{ margin: "16px 0px" }}>
                     <Grid item xs={12}>
                       <Grid container alignItems={"center"}>
                         <Grid item xs={4}>
