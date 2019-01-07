@@ -19,6 +19,7 @@ import { flow, map } from "lodash/fp";
 import { ListsProvider } from "providers/ListsProvider";
 import { SelectedMany } from "components/SelectedMany";
 import { compose, setDisplayName, withState } from "recompose";
+import { ListAdd } from "features/ListAdd";
 
 const HabitEdit = compose(
   setDisplayName("HabitEdit"),
@@ -65,6 +66,26 @@ const HabitEdit = compose(
                       />
                     ))
                   )(props)}
+                  <Toggler initialValue={false}>
+                    {({ value, setValue }) => (
+                      <>
+                        <Chip
+                          variant={"outlined"}
+                          icon={<Icon>add</Icon>}
+                          label={"add new list"}
+                          onClick={() => setValue(true)}
+                          style={{
+                            margin: "0px 10px 10px 0px",
+                            cursor: "pointer"
+                          }}
+                        />
+                        <ListAdd
+                          isOpen={value}
+                          onClose={() => setValue(false)}
+                        />
+                      </>
+                    )}
+                  </Toggler>
                 </>
               )}
             </ListsProvider>
