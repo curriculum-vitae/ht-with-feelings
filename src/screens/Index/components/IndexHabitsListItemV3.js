@@ -9,12 +9,15 @@ import {
 import React from "react";
 import { IndexFeelings } from "screens/Index/components/IndexFeelings";
 import { FEELINGS } from "shared/constants";
-import { grey } from "@material-ui/core/colors";
+import { grey, pink, green } from "@material-ui/core/colors";
 import { getRandomEmoji } from "lib/random-emoji";
 
 export const IndexHabitsListItemV3 = ({ habit, feelings, updateFeelings }) => (
   <Card
-    style={{ marginBottom: "16px", border: `1px solid ${grey[200]}` }}
+    style={{
+      marginBottom: "16px",
+      border: `1px solid ${grey[200]}`
+    }}
     elevation={0}
   >
     <CardHeader
@@ -28,13 +31,7 @@ export const IndexHabitsListItemV3 = ({ habit, feelings, updateFeelings }) => (
 
     <CardActions>
       <IndexFeelings
-        feelings={[
-          getRandomEmoji(),
-          getRandomEmoji(),
-          getRandomEmoji(),
-          getRandomEmoji(),
-          getRandomEmoji()
-        ]}
+        feelings={[getRandomEmoji(), getRandomEmoji(), getRandomEmoji()]}
         selected={feelings ? feelings.feelings : []}
         onChange={updateFeelings}
       />
