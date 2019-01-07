@@ -4,6 +4,12 @@ import { teal, red } from "@material-ui/core/colors";
 const THEMES = {};
 const THEME_TO_USE = "light";
 
+const SHAPE = {
+  shape: {
+    borderRadius: "8px"
+  }
+};
+
 THEMES["dark"] = {
   palette: {
     type: "dark",
@@ -23,13 +29,15 @@ THEMES["dark"] = {
         backgroundColor: "black"
       }
     }
-  }
+  },
+  ...SHAPE
 };
 
 THEMES["light"] = {
   palette: {
     background: {}
-  }
+  },
+  ...SHAPE
 };
 
 export default createMuiTheme(THEMES[THEME_TO_USE]);

@@ -1,4 +1,4 @@
-import { Badge, Chip, Icon } from "@material-ui/core";
+import { Badge, Chip, Icon, IconButton } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { flow, map } from "lodash/fp";
 import React from "react";
@@ -37,7 +37,7 @@ const IndexFeelingsWithChip = ({
           style={{
             flexGrow: 1,
             flexBasis: 0,
-            width: "100%"
+            textAlign: "center"
           }}
         >
           <Badge
@@ -45,45 +45,42 @@ const IndexFeelingsWithChip = ({
             classes={{
               badge: classes.badge
             }}
-            invisible={selected.filter(i => i === icon).length <= 1}
+            invisible={selected.filter(i => i === icon).length === 0}
           >
-            <Chip
-              variant={"outlined"}
-              style={{
-                width: `100%`,
-                opacity: selected.includes(icon) ? undefined : "0.1",
-                fontSize: `${EMOJI_SIZE}px`,
-                marginRight: "px",
-                border: "0px"
-              }}
+            <IconButton
               onClick={e => {
                 e.stopPropagation();
                 e.preventDefault();
                 onChange([...selected, icon]);
               }}
               label={icon}
-            />
+            >
+              <Icon style={{ fontSize: "1.5em" }}>{icon}</Icon>
+            </IconButton>
           </Badge>
         </div>
       ))
     )(feelings)}
-    <Chip
-      variant={"outlined"}
+    <div
       style={{
-        opacity: selected.length > 0 ? "1" : "0.1",
-        marginLeft: "16px",
-        fontSize: `${EMOJI_SIZE}px`,
-        width: `${EMOJI_SIZE + 32}px`,
-        border: "0px"
+        flexGrow: 1,
+        flexBasis: 0,
+        textAlign: "center"
       }}
-      icon={<Icon style={{ marginLeft: "22px" }}>send</Icon>}
-      onClick={e => {
-        e.stopPropagation();
-        e.preventDefault();
-        if (selected.length === 0) return null;
-        onChange([...selected, FEELING_OF_THE_END]);
-      }}
-    />
+    >
+      <IconButton
+        variant={"outlined"}
+        disabled={selected.length === 0}
+        onClick={e => {
+          e.stopPropagation();
+          e.preventDefault();
+          if (selected.length === 0) return null;
+          onChange([...selected, FEELING_OF_THE_END]);
+        }}
+      >
+        <Icon style={{ fontSize: "1.5em" }}>{FEELING_OF_THE_END}</Icon>
+      </IconButton>
+    </div>
   </div>
 );
 

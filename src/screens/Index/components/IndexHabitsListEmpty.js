@@ -7,6 +7,7 @@ export const IndexHabitsListEmpty = () => (
     style={{
       padding: "40px"
     }}
+    elevation={0}
   >
     <Typography variant={"h5"} align={"center"}>
       Nothing on the list
