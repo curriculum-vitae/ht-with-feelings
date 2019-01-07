@@ -26,6 +26,7 @@ export const HabitEmojiList = ({ records, onDelete }) => (
           {flow(
             record => record.feelings,
             arrayToIndexedArray,
+            reverse,
             map(({ element: emoji, index: position }) => (
               <ListItem key={Math.random()} divider>
                 <ListItemAvatar>
