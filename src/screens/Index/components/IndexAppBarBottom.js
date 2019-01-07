@@ -36,7 +36,7 @@ class FadeMenu extends React.Component {
 
     return (
       <div>
-        <IconButton onClick={this.handleClick}>
+        <IconButton onClick={this.handleClick} color={"default"}>
           <Icon>more_vert</Icon>
         </IconButton>
         <Menu
@@ -67,7 +67,7 @@ export const IndexAppBarBottom = () => (
     }}
   >
     <AppBar
-      color={"default"}
+      color={"primary"}
       position={"fixed"}
       style={{
         top: "auto",

@@ -55,7 +55,7 @@ const IndexFeelingsWithChip = ({
               }}
               label={icon}
             >
-              <Icon style={{ fontSize: "1.5em" }}>{icon}</Icon>
+              <Icon style={{ overflow: "unset" }}>{icon}</Icon>
             </IconButton>
           </Badge>
         </div>
@@ -78,7 +78,7 @@ const IndexFeelingsWithChip = ({
           onChange([...selected, FEELING_OF_THE_END]);
         }}
       >
-        <Icon style={{ fontSize: "1.5em" }}>{FEELING_OF_THE_END}</Icon>
+        <Icon style={{ overflow: "unset" }}>{FEELING_OF_THE_END}</Icon>
       </IconButton>
     </div>
   </div>
