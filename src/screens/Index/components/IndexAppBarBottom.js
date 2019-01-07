@@ -1,7 +1,64 @@
-import { AppBar, Fab, Icon, IconButton, Toolbar } from "@material-ui/core";
+import {
+  AppBar,
+  Fab,
+  Fade,
+  Icon,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar
+} from "@material-ui/core";
 import { Toggler } from "components/Toggler";
+import firebase from "firebase/app";
 import React from "react";
 import { IndexHabitAdd } from "screens/Index/components/IndexHabitAdd";
+
+class FadeMenu extends React.Component {
+  state = {
+    anchorEl: null
+  };
+
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+  handleLogout = () => {
+    if (window.confirm("Log out?")) {
+      firebase.auth().signOut();
+    }
+  };
+  render() {
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+
+    return (
+      <div>
+        <IconButton onClick={this.handleClick}>
+          <Icon>more_vert</Icon>
+        </IconButton>
+        <Menu
+          id="fade-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={this.handleClose}
+          TransitionComponent={Fade}
+        >
+          <MenuItem
+            onClick={() => {
+              this.handleClose();
+              this.handleLogout();
+            }}
+          >
+            Logout
+          </MenuItem>
+        </Menu>
+      </div>
+    );
+  }
+}
 
 export const IndexAppBarBottom = () => (
   <div
@@ -52,6 +109,7 @@ export const IndexAppBarBottom = () => (
             </>
           )}
         </Toggler>
+        <FadeMenu />
       </Toolbar>
     </AppBar>
   </div>
