@@ -3,7 +3,7 @@ import { green, grey } from "@material-ui/core/colors";
 import { flow, map } from "lodash/fp";
 import React from "react";
 
-const Progress = ({ percentage, height = 2 }) => {
+const Progress = ({ percentage, height = 4 }) => {
   const isDone = percentage === 100;
   const isNothing = percentage === 0;
   const palette = isDone ? grey : grey;
