@@ -65,7 +65,8 @@ const IndexFeelingsWithChip = ({
       style={{
         flexGrow: 1,
         flexBasis: 0,
-        textAlign: "center"
+        textAlign: "center",
+        display: "none"
       }}
     >
       <IconButton

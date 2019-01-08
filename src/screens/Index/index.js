@@ -137,12 +137,11 @@ export const IndexScreen = () => (
                                       const record = findActualHabitRecord(
                                         date
                                       )(idHabit)(records);
+
                                       return (
                                         !!record &&
                                         !!record.feelings &&
-                                        !!record.feelings.includes(
-                                          FEELING_OF_THE_END
-                                        )
+                                        !!record.feelings.length > 0
                                       );
                                     };
 

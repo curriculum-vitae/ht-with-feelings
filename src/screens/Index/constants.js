@@ -1,3 +1,5 @@
+import { getRandomEmoji } from "lib/random-emoji";
+
 export const FAKE_LISTS = [
   { id: "1", name: "focus" },
   {
@@ -20,4 +22,10 @@ export const FAKE_LISTS = [
     id: "121",
     name: "life"
   }
+];
+
+export const FEELINGS_RANDOM = [
+  getRandomEmoji(),
+  getRandomEmoji(),
+  getRandomEmoji()
 ];

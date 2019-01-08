@@ -9,11 +9,8 @@ import React from "react";
 import { IndexFeelings } from "screens/Index/components/IndexFeelings";
 import { FEELINGS } from "shared/constants";
 import { grey } from "@material-ui/core/colors";
-import { getRandomEmoji } from "lib/random-emoji";
-//
-import Slider from "@material-ui/lab/Slider";
 
-const FEELINGS_RANDOM = [getRandomEmoji(), getRandomEmoji(), getRandomEmoji()];
+import Slider from "@material-ui/lab/Slider";
 
 export const IndexHabitsListItemV3 = ({ habit, feelings, updateFeelings }) => (
   <Card
@@ -33,17 +30,11 @@ export const IndexHabitsListItemV3 = ({ habit, feelings, updateFeelings }) => (
     />
 
     <CardActions>
-      {Math.random() > 0.1 ? (
-        <IndexFeelings
-          feelings={FEELINGS}
-          selected={feelings ? feelings.feelings : []}
-          onChange={updateFeelings}
-        />
-      ) : (
-        <div style={{ padding: "20px", width: "100%" }}>
-          <Slider value={0} min={0} max={6} step={1} />
-        </div>
-      )}
+      <IndexFeelings
+        feelings={FEELINGS}
+        selected={feelings ? feelings.feelings : []}
+        onChange={updateFeelings}
+      />
     </CardActions>
   </Card>
 );
