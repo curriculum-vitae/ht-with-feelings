@@ -16,7 +16,8 @@ export const IndexHabitsListItemV3 = ({ habit, feelings, updateFeelings }) => (
   <Card
     style={{
       marginBottom: "16px",
-      border: `1px solid ${grey[200]}`
+      border: `1px solid ${grey[200]}`,
+      backgroundColor: "unset"
     }}
     elevation={0}
   >
