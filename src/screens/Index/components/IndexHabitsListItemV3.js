@@ -2,17 +2,19 @@ import {
   Card,
   CardActions,
   CardHeader,
-  IconButton,
-  Icon
+  Icon,
+  IconButton
 } from "@material-ui/core";
+import { grey } from "@material-ui/core/colors";
 import React from "react";
 import { IndexFeelings } from "screens/Index/components/IndexFeelings";
 import { FEELINGS } from "shared/constants";
-import { grey } from "@material-ui/core/colors";
 
-import Slider from "@material-ui/lab/Slider";
-
-export const IndexHabitsListItemV3 = ({ habit, feelings, updateFeelings }) => (
+export const IndexHabitsListItemV3 = ({
+  habit,
+  record,
+  onChangeHabitEmojis
+}) => (
   <Card
     style={{
       marginBottom: "16px",
@@ -33,8 +35,8 @@ export const IndexHabitsListItemV3 = ({ habit, feelings, updateFeelings }) => (
     <CardActions>
       <IndexFeelings
         feelings={FEELINGS}
-        selected={feelings ? feelings.feelings : []}
-        onChange={updateFeelings}
+        selected={record ? record.feelings : []}
+        onChange={onChangeHabitEmojis}
       />
     </CardActions>
   </Card>

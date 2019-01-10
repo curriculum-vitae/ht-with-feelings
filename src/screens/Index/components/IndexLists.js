@@ -1,35 +1,7 @@
 import { Typography } from "@material-ui/core";
-import { green, grey } from "@material-ui/core/colors";
 import { flow, map } from "lodash/fp";
 import React from "react";
-
-const Progress = ({ percentage, height = 4 }) => {
-  const isDone = percentage === 100;
-  const isNothing = percentage === 0;
-  const palette = isDone ? grey : grey;
-  return (
-    <>
-      <div
-        style={{
-          display: "inline-block",
-          height: `${height}px`,
-          borderRadius: isDone ? "2px" : "2px 0px 0px 2px",
-          backgroundColor: `${palette[800]}`,
-          width: `${percentage}%`
-        }}
-      />
-      <div
-        style={{
-          display: isDone ? "none" : "inline-block",
-          height: `${height}px`,
-          borderRadius: isNothing ? "2px" : "0px 2px 2px 0px",
-          backgroundColor: `${palette[400]}`,
-          width: `${100 - percentage}%`
-        }}
-      />
-    </>
-  );
-};
+import { IndexListsProgress } from "screens/Index/components/IndexListsProgress";
 
 export const IndexListsItem = ({ list, isSelected, onClick, percentage }) => (
   <div
@@ -56,7 +28,7 @@ export const IndexListsItem = ({ list, isSelected, onClick, percentage }) => (
         marginTop: "-8px"
       }}
     >
-      <Progress percentage={percentage} />
+      <IndexListsProgress percentage={percentage} />
     </div>
   </div>
 );

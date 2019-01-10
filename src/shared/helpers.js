@@ -1,4 +1,4 @@
-import { flow, find } from "lodash/fp";
+import { flow, find, filter } from "lodash/fp";
 
 export const getRandomFontSize = () => {
   if (Math.random() > 0.9) return 70;
@@ -13,4 +13,8 @@ export const isHabitIsFromList = idList => habit => {
     habit => habit.lists,
     find(list => list.id === idList)
   )(habit);
+};
+
+export const filterHabitsByList = idList => habits => {
+  return idList === "all" ? habits : filter(isHabitIsFromList(idList))(habits);
 };
