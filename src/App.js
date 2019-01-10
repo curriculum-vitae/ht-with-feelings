@@ -9,6 +9,7 @@ import { db } from "shared/db";
 import { Grid } from "@material-ui/core";
 import { Route, Router } from "react-router-dom";
 import { history } from "misc/history";
+import hot from "react-hot-reload.macro";
 
 class App extends Component {
   render() {
@@ -35,4 +36,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default hot(App);

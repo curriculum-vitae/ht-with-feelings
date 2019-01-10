@@ -109,6 +109,12 @@ export const IndexHabitsListItemV3 = ({
           <UserSummaryWeek key={user.avatar} user={user} />
         ))}
       </div>
+
+      <div>
+        {habit.uids.map(idUser => (
+          <div key={idUser}>{idUser}</div>
+        ))}
+      </div>
     </CardContent>
     <CardActions>
       <IndexFeelings

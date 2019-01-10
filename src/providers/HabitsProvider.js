@@ -12,17 +12,23 @@ export const HabitsProviderWithFirebase = compose(
 
       this.unsub = db
         .collection("habits")
-        .where("uid", "==", uid)
-        .onSnapshot(querySnapshot => {
-          const result = [];
-          querySnapshot.forEach(doc =>
-            result.push({
-              id: doc.id,
-              ...doc.data()
-            })
-          );
-          setHabits(result);
-        });
+        // .where("uid", "==", uid)
+        .where("uids", "array-contains", uid)
+        .onSnapshot(
+          querySnapshot => {
+            const result = [];
+            querySnapshot.forEach(doc =>
+              result.push({
+                id: doc.id,
+                ...doc.data()
+              })
+            );
+            setHabits(result);
+          },
+          (err, data) => {
+            console.log(err);
+          }
+        );
     },
     componentWillUnmount() {
       this.unsub();

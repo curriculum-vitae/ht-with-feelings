@@ -1,0 +1,28 @@
+service cloud.firestore {
+  match /databases/{database}/documents {    
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+  	match /habits/{habit} {        	    
+      function isOwner() {
+      	return resource.data.uid == request.auth.uid;
+      }
+     	allow read: if isSignedIn() && isOwner();     
+      allow write;
+      
+      match /feelings/{feeling} {
+    
+      	allow read, write;
+      }
+    }    
+    
+		match /lists/{list} {  
+     allow read, write;
+    }
+    
+    match /records/{record} {  
+     allow read, write;
+    }
+  }
+}

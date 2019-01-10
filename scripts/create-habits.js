@@ -34,6 +34,17 @@ const convertNameToID = flow(
   })
 );
 
+const USERS = [
+  {
+    name: "RG",
+    uid: ID_ME
+  },
+  {
+    name: "Myrosia",
+    uid: ID_MYROSIA
+  }
+];
+
 const LISTS = [
   "waking",
   "consumpting",
@@ -81,6 +92,21 @@ const HABBITS = [
   ["Prefer learning from individuals", ["learning"], [ID_ME]]
 ];
 
+const createUsers = async () => {
+  return await flow(
+    map(user =>
+      db
+        .collection("users")
+        .doc(user.uid)
+        .set({
+          name: user.name,
+          uid: user.uid
+        })
+    ),
+    requests => Promise.all(requests)
+  )(USERS);
+};
+
 const createLists = async () => {
   const lists = flow(
     map(habit => habit[1]),
@@ -99,7 +125,7 @@ const createLists = async () => {
           position: LISTS.indexOf(list)
         })
     ),
-    req => Promise.all(req)
+    requests => Promise.all(requests)
   )(lists);
 };
 
@@ -121,10 +147,18 @@ const createHabits = async () => {
   )(HABBITS);
 };
 
+const runTask = async (name, task) => {
+  console.log(`STARTING \t\t ${name}`);
+  await task();
+  console.log(`ENDING \\t ${name}`);
+};
+
 const createAll = async () => {
   try {
-    await createLists();
-    await createHabits();
+    await runTask("LISTS", createLists);
+    await runTask("HABITS", createHabits);
+    await runTask("USERS", createUsers);
+
     console.log("Document successfully written!");
   } catch (e) {
     console.error("Error writing document: ", e);
