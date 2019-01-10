@@ -1,3 +1,4 @@
+import { Grid } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
 import firebase from "firebase/app";
 import { find, flow, map, filter } from "lodash/fp";
@@ -13,45 +14,54 @@ const isRecordsIsFromDate = date => record =>
 
 const isRecordIsByHabit = idHabit => record => record.idHabit === idHabit;
 
-export const IndexHabitsList = ({ habits, date, records }) =>
-  flow(
-    map(habit => {
-      return (
-        <FirebaseContext.Consumer key={habit.id}>
-          {db => {
-            const { uid } = firebase.auth().currentUser;
+export const IndexHabitsList = ({ habits, date, records }) => {
+  return (
+    <Grid container spacing={16}>
+      {flow(
+        map(habit => {
+          return (
+            <FirebaseContext.Consumer key={habit.id}>
+              {db => {
+                const { uid } = firebase.auth().currentUser;
 
-            const record = flow(
-              filter(isRecordIsByHabit(habit.id)),
-              find(isRecordsIsFromDate(date))
-            )(records);
+                const record = flow(
+                  filter(isRecordIsByHabit(habit.id)),
+                  find(isRecordsIsFromDate(date))
+                )(records);
 
-            const createOnChangeHabitEmojis = idHabit => emojis => {
-              const ref = db.collection("records");
-              const data = {
-                uid,
-                idHabit,
-                date: date.toDate(),
-                feelings: emojis
-              };
-              if (record) {
-                ref.doc(record.id).set(data);
-              } else {
-                ref.add(data);
-              }
-            };
+                const createOnChangeHabitEmojis = idHabit => emojis => {
+                  const ref = db.collection("records");
+                  const data = {
+                    uid,
+                    idHabit,
+                    date: date.toDate(),
+                    feelings: emojis
+                  };
+                  if (record) {
+                    ref.doc(record.id).set(data);
+                  } else {
+                    ref.add(data);
+                  }
+                };
 
-            return (
-              <Link key={habit.id} to={`/habits/${habit.id}`}>
-                <IndexHabitsListItemV3
-                  habit={habit}
-                  onChangeHabitEmojis={createOnChangeHabitEmojis(habit.id)}
-                  record={record}
-                />
-              </Link>
-            );
-          }}
-        </FirebaseContext.Consumer>
-      );
-    })
-  )(habits);
+                return (
+                  <Grid item xs={12} key={habit.id}>
+                    <Link to={`/habits/${habit.id}`}>
+                      <IndexHabitsListItemV3
+                        habit={habit}
+                        onChangeHabitEmojis={createOnChangeHabitEmojis(
+                          habit.id
+                        )}
+                        record={record}
+                      />
+                    </Link>
+                  </Grid>
+                );
+              }}
+            </FirebaseContext.Consumer>
+          );
+        })
+      )(habits)}
+    </Grid>
+  );
+};

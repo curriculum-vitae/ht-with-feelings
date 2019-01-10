@@ -29,7 +29,9 @@ export const HabitsProviderWithFirebase = compose(
     }
   }),
   setDisplayName("HabitsProvider")
-)(({ children, habits }) => (children ? children({ habits }) : null));
+)(({ children, habits }) =>
+  children ? children({ habits: habits.slice(0, 100) }) : null
+);
 
 export const HabitsProvider = props => (
   <FirebaseContext.Consumer>

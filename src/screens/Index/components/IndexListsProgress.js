@@ -18,7 +18,7 @@ export const IndexListsProgress = ({ percentage, height = 4 }) => {
       />
       <div
         style={{
-          display: isDone ? "none" : "inline-block",
+          display: isDone && !isNothing ? "none" : "inline-block",
           height: `${height}px`,
           borderRadius: isNothing ? "2px" : "0px 2px 2px 0px",
           backgroundColor: `${palette[400]}`,

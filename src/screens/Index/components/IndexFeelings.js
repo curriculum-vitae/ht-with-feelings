@@ -1,4 +1,4 @@
-import { Badge, Chip, Icon, IconButton } from "@material-ui/core";
+import { Badge, Chip, Icon, Button, IconButton } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { flow, map } from "lodash/fp";
 import React from "react";
@@ -41,22 +41,27 @@ const IndexFeelingsWithChip = ({
           }}
         >
           <Badge
+            style={{
+              width: "100%"
+            }}
             badgeContent={selected.filter(i => i === icon).length}
             classes={{
               badge: classes.badge
             }}
             invisible={selected.filter(i => i === icon).length === 0}
           >
-            <IconButton
+            <Button
+              style={{
+                width: "100%"
+              }}
               onClick={e => {
                 e.stopPropagation();
                 e.preventDefault();
                 onChange([...selected, icon]);
               }}
-              label={icon}
             >
               <Icon style={{ overflow: "unset" }}>{icon}</Icon>
-            </IconButton>
+            </Button>
           </Badge>
         </div>
       ))
