@@ -43,16 +43,20 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                     ref.add(data);
                   }
                 };
-
+                const userProgress = habit.uids.reduce((up, uid) => {
+                  up[uid] = Math.random() * 100;
+                  return up;
+                }, {});
                 return (
                   <Grid item xs={12} key={habit.id}>
                     <Link to={`/habits/${habit.id}`}>
                       <IndexHabitsListItemV3
                         habit={habit}
+                        record={record}
+                        userProgress={userProgress}
                         onChangeHabitEmojis={createOnChangeHabitEmojis(
                           habit.id
                         )}
-                        record={record}
                       />
                     </Link>
                   </Grid>

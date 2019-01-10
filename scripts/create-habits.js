@@ -37,11 +37,15 @@ const convertNameToID = flow(
 const USERS = [
   {
     name: "RG",
-    uid: ID_ME
+    uid: ID_ME,
+    linkToAvatar:
+      "https://lh5.googleusercontent.com/-TnLEmGSBu_0/AAAAAAAAAAI/AAAAAAAARRc/0sFcfNvGcRg/photo.jpg=s32-cc"
   },
   {
     name: "Myrosia",
-    uid: ID_MYROSIA
+    uid: ID_MYROSIA,
+    linkToAvatar:
+      "https://scontent-waw1-1.xx.fbcdn.net/v/t1.0-1/p100x100/27332495_1573034896078295_1116078356954396973_n.jpg?_nc_cat=102&_nc_ht=scontent-waw1-1.xx&oh=f5b740c239774d8c925cc3ec6dabae09&oe=5CBA8F0D"
   }
 ];
 
@@ -98,10 +102,7 @@ const createUsers = async () => {
       db
         .collection("users")
         .doc(user.uid)
-        .set({
-          name: user.name,
-          uid: user.uid
-        })
+        .set(user)
     ),
     requests => Promise.all(requests)
   )(USERS);
