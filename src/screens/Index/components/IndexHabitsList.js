@@ -79,7 +79,7 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                   return up;
                 }, {});
                 return (
-                  <Grid item xs={3} key={habit.id}>
+                  <Grid item xs={12} key={habit.id}>
                     <Link to={`/habits/${habit.id}`}>
                       <IndexHabitsListItemV3
                         habit={habit}

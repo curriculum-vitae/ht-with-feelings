@@ -18,6 +18,7 @@ import { IndexHabitsListEmpty } from "screens/Index/components/IndexHabitsListEm
 import { IndexLists } from "screens/Index/components/IndexLists";
 import { formatMomentForCalendarHeader } from "screens/Index/helpers";
 import { isHabitIsFromList } from "shared/helpers";
+import { CalendarWeek } from "components/CalendarWeek";
 
 const IndexListsWrapper = ({ children }) => (
   <div
@@ -53,7 +54,7 @@ const IndexWrapper = ({ children }) => (
   />
 );
 
-export const IndexScreen = ({ hideCompleted = false }) => (
+export const IndexScreen = ({ hideCompleted = false, hideLists = true }) => (
   <IndexWrapper>
     <AuthObserver>
       {({ isSignedIn, loading }) =>
@@ -61,7 +62,7 @@ export const IndexScreen = ({ hideCompleted = false }) => (
           <ProgressFullScreen />
         ) : isSignedIn ? (
           <IndexDayPicker initialDate={moment()}>
-            {({ date, setDatePrev, setDateNext }) => (
+            {({ date, setDatePrev, setDate, setDateNext }) => (
               <>
                 <Toggler initialValue={false}>
                   {props => (
@@ -69,6 +70,7 @@ export const IndexScreen = ({ hideCompleted = false }) => (
                       <IndexAppBarTop
                         onClickDate={() => props.setValue(!props.value)}
                       />
+                      <CalendarWeek date={date} onClickDate={setDate} />
                       <Grid
                         container
                         spacing={0}

@@ -30,7 +30,7 @@ const UserSummaryWeek = ({ user, progress }) => (
   <div
     style={{
       display: "flex",
-      marginBottom: "4px"
+      marginBottom: "6px"
     }}
   >
     <Badge key={user.id} badgeContent={false && String(progress).slice(0, 2)}>
@@ -47,14 +47,14 @@ const UserSummaryWeek = ({ user, progress }) => (
       style={{
         height: "32px",
         width: "100%",
-        padding: "8px"
+        padding: "5px"
       }}
     >
       <div
         style={{
           height: "100%",
           borderRadius: "8px",
-          backgroundColor: grey[200],
+          backgroundColor: grey[300],
           width: `${progress}%`
         }}
       />
@@ -79,12 +79,7 @@ export const IndexHabitsListItemV3 = ({
     }}
     elevation={0}
   >
-    <CardHeader
-      style={{
-        height: "100px"
-      }}
-      title={habit.name}
-    />
+    <CardHeader title={habit.name} />
 
     <CardContent>
       <UsersProvider ids={habit.uids}>
