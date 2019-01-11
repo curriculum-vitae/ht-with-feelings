@@ -7,6 +7,7 @@ import { FeelingsProvider } from "providers/FeelingsProvider";
 import React from "react";
 import { Link } from "react-router-dom";
 import { IndexHabitsListItemV3 } from "screens/Index/components/IndexHabitsListItemV3";
+import { FEELING_OF_THE_END } from "shared/constants";
 
 const isRecordsIsFromDate = date => record =>
   moment(record.date.toDate()).format("DD/MM/YYYY") ===
@@ -44,9 +45,28 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                   }
                 };
                 const userProgress = habit.uids.reduce((up, uid) => {
-                  up[uid] = Math.random() * 100;
+                  const recordsOfHabitAll =
+                    records
+                      .filter(record => record.idHabit === habit.id)
+                      .filter(record => record.uid === uid)
+                      .filter(
+                        record =>
+                          record.date.toDate().getTime() >
+                          new Date().setHours(-1 * 24 * 10)
+                      ) || [];
+
+                  const recordsOfHabitDone = recordsOfHabitAll.filter(
+                    record => {
+                      return record.feelings.includes(`👍`);
+                    }
+                  );
+
+                  up[uid] =
+                    (100 * recordsOfHabitDone.length) /
+                    recordsOfHabitAll.length;
                   return up;
                 }, {});
+                console.log(userProgress);
                 return (
                   <Grid item xs={12} key={habit.id}>
                     <Link to={`/habits/${habit.id}`}>

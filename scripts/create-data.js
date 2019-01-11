@@ -1,5 +1,6 @@
 const config = require("../src/shared/db.config.json");
 const firebase = require("firebase/app");
+
 const {
   flow,
   uniq,
@@ -25,7 +26,7 @@ db.settings({
   timestampsInSnapshots: true
 });
 
-const convertNameToID = flow(
+const convertHabitNameToID = flow(
   replace(/\s/g)(""),
   lowerCase,
   truncate({
@@ -33,6 +34,8 @@ const convertNameToID = flow(
     separator: ""
   })
 );
+
+const NUMBER_OF_FAKE_HISTORY_DATES = 10;
 
 const USERS = [
   {
@@ -58,15 +61,15 @@ const LISTS = [
   "teaching",
   "sitting",
   "communicating",
-
   "sleeping",
   "learning",
   "housing",
   "dancing"
 ];
 
-const HABBITS = [
-  ["Drink more water", ["consumpting"], [ID_ME, ID_MYROSIA]],
+const HABITS = [
+  ["Drink more water", ["consumpting"], [ID_ME, ID_MYROSIA]]
+  /*
   ["Avoid leg locking", ["sitting", "coding"], [ID_ME]],
   ["No web after 24:00", ["sleeping"], [ID_ME, ID_MYROSIA]],
   ["Prepare for the next day", ["planning"], [ID_ME, ID_MYROSIA]],
@@ -94,7 +97,38 @@ const HABBITS = [
   ["Brush teeth", ["sleeping"], [ID_ME, ID_MYROSIA]],
   ["Always understand what I am working on", ["coding"], [ID_ME]],
   ["Prefer learning from individuals", ["learning"], [ID_ME]]
+  */
 ];
+
+const getRandomEmojis = () => {
+  if (Math.random() > 0.9) return ["👍"];
+  if (Math.random() > 0.7) return ["👎"];
+  return [];
+};
+
+const createRecords = async () => {
+  const requests = [];
+  USERS.forEach(user => {
+    const habits = HABITS.filter(habit => habit[2].includes(user.uid));
+
+    habits.forEach(habit => {
+      [...new Array(NUMBER_OF_FAKE_HISTORY_DATES)].forEach((v, index) => {
+        const request = db
+          .collection("records")
+          .doc()
+          .set({
+            date: new Date(new Date().setHours(-1 * 24 * index)),
+            uid: user.uid,
+            idHabit: convertHabitNameToID(habit[0]),
+            feelings: getRandomEmojis()
+          });
+
+        requests.push(request);
+      });
+    });
+  });
+  return await Promise.all(requests);
+};
 
 const createUsers = async () => {
   return await flow(
@@ -113,7 +147,7 @@ const createLists = async () => {
     map(habit => habit[1]),
     flatten,
     uniq
-  )(HABBITS);
+  )(HABITS);
 
   return await flow(
     map(list =>
@@ -136,7 +170,7 @@ const createHabits = async () => {
     map(habit =>
       db
         .collection("habits")
-        .doc(convertNameToID(habit[0]))
+        .doc(convertHabitNameToID(habit[0]))
         .set({
           name: habit[0],
           uid: ID_ME,
@@ -145,13 +179,13 @@ const createHabits = async () => {
         })
     ),
     requests => Promise.all(requests)
-  )(HABBITS);
+  )(HABITS);
 };
 
 const runTask = async (name, task) => {
-  console.log(`STARTING \t\t ${name}`);
+  console.log(`${name} --> START`);
   await task();
-  console.log(`ENDING \\t ${name}`);
+  console.log(`${name} --> END`);
 };
 
 const createAll = async () => {
@@ -159,6 +193,7 @@ const createAll = async () => {
     await runTask("LISTS", createLists);
     await runTask("HABITS", createHabits);
     await runTask("USERS", createUsers);
+    await runTask("RECORDS", createRecords);
 
     console.log("Document successfully written!");
   } catch (e) {
