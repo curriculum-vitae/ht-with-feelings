@@ -16,7 +16,21 @@ export const SelectedMany = compose(
           props => props.selected,
           filter(item => item !== id)
         )(props)
-      })
+      }),
+      toggle: props => id => {
+        if (props.selected.includes(id)) {
+          return {
+            selected: flow(
+              props => props.selected,
+              filter(item => item !== id)
+            )(props)
+          };
+        } else {
+          return {
+            selected: [...props.selected, id]
+          };
+        }
+      }
     }
   )
 )(({ children, ...props }) => children({ ...props }));
