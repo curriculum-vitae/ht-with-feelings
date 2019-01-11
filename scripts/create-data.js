@@ -8,8 +8,8 @@ const {
   flatten,
   sortBy,
   replace,
-  slice,
-  capitalize,
+
+  filter,
   truncate,
   lowerCase
 } = require("lodash/fp");
@@ -25,21 +25,6 @@ const ID_MYROSIA = "FjxH8CtpSTNItsM35mOr1R12UYV2";
 db.settings({
   timestampsInSnapshots: true
 });
-
-const getHabitID = flow(
-  replace(/\s/g)(""),
-  lowerCase,
-  truncate({
-    length: 24,
-    separator: ""
-  })
-);
-
-const getRecordID = uid => habit => date => {
-  return `${uid}${getHabitID(
-    habit
-  )}${date.getYear()}${date.getMonth()}${date.getDate()}`;
-};
 
 const NUMBER_OF_FAKE_HISTORY_DATES = 5;
 
@@ -112,10 +97,30 @@ const getRandomEmojis = () => {
   return [];
 };
 
+const getHabitID = flow(
+  replace(/\s/g)(""),
+  lowerCase,
+  truncate({
+    length: 24,
+    separator: ""
+  })
+);
+
+const getRecordID = uid => habit => date => {
+  return `${uid}${getHabitID(
+    habit
+  )}${date.getYear()}${date.getMonth()}${date.getDate()}`;
+};
+
+const filterHabits = filter(habit => !!habit[2] && habit[2].length >= 2);
+
 const createRecords = async () => {
   const requests = [];
   USERS.forEach(user => {
-    const habits = HABITS.filter(habit => habit[2].includes(user.uid));
+    const habits = flow(
+      filterHabits,
+      filter(habit => habit[2].includes(user.uid))
+    )(HABITS);
 
     habits.forEach(habit => {
       [...new Array(NUMBER_OF_FAKE_HISTORY_DATES)].forEach((v, index) => {
@@ -151,6 +156,7 @@ const createUsers = async () => {
 
 const createLists = async () => {
   const lists = flow(
+    filterHabits,
     map(habit => habit[1]),
     flatten,
     uniq
@@ -173,6 +179,7 @@ const createLists = async () => {
 
 const createHabits = async () => {
   return await flow(
+    filterHabits,
     sortBy(habit => habit[0]),
     map(habit =>
       db

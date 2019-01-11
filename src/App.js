@@ -19,7 +19,7 @@ class App extends Component {
           <MuiThemeProvider theme={theme}>
             <CssBaseline />
             <Grid container justify={"center"}>
-              <Grid item xs={12} sm={12} md={6} lg={4}>
+              <Grid item xs={12} sm={12} md={6} lg={12}>
                 <Router history={history}>
                   <>
                     <Route path={"/"} exact component={IndexScreen} />
