@@ -30,6 +30,13 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                   find(isRecordsIsFromDate(date))
                 )(records);
 
+                const isRecordIsSuccess = record => {
+                  return !!record && record.feelings.includes(`👍`);
+                };
+
+                const isRecordIsFailure = record => {
+                  return !!record && record.feelings.includes(`👎`);
+                };
                 const createOnChangeHabitEmojis = idHabit => emojis => {
                   const ref = db.collection("records");
                   const data = {
@@ -56,9 +63,7 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                       ) || [];
 
                   const recordsOfHabitDone = recordsOfHabitAll.filter(
-                    record => {
-                      return record.feelings.includes(`👍`);
-                    }
+                    isRecordIsSuccess
                   );
 
                   up[uid] =
@@ -72,6 +77,8 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                       <IndexHabitsListItemV3
                         habit={habit}
                         record={record}
+                        isDone={isRecordIsSuccess(record)}
+                        isFailure={isRecordIsFailure(record)}
                         userProgress={userProgress}
                         onChangeHabitEmojis={createOnChangeHabitEmojis(
                           habit.id

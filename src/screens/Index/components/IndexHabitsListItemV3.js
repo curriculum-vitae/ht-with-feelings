@@ -6,7 +6,7 @@ import {
   CardContent,
   CardHeader
 } from "@material-ui/core";
-import { grey } from "@material-ui/core/colors";
+import { grey, green, red } from "@material-ui/core/colors";
 import React from "react";
 import { IndexFeelings } from "screens/Index/components/IndexFeelings";
 import { FEELINGS } from "shared/constants";
@@ -33,7 +33,7 @@ const UserSummaryWeek = ({ user, progress }) => (
       marginBottom: "4px"
     }}
   >
-    <Badge key={user.id} badgeContent={String(progress).slice(0, 2)}>
+    <Badge key={user.id} badgeContent={false && String(progress).slice(0, 2)}>
       <Avatar
         style={{
           width: "32px",
@@ -66,11 +66,15 @@ export const IndexHabitsListItemV3 = ({
   habit,
   record,
   userProgress,
-  onChangeHabitEmojis
+  onChangeHabitEmojis,
+  isDone,
+  isFailure
 }) => (
   <Card
     style={{
-      border: `1px solid ${grey[200]}`,
+      border: `4px solid ${
+        isDone ? green[200] : isFailure ? red[200] : grey[200]
+      }`,
       backgroundColor: "unset"
     }}
     elevation={0}

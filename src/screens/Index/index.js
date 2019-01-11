@@ -53,7 +53,7 @@ const IndexWrapper = ({ children }) => (
   />
 );
 
-export const IndexScreen = () => (
+export const IndexScreen = ({ hideCompleted = false }) => (
   <IndexWrapper>
     <AuthObserver>
       {({ isSignedIn, loading }) =>
@@ -144,7 +144,13 @@ export const IndexScreen = () => (
                                   );
                                 };
 
-                                const habitsCurrentUnfinishedByList = idList =>
+                                const getHabitsCurrentAllByList = idList =>
+                                  flow(
+                                    props => props.habits,
+                                    filterHabitsByList(idList)
+                                  )(props);
+
+                                const getHabitsCurrentUnfinishedByList = idList =>
                                   flow(
                                     props => props.habits,
                                     filterHabitsByList(idList),
@@ -156,7 +162,7 @@ export const IndexScreen = () => (
                                     )
                                   )(props);
 
-                                const habitsCurrentFinishedByList = idList =>
+                                const getHabitsCurrentFinishedByList = idList =>
                                   flow(
                                     props => props.habits,
                                     filterHabitsByList(idList),
@@ -170,19 +176,23 @@ export const IndexScreen = () => (
                                 const getListProgress = idList => {
                                   return (
                                     (100 *
-                                      habitsCurrentFinishedByList(idList)
+                                      getHabitsCurrentFinishedByList(idList)
                                         .length) /
-                                    (habitsCurrentUnfinishedByList(idList)
+                                    (getHabitsCurrentUnfinishedByList(idList)
                                       .length +
-                                      habitsCurrentFinishedByList(idList)
+                                      getHabitsCurrentFinishedByList(idList)
                                         .length)
                                   );
                                 };
-                                const countOfFinished = habitsCurrentFinishedByList(
+                                const countOfAllBySelected = getHabitsCurrentAllByList(
                                   selected
                                 ).length;
 
-                                const countofUnfinished = habitsCurrentUnfinishedByList(
+                                const countOfFinishedBySelected = getHabitsCurrentFinishedByList(
+                                  selected
+                                ).length;
+
+                                const countofUnfinishedBySelected = getHabitsCurrentUnfinishedByList(
                                   selected
                                 ).length;
 
@@ -190,8 +200,8 @@ export const IndexScreen = () => (
 
                                 return (
                                   <>
-                                    <IndexListsWrapper>
-                                      {countOfLists > 0 ? (
+                                    {countOfLists > 0 ? (
+                                      <IndexListsWrapper>
                                         <IndexLists
                                           selected={selected}
                                           lists={flow(
@@ -203,52 +213,65 @@ export const IndexScreen = () => (
                                           onSelect={id => setSelected(id)}
                                           progress={getListProgress("all")}
                                         />
-                                      ) : null}
-                                    </IndexListsWrapper>
+                                      </IndexListsWrapper>
+                                    ) : null}
                                     <IndexHabitsListWrapper>
-                                      {countofUnfinished > 0 ? (
-                                        <IndexHabitsList
-                                          date={date}
-                                          habits={habitsCurrentUnfinishedByList(
-                                            selected
-                                          )}
-                                          records={records}
-                                        />
-                                      ) : (
+                                      <IndexHabitsList
+                                        date={date}
+                                        habits={
+                                          hideCompleted
+                                            ? getHabitsCurrentUnfinishedByList(
+                                                selected
+                                              )
+                                            : getHabitsCurrentAllByList(
+                                                selected
+                                              )
+                                        }
+                                        records={records}
+                                      />
+
+                                      {(countofUnfinishedBySelected === 0 &&
+                                        hideCompleted) ||
+                                      countOfAllBySelected === 0 ? (
                                         <IndexHabitsListEmpty />
-                                      )}
+                                      ) : null}
                                     </IndexHabitsListWrapper>
-                                    <Toggler initialValue={true}>
-                                      {({ value, setValue }) => (
-                                        <>
-                                          {countOfFinished > 0 ? (
-                                            <IndexHabitsListWrapper>
-                                              <IndexButtonToggleFinished
-                                                onClick={() => setValue(!value)}
-                                              >
-                                                {value
-                                                  ? `Hide`
-                                                  : `Show completed (${countOfFinished})`}
-                                              </IndexButtonToggleFinished>
-                                            </IndexHabitsListWrapper>
-                                          ) : null}
-                                          {value ? (
-                                            <>
-                                              <br />
+                                    {hideCompleted ? (
+                                      <Toggler initialValue={false}>
+                                        {({ value, setValue }) => (
+                                          <>
+                                            <br />
+                                            {countOfFinishedBySelected > 0 ? (
                                               <IndexHabitsListWrapper>
-                                                <IndexHabitsList
-                                                  date={date}
-                                                  habits={habitsCurrentFinishedByList(
-                                                    selected
-                                                  )}
-                                                  records={records}
-                                                />
+                                                <IndexButtonToggleFinished
+                                                  onClick={() =>
+                                                    setValue(!value)
+                                                  }
+                                                >
+                                                  {value
+                                                    ? `Hide`
+                                                    : `Show completed (${countOfFinishedBySelected})`}
+                                                </IndexButtonToggleFinished>
                                               </IndexHabitsListWrapper>
-                                            </>
-                                          ) : null}
-                                        </>
-                                      )}
-                                    </Toggler>
+                                            ) : null}
+                                            {value ? (
+                                              <>
+                                                <br />
+                                                <IndexHabitsListWrapper>
+                                                  <IndexHabitsList
+                                                    date={date}
+                                                    habits={getHabitsCurrentFinishedByList(
+                                                      selected
+                                                    )}
+                                                    records={records}
+                                                  />
+                                                </IndexHabitsListWrapper>
+                                              </>
+                                            ) : null}
+                                          </>
+                                        )}
+                                      </Toggler>
+                                    ) : null}
                                   </>
                                 );
                               }}
