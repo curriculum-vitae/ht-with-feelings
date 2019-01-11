@@ -33,14 +33,16 @@ const UserSummaryWeek = ({ user, progress }) => (
       marginBottom: "4px"
     }}
   >
-    <Avatar
-      style={{
-        width: "32px",
-        height: "32px",
-        marginRight: "12px"
-      }}
-      src={user.linkToAvatar}
-    />
+    <Badge key={user.id} badgeContent={String(progress).slice(0, 2)}>
+      <Avatar
+        style={{
+          width: "32px",
+          height: "32px",
+          marginRight: "12px"
+        }}
+        src={user.linkToAvatar}
+      />
+    </Badge>
     <div
       style={{
         height: "32px",

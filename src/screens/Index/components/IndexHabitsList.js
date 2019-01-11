@@ -66,7 +66,6 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                     recordsOfHabitAll.length;
                   return up;
                 }, {});
-                console.log(userProgress);
                 return (
                   <Grid item xs={12} key={habit.id}>
                     <Link to={`/habits/${habit.id}`}>

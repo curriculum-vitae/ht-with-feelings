@@ -11,7 +11,7 @@ export const RecordsProviderWithFirebase = compose(
       const { uid } = firebase.auth().currentUser;
       this.unsub = db
         .collection("records")
-        .where("uid", "==", uid)
+        //.where("uid", "==", uid)
         .onSnapshot(querySnapshot => {
           const result = [];
           querySnapshot.forEach(doc =>
