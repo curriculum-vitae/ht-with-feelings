@@ -218,7 +218,7 @@ export const IndexScreen = () => (
                                         <IndexHabitsListEmpty />
                                       )}
                                     </IndexHabitsListWrapper>
-                                    <Toggler initialValue={false}>
+                                    <Toggler initialValue={true}>
                                       {({ value, setValue }) => (
                                         <>
                                           {countOfFinished > 0 ? (

@@ -26,7 +26,7 @@ db.settings({
   timestampsInSnapshots: true
 });
 
-const convertHabitNameToID = flow(
+const getHabitID = flow(
   replace(/\s/g)(""),
   lowerCase,
   truncate({
@@ -34,6 +34,12 @@ const convertHabitNameToID = flow(
     separator: ""
   })
 );
+
+const getRecordID = uid => habit => date => {
+  return `${uid}${getHabitID(
+    habit
+  )}${date.getYear()}${date.getMonth()}${date.getDate()}`;
+};
 
 const NUMBER_OF_FAKE_HISTORY_DATES = 10;
 
@@ -68,11 +74,12 @@ const LISTS = [
 ];
 
 const HABITS = [
-  ["Drink more water", ["consumpting"], [ID_ME, ID_MYROSIA]]
-  /*
+  ["Drink more water", ["consumpting"], [ID_ME, ID_MYROSIA]],
+
   ["Avoid leg locking", ["sitting", "coding"], [ID_ME]],
   ["No web after 24:00", ["sleeping"], [ID_ME, ID_MYROSIA]],
-  ["Prepare for the next day", ["planning"], [ID_ME, ID_MYROSIA]],
+  ["Prepare for the next day", ["planning"], [ID_ME, ID_MYROSIA]]
+  /*
   ["Perfect week planning", ["planning"], [ID_ME]],
   ["Write to Notion", ["learning"], [ID_ME]],
   ["Use Pomodoro", ["coding"], [ID_ME]],
@@ -101,8 +108,8 @@ const HABITS = [
 ];
 
 const getRandomEmojis = () => {
-  if (Math.random() > 0.9) return ["👍"];
-  if (Math.random() > 0.7) return ["👎"];
+  if (Math.random() > 0.5) return ["👍"];
+  if (Math.random() > 0.5) return ["👎"];
   return [];
 };
 
@@ -113,13 +120,14 @@ const createRecords = async () => {
 
     habits.forEach(habit => {
       [...new Array(NUMBER_OF_FAKE_HISTORY_DATES)].forEach((v, index) => {
+        const date = new Date(new Date().setHours(-1 * 24 * index));
         const request = db
           .collection("records")
-          .doc()
+          .doc(getRecordID(user.uid)(habit)(date))
           .set({
-            date: new Date(new Date().setHours(-1 * 24 * index)),
+            date,
             uid: user.uid,
-            idHabit: convertHabitNameToID(habit[0]),
+            idHabit: getHabitID(habit[0]),
             feelings: getRandomEmojis()
           });
 
@@ -170,7 +178,7 @@ const createHabits = async () => {
     map(habit =>
       db
         .collection("habits")
-        .doc(convertHabitNameToID(habit[0]))
+        .doc(getHabitID(habit[0]))
         .set({
           name: habit[0],
           uid: ID_ME,
