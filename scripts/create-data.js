@@ -41,7 +41,7 @@ const getRecordID = uid => habit => date => {
   )}${date.getYear()}${date.getMonth()}${date.getDate()}`;
 };
 
-const NUMBER_OF_FAKE_HISTORY_DATES = 10;
+const NUMBER_OF_FAKE_HISTORY_DATES = 5;
 
 const USERS = [
   {
@@ -78,8 +78,8 @@ const HABITS = [
 
   ["Avoid leg locking", ["sitting", "coding"], [ID_ME]],
   ["No web after 24:00", ["sleeping"], [ID_ME, ID_MYROSIA]],
-  ["Prepare for the next day", ["planning"], [ID_ME, ID_MYROSIA]]
-  /*
+  ["Prepare for the next day", ["planning"], [ID_ME, ID_MYROSIA]],
+
   ["Perfect week planning", ["planning"], [ID_ME]],
   ["Write to Notion", ["learning"], [ID_ME]],
   ["Use Pomodoro", ["coding"], [ID_ME]],
@@ -104,11 +104,10 @@ const HABITS = [
   ["Brush teeth", ["sleeping"], [ID_ME, ID_MYROSIA]],
   ["Always understand what I am working on", ["coding"], [ID_ME]],
   ["Prefer learning from individuals", ["learning"], [ID_ME]]
-  */
 ];
 
 const getRandomEmojis = () => {
-  if (Math.random() > 0.5) return ["👍"];
+  if (Math.random() > 0.6) return ["👍"];
   if (Math.random() > 0.5) return ["👎"];
   return [];
 };
