@@ -24,7 +24,7 @@ export const IndexAppBarTop = ({ onClickDate }) => (
         <Icon>date_range</Icon>
       </IconButton>
 
-      <Toggler initialValue={true}>
+      <Toggler initialValue={false}>
         {({ value, setValue }) => (
           <>
             <IndexHabitAdd isOpen={value} onClose={() => setValue(false)} />
