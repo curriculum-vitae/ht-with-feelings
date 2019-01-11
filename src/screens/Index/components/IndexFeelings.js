@@ -62,7 +62,11 @@ const IndexFeelingsWithChip = ({
                     e.stopPropagation();
                     e.preventDefault();
                     // onChange([...selected, icon]);
-                    onChange([icon]);
+                    if (selected.includes(icon)) {
+                      onChange([]);
+                    } else {
+                      onChange([icon]);
+                    }
                   }}
                 >
                   <Icon style={{ overflow: "unset" }}>{icon}</Icon>

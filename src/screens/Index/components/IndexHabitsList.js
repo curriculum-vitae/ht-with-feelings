@@ -9,11 +9,24 @@ import { Link } from "react-router-dom";
 import { IndexHabitsListItemV3 } from "screens/Index/components/IndexHabitsListItemV3";
 import { FEELING_OF_THE_END } from "shared/constants";
 
-const isRecordsIsFromDate = date => record =>
+const isRecordIsFromDate = date => record =>
   moment(record.date.toDate()).format("DD/MM/YYYY") ===
   date.format("DD/MM/YYYY");
 
 const isRecordIsByHabit = idHabit => record => record.idHabit === idHabit;
+
+const isRecordIsByUser = uid => record => record.uid === uid;
+
+const isRecordIsSuccess = record => {
+  return !!record && record.feelings.includes(`👍`);
+};
+
+const isRecordIsFailure = record => {
+  return !!record && record.feelings.includes(`👎`);
+};
+
+const isRecordIsDateAfter = date => record =>
+  record.date.toDate().getTime() > date.getTime();
 
 export const IndexHabitsList = ({ habits, date, records }) => {
   return (
@@ -25,18 +38,12 @@ export const IndexHabitsList = ({ habits, date, records }) => {
               {db => {
                 const { uid } = firebase.auth().currentUser;
 
-                const record = flow(
+                const recordFromViewDate = flow(
+                  filter(isRecordIsByUser(uid)),
                   filter(isRecordIsByHabit(habit.id)),
-                  find(isRecordsIsFromDate(date))
+                  find(isRecordIsFromDate(date))
                 )(records);
 
-                const isRecordIsSuccess = record => {
-                  return !!record && record.feelings.includes(`👍`);
-                };
-
-                const isRecordIsFailure = record => {
-                  return !!record && record.feelings.includes(`👎`);
-                };
                 const createOnChangeHabitEmojis = idHabit => emojis => {
                   const ref = db.collection("records");
                   const data = {
@@ -45,25 +52,25 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                     date: date.toDate(),
                     feelings: emojis
                   };
-                  if (record) {
-                    ref.doc(record.id).set(data);
+                  if (recordFromViewDate) {
+                    ref.doc(recordFromViewDate.id).set(data);
                   } else {
                     ref.add(data);
                   }
                 };
                 const userProgress = habit.uids.reduce((up, uid) => {
-                  const recordsOfHabitAll =
-                    records
-                      .filter(record => record.idHabit === habit.id)
-                      .filter(record => record.uid === uid)
-                      .filter(
-                        record =>
-                          record.date.toDate().getTime() >
-                          new Date().setHours(-1 * 24 * 10)
-                      ) || [];
+                  const recordsOfHabitAll = flow(
+                    filter(isRecordIsByHabit(habit.id)),
+                    filter(isRecordIsByUser(uid)),
+                    filter(
+                      isRecordIsDateAfter(
+                        new Date(new Date().setHours(-1 * 24 * 10))
+                      )
+                    )
+                  )(records);
 
-                  const recordsOfHabitDone = recordsOfHabitAll.filter(
-                    isRecordIsSuccess
+                  const recordsOfHabitDone = flow(filter(isRecordIsSuccess))(
+                    recordsOfHabitAll
                   );
 
                   up[uid] =
@@ -76,9 +83,9 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                     <Link to={`/habits/${habit.id}`}>
                       <IndexHabitsListItemV3
                         habit={habit}
-                        record={record}
-                        isDone={isRecordIsSuccess(record)}
-                        isFailure={isRecordIsFailure(record)}
+                        record={recordFromViewDate}
+                        isDone={isRecordIsSuccess(recordFromViewDate)}
+                        isFailure={isRecordIsFailure(recordFromViewDate)}
                         userProgress={userProgress}
                         onChangeHabitEmojis={createOnChangeHabitEmojis(
                           habit.id
