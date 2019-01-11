@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, IconButton, Button, Icon } from "@material-ui/core";
 
 export const CalendarWeekDay = ({ date, onClick, isSelected }) => (
   <div
@@ -8,20 +8,34 @@ export const CalendarWeekDay = ({ date, onClick, isSelected }) => (
       width: "100%",
       cursor: "pointer"
     }}
+    size={"small"}
     onClick={() => onClick(date)}
   >
-    <Button
+    <IconButton
+      style={{
+        fontSize: "12px"
+      }}
       color={isSelected ? "primary" : undefined}
       variant={isSelected ? "outlined" : undefined}
     >
       {date.format("DD")}
-    </Button>
+    </IconButton>
   </div>
 );
 
-export const CalendarWeek = ({ date, onClickDate }) => {
+export const CalendarWeek = ({
+  date,
+  onClickDate,
+  onClickArrowLeft,
+  onClickArrowRight,
+  showArrows
+}) => {
   return (
     <div style={{ display: "flex" }}>
+      <Button size={"small"} onClick={onClickArrowLeft}>
+        <Icon>arrow_left</Icon>
+      </Button>
+
       {[...new Array(7)].map((value, index) => {
         const dateOfWeek = date
           .clone()
@@ -37,6 +51,9 @@ export const CalendarWeek = ({ date, onClickDate }) => {
           />
         );
       })}
+      <Button size={"small"} onClick={onClickArrowRight}>
+        <Icon>arrow_right</Icon>
+      </Button>
     </div>
   );
 };

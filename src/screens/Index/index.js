@@ -16,9 +16,10 @@ import { IndexDayPicker } from "screens/Index/components/IndexDayPicker";
 import { IndexHabitsList } from "screens/Index/components/IndexHabitsList";
 import { IndexHabitsListEmpty } from "screens/Index/components/IndexHabitsListEmpty";
 import { IndexLists } from "screens/Index/components/IndexLists";
-import { formatMomentForCalendarHeader } from "screens/Index/helpers";
+
 import { isHabitIsFromList } from "shared/helpers";
 import { CalendarWeek } from "components/CalendarWeek";
+import { CalendarDay } from "components/CalendarDay";
 
 const IndexListsWrapper = ({ children }) => (
   <div
@@ -70,38 +71,23 @@ export const IndexScreen = ({ hideCompleted = false, hideLists = true }) => (
                       <IndexAppBarTop
                         onClickDate={() => props.setValue(!props.value)}
                       />
-                      <CalendarWeek date={date} onClickDate={setDate} />
-                      <Grid
-                        container
-                        spacing={0}
-                        style={{
-                          margin: "16px 0px",
-                          display: !!props.value ? undefined : "none"
-                        }}
-                      >
-                        <Grid item xs={12}>
-                          <Grid container alignItems={"center"}>
-                            <Grid item xs={4}>
-                              <IconButton onClick={setDatePrev}>
-                                <Icon>arrow_left</Icon>
-                              </IconButton>
-                            </Grid>
-                            <Grid item xs={4}>
-                              <Typography variant={"h6"} align={"center"}>
-                                {formatMomentForCalendarHeader(date)}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                              <IconButton
-                                onClick={setDateNext}
-                                style={{ float: "right" }}
-                              >
-                                <Icon>arrow_right</Icon>
-                              </IconButton>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
+                      <CalendarWeek
+                        date={date}
+                        onClickDate={setDate}
+                        onClickArrowLeft={() =>
+                          setDate(date.clone().add(-7, "days"))
+                        }
+                        onClickArrowRight={() =>
+                          setDate(date.clone().add(7, "days"))
+                        }
+                      />
+                      {props.value ? (
+                        <CalendarDay
+                          date={date}
+                          onClickArrowLeft={setDatePrev}
+                          onClickArrowRight={setDateNext}
+                        />
+                      ) : null}
                     </>
                   )}
                 </Toggler>
@@ -202,7 +188,7 @@ export const IndexScreen = ({ hideCompleted = false, hideLists = true }) => (
 
                                 return (
                                   <>
-                                    {countOfLists > 0 ? (
+                                    {false && countOfLists > 0 ? (
                                       <IndexListsWrapper>
                                         <IndexLists
                                           selected={selected}

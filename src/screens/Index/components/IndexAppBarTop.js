@@ -17,7 +17,7 @@ export const IndexAppBarTop = ({ onClickDate }) => (
       }}
     >
       <Link to={"/"} style={{ flexGrow: "1", flexBasis: "0" }}>
-        <Typography variant={"h4"}>My habits!</Typography>
+        <Typography variant={"h4"}>My habits</Typography>
       </Link>
 
       <IconButton onClick={onClickDate}>
