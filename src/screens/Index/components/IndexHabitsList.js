@@ -37,7 +37,7 @@ export const IndexHabitsList = ({ habits, date, records }) => {
             <FirebaseContext.Consumer key={habit.id}>
               {db => {
                 const { uid } = firebase.auth().currentUser;
-
+                const COUNT_OF_DAYS = 7;
                 const recordFromViewDate = flow(
                   filter(isRecordIsByUser(uid)),
                   filter(isRecordIsByHabit(habit.id)),
@@ -64,7 +64,7 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                     filter(isRecordIsByUser(uid)),
                     filter(
                       isRecordIsDateAfter(
-                        new Date(new Date().setHours(-1 * 24 * 10))
+                        new Date(new Date().setHours(-1 * 24 * COUNT_OF_DAYS))
                       )
                     )
                   )(records);
@@ -73,9 +73,7 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                     recordsOfHabitAll
                   );
 
-                  up[uid] =
-                    (100 * recordsOfHabitDone.length) /
-                    recordsOfHabitAll.length;
+                  up[uid] = (100 * recordsOfHabitDone.length) / COUNT_OF_DAYS;
                   return up;
                 }, {});
                 return (
