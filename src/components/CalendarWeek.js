@@ -1,7 +1,14 @@
+import { Button, Icon, IconButton } from "@material-ui/core";
+import { withTheme } from "@material-ui/core/styles";
+import { compose } from "lodash/fp";
+import moment from "moment";
 import React from "react";
-import { Typography, IconButton, Button, Icon } from "@material-ui/core";
+import { setDisplayName } from "recompose";
 
-export const CalendarWeekDay = ({ date, onClick, isSelected }) => (
+export const CalendarWeekDay = compose(
+  setDisplayName("CalendarWeekDay"),
+  withTheme()
+)(({ date, onClick, isSelected, isToday, theme }) => (
   <div
     style={{
       textAlign: "center",
@@ -13,15 +20,18 @@ export const CalendarWeekDay = ({ date, onClick, isSelected }) => (
   >
     <IconButton
       style={{
-        fontSize: "12px"
+        fontSize: "12px",
+        backgroundColor: isSelected
+          ? theme.palette.primary.light
+          : isToday
+          ? theme.palette.grey[300]
+          : undefined
       }}
-      color={isSelected ? "primary" : undefined}
-      variant={isSelected ? "outlined" : undefined}
     >
-      {date.format("DD")}
+      {isToday ? "T" : date.format("DD")}
     </IconButton>
   </div>
-);
+));
 
 export const CalendarWeek = ({
   date,
@@ -46,6 +56,7 @@ export const CalendarWeek = ({
           <CalendarWeekDay
             key={dateOfWeek.format("MMDDYY")}
             isSelected={dateOfWeek.format("MMDDYY") === date.format("MMDDYY")}
+            isToday={moment().format("MMDDYY") === dateOfWeek.format("MMDDYY")}
             date={dateOfWeek}
             onClick={onClickDate}
           />

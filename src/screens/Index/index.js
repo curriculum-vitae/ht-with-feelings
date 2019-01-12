@@ -36,10 +36,19 @@ const IndexListsWrapper = ({ children }) => (
   />
 );
 
-const IndexHabitsListWrapper = ({ children }) => (
+const IndexContentWrapper = ({ children }) => (
   <div
     style={{
       padding: "0px 16px"
+    }}
+    children={children}
+  />
+);
+
+const IndexCalendarPickerWrapper = ({ children }) => (
+  <div
+    style={{
+      padding: "8px 0px"
     }}
     children={children}
   />
@@ -71,23 +80,29 @@ export const IndexScreen = ({ hideCompleted = false, hideLists = true }) => (
                       <IndexAppBarTop
                         onClickDate={() => props.setValue(!props.value)}
                       />
-                      <CalendarWeek
-                        date={date}
-                        onClickDate={setDate}
-                        onClickArrowLeft={() =>
-                          setDate(date.clone().add(-7, "days"))
-                        }
-                        onClickArrowRight={() =>
-                          setDate(date.clone().add(7, "days"))
-                        }
-                      />
-                      {props.value ? (
-                        <CalendarDay
-                          date={date}
-                          onClickArrowLeft={setDatePrev}
-                          onClickArrowRight={setDateNext}
-                        />
-                      ) : null}
+                      <IndexContentWrapper>
+                        <IndexCalendarPickerWrapper>
+                          {props.value ? (
+                            <CalendarWeek
+                              date={date}
+                              onClickDate={setDate}
+                              onClickArrowLeft={() =>
+                                setDate(date.clone().add(-7, "days"))
+                              }
+                              onClickArrowRight={() =>
+                                setDate(date.clone().add(7, "days"))
+                              }
+                            />
+                          ) : null}
+                          {props.value && false ? (
+                            <CalendarDay
+                              date={date}
+                              onClickArrowLeft={setDatePrev}
+                              onClickArrowRight={setDateNext}
+                            />
+                          ) : null}
+                        </IndexCalendarPickerWrapper>
+                      </IndexContentWrapper>
                     </>
                   )}
                 </Toggler>
@@ -203,7 +218,7 @@ export const IndexScreen = ({ hideCompleted = false, hideLists = true }) => (
                                         />
                                       </IndexListsWrapper>
                                     ) : null}
-                                    <IndexHabitsListWrapper>
+                                    <IndexContentWrapper>
                                       <IndexHabitsList
                                         date={date}
                                         habits={
@@ -223,14 +238,14 @@ export const IndexScreen = ({ hideCompleted = false, hideLists = true }) => (
                                       countOfAllBySelected === 0 ? (
                                         <IndexHabitsListEmpty />
                                       ) : null}
-                                    </IndexHabitsListWrapper>
+                                    </IndexContentWrapper>
                                     {hideCompleted ? (
                                       <Toggler initialValue={false}>
                                         {({ value, setValue }) => (
                                           <>
                                             <br />
                                             {countOfFinishedBySelected > 0 ? (
-                                              <IndexHabitsListWrapper>
+                                              <IndexContentWrapper>
                                                 <IndexButtonToggleFinished
                                                   onClick={() =>
                                                     setValue(!value)
@@ -240,12 +255,12 @@ export const IndexScreen = ({ hideCompleted = false, hideLists = true }) => (
                                                     ? `Hide`
                                                     : `Show completed (${countOfFinishedBySelected})`}
                                                 </IndexButtonToggleFinished>
-                                              </IndexHabitsListWrapper>
+                                              </IndexContentWrapper>
                                             ) : null}
                                             {value ? (
                                               <>
                                                 <br />
-                                                <IndexHabitsListWrapper>
+                                                <IndexContentWrapper>
                                                   <IndexHabitsList
                                                     date={date}
                                                     habits={getHabitsCurrentFinishedByList(
@@ -253,7 +268,7 @@ export const IndexScreen = ({ hideCompleted = false, hideLists = true }) => (
                                                     )}
                                                     records={records}
                                                   />
-                                                </IndexHabitsListWrapper>
+                                                </IndexContentWrapper>
                                               </>
                                             ) : null}
                                           </>
