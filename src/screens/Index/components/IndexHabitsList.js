@@ -69,11 +69,20 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                     )
                   )(records);
 
-                  const recordsOfHabitDone = flow(filter(isRecordIsSuccess))(
+                  const recordsOfHabitSuccess = flow(filter(isRecordIsSuccess))(
                     recordsOfHabitAll
                   );
 
-                  up[uid] = (100 * recordsOfHabitDone.length) / COUNT_OF_DAYS;
+                  const recordsOfHabitFail = flow(filter(isRecordIsFailure))(
+                    recordsOfHabitAll
+                  );
+
+                  up[uid] =
+                    50 +
+                    (50 *
+                      (recordsOfHabitSuccess.length -
+                        recordsOfHabitFail.length)) /
+                      COUNT_OF_DAYS;
                   return up;
                 }, {});
                 return (
