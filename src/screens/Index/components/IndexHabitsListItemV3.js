@@ -4,7 +4,8 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardHeader
+  CardHeader,
+  Typography
 } from "@material-ui/core";
 import { grey, green, red } from "@material-ui/core/colors";
 import React from "react";
@@ -79,9 +80,11 @@ export const IndexHabitsListItemV3 = ({
     }}
     elevation={0}
   >
-    <CardHeader title={habit.name} />
-
     <CardContent>
+      <CardHeader style={{ paddingLeft: "0px" }} title={habit.name} />
+      <Typography variant={"caption"} gutterBottom>
+        WS (weekly score)
+      </Typography>
       <UsersProvider ids={habit.uids}>
         {props =>
           props.users.map(user => (

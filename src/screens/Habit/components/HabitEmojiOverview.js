@@ -16,14 +16,14 @@ export const HabitEmojiOverview = ({ statsItems }) => (
         return (
           <Grid
             item
-            xs={4}
+            xs={6}
             style={{ textAlign: "center" }}
             key={statsItem.emoji}
           >
             <div
               style={{
                 fontSize: `${size}px`,
-                paddingTop: `${(RANGE_OF_EMOJI[1] - size) / 2}px`,
+                paddingTop: `${(RANGE_OF_EMOJI[1] - size) / 1.5}px`,
                 height: `${RANGE_OF_EMOJI[1]}px`
               }}
             >
