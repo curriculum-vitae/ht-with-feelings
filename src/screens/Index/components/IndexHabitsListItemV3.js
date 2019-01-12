@@ -55,7 +55,7 @@ const UserSummaryWeek = ({ user, progress }) => (
         style={{
           height: "100%",
           borderRadius: "8px",
-          backgroundColor: grey[300],
+          backgroundColor: grey[400],
           width: `${progress}%`
         }}
       />
@@ -74,14 +74,16 @@ export const IndexHabitsListItemV3 = ({
   <Card
     style={{
       border: `4px solid ${
-        isDone ? green[200] : isFailure ? red[200] : grey[200]
+        isDone ? green[300] : isFailure ? red[300] : grey[200]
       }`,
-      backgroundColor: "unset"
+      backgroundColor: isDone ? green[100] : isFailure ? red[100] : undefined
     }}
     elevation={0}
   >
     <CardContent>
-      <CardHeader style={{ paddingLeft: "0px" }} title={habit.name} />
+      <Typography variant={"h6"} gutterBottom noWrap>
+        {habit.name}
+      </Typography>
       <Typography variant={"caption"} gutterBottom>
         WS (weekly score)
       </Typography>

@@ -39,7 +39,7 @@ const isRecordIsWithinWeek = date => record => {
 
 export const IndexHabitsList = ({ habits, date, records }) => {
   return (
-    <Grid container spacing={16}>
+    <Grid container spacing={8}>
       {flow(
         map(habit => {
           return (
@@ -91,7 +91,7 @@ export const IndexHabitsList = ({ habits, date, records }) => {
                   return up;
                 }, {});
                 return (
-                  <Grid item xs={12} key={habit.id}>
+                  <Grid item xs={6} key={habit.id}>
                     <Link to={`/habits/${habit.id}`}>
                       <IndexHabitsListItemV3
                         habit={habit}
