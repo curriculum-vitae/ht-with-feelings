@@ -16,7 +16,44 @@ const styles = theme => ({
   }
 });
 
-const IndexFeelingsWithChip = ({
+const IndexFeelingsListItem = ({
+  classes,
+  badgeContent,
+  badgeIsInvisible,
+  onClick,
+  icon
+}) => (
+  <div
+    key={icon}
+    style={{
+      flexGrow: 1,
+      flexBasis: 0,
+      textAlign: "center"
+    }}
+  >
+    <Badge
+      style={{
+        width: "100%"
+      }}
+      badgeContent={badgeContent}
+      classes={{
+        badge: classes.badge
+      }}
+      invisible={badgeIsInvisible}
+    >
+      <Button
+        style={{
+          width: "100%"
+        }}
+        onClick={onClick}
+      >
+        <Icon style={{ overflow: "unset" }}>{icon}</Icon>
+      </Button>
+    </Badge>
+  </div>
+);
+
+const IndexFeelingsList = ({
   feelings,
   selected = [],
   onChange,
@@ -35,70 +72,39 @@ const IndexFeelingsWithChip = ({
         map(icon => {
           const countOfIcon = selected.filter(i => i === icon).length;
           return (
-            <div
-              key={icon}
-              style={{
-                flexGrow: 1,
-                flexBasis: 0,
-                textAlign: "center"
+            <IndexFeelingsListItem
+              badgeContent={countOfIcon}
+              badgeIsInvisible={!showBadge || countOfIcon === 0}
+              classes={classes}
+              onClick={e => {
+                e.stopPropagation();
+                e.preventDefault();
+                // onChange([...selected, icon]);
+                if (selected.includes(icon)) {
+                  onChange([]);
+                } else {
+                  onChange([icon]);
+                }
               }}
-            >
-              <Badge
-                style={{
-                  width: "100%"
-                }}
-                badgeContent={countOfIcon}
-                classes={{
-                  badge: classes.badge
-                }}
-                invisible={!showBadge || countOfIcon === 0}
-              >
-                <Button
-                  style={{
-                    width: "100%"
-                  }}
-                  variant={countOfIcon > 0 ? "outlined" : undefined}
-                  onClick={e => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    // onChange([...selected, icon]);
-                    if (selected.includes(icon)) {
-                      onChange([]);
-                    } else {
-                      onChange([icon]);
-                    }
-                  }}
-                >
-                  <Icon style={{ overflow: "unset" }}>{icon}</Icon>
-                </Button>
-              </Badge>
-            </div>
+              icon={icon}
+            />
           );
         })
       )(feelings)}
-      <div
-        style={{
-          flexGrow: 1,
-          flexBasis: 0,
-          textAlign: "center",
-          display: "none"
+
+      <IndexFeelingsListItem
+        badgeIsInvisible={true}
+        onClick={e => {
+          e.stopPropagation();
+          e.preventDefault();
+          if (selected.length === 0) return null;
+          onChange([...selected, FEELING_OF_THE_END]);
         }}
-      >
-        <IconButton
-          variant={"outlined"}
-          disabled={selected.length === 0}
-          onClick={e => {
-            e.stopPropagation();
-            e.preventDefault();
-            if (selected.length === 0) return null;
-            onChange([...selected, FEELING_OF_THE_END]);
-          }}
-        >
-          <Icon style={{ overflow: "unset" }}>{FEELING_OF_THE_END}</Icon>
-        </IconButton>
-      </div>
+        classes={classes}
+        icon={FEELING_OF_THE_END}
+      />
     </div>
   );
 };
 
-export const IndexFeelings = withStyles(styles)(IndexFeelingsWithChip);
+export const IndexFeelings = withStyles(styles)(IndexFeelingsList);
