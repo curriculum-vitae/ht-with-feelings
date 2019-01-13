@@ -112,7 +112,10 @@ const getRecordID = uid => habit => date => {
   )}${date.getYear()}${date.getMonth()}${date.getDate()}`;
 };
 
-const filterHabits = filter(habit => !!habit[2] && habit[2].length >= 2);
+const filterHabitsByCompany = filter(
+  habit => !!habit[2] && habit[2].length >= 2
+);
+const filterHabits = filter(habit => true);
 
 const createRecords = async () => {
   const requests = [];
@@ -207,7 +210,7 @@ const createAll = async () => {
     await runTask("LISTS", createLists);
     await runTask("HABITS", createHabits);
     await runTask("USERS", createUsers);
-    await runTask("RECORDS", createRecords);
+    // await runTask("RECORDS", createRecords);
 
     console.log("Document successfully written!");
   } catch (e) {

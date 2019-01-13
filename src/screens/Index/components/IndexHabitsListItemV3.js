@@ -66,7 +66,7 @@ export const IndexHabitsListItemV3 = ({
     }}
     elevation={0}
   >
-    <CardContent>
+    <CardContent style={{ paddingBottom: "0px" }}>
       <Typography variant={"h6"} gutterBottom noWrap>
         {habit.name}
       </Typography>
