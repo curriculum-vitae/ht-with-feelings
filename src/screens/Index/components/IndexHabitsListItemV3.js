@@ -62,7 +62,7 @@ export const IndexHabitsListItemV3 = ({
       border: `4px solid ${
         isDone ? green[300] : isFailure ? red[300] : grey[200]
       }`,
-      backgroundColor: isDone ? green[100] : isFailure ? red[100] : undefined
+      backgroundColor: isDone ? green[100] : isFailure ? red[100] : "unset"
     }}
     elevation={0}
   >

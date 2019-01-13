@@ -60,27 +60,27 @@ export const HabitScreen = ({ match, history }) => (
                         <Typography variant={"h4"} gutterBottom>
                           {habit.name}
                         </Typography>
-                        <Hidden>
-                          <ListsProvider>
-                            {props =>
-                              flow(
-                                props => props.lists,
-                                filter(
-                                  list =>
-                                    !!find(l => l.id === list.id)(habit.lists)
-                                ),
-                                map(list => (
-                                  <Chip
-                                    key={list.id}
-                                    style={{ margin: "0px 4px 4px 0px" }}
-                                    variant={"outlined"}
-                                    label={list.name}
-                                  />
-                                ))
-                              )(props)
-                            }
-                          </ListsProvider>
-                        </Hidden>
+
+                        <ListsProvider>
+                          {props =>
+                            flow(
+                              props => props.lists,
+                              filter(
+                                list =>
+                                  !!find(l => l.id === list.id)(habit.lists)
+                              ),
+                              map(list => (
+                                <Chip
+                                  key={list.id}
+                                  style={{ margin: "0px 4px 4px 0px" }}
+                                  variant={"outlined"}
+                                  label={list.name}
+                                />
+                              ))
+                            )(props)
+                          }
+                        </ListsProvider>
+
                         <FeelingsProvider idHabit={habit.id}>
                           {props => {
                             const statsItems = flow(
