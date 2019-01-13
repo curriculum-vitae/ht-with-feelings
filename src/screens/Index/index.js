@@ -24,19 +24,36 @@ import Scrollbar from "react-scrollbars-custom";
 const IndexListsWrapper = ({ children }) => (
   <div
     style={{
-      padding: "0px 16px",
+      padding: "0px 8px",
       marginBottom: "16px"
     }}
   >
-    <Scrollbar
-      children={children}
-      style={{
-        width: "100%",
-        maxWidth: "100%",
-        whiteSpace: "nowrap",
-        height: "40px"
-      }}
-    />
+    <Toggler initialValue={true}>
+      {togglerProps => (
+        <Scrollbar
+          children={children}
+          style={{
+            width: "100%",
+            maxWidth: "100%",
+            whiteSpace: "nowrap",
+            padding: "0px 8px",
+
+            height: "40px"
+          }}
+          removeTrackXWhenNotUsed={true}
+          removeTracksWhenNotUsed={true}
+          trackXProps={
+            togglerProps.value
+              ? {
+                  style: { display: "none" }
+                }
+              : undefined
+          }
+          onScrollStart={props => togglerProps.setValue(false)}
+          onScrollStop={props => togglerProps.setValue(true)}
+        />
+      )}
+    </Toggler>
   </div>
 );
 

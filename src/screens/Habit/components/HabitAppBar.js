@@ -39,58 +39,57 @@ const HabitEdit = compose(
             />
             <br />
             <br />
-            <div style={{ display: "none" }}>
-              <ListsProvider>
-                {props => (
-                  <>
-                    {flow(
-                      props => props.lists,
-                      map(list => (
-                        <Chip
-                          key={list.id}
-                          variant={"outlined"}
-                          color={
-                            selected.includes(list.id) ? "primary" : undefined
+
+            <ListsProvider>
+              {props => (
+                <>
+                  {flow(
+                    props => props.lists,
+                    map(list => (
+                      <Chip
+                        key={list.id}
+                        variant={"outlined"}
+                        color={
+                          selected.includes(list.id) ? "primary" : undefined
+                        }
+                        style={{
+                          margin: "0px 10px 10px 0px",
+                          cursor: "pointer"
+                        }}
+                        onClick={() => {
+                          if (selected.includes(list.id)) {
+                            remove(list.id);
+                          } else {
+                            add(list.id);
                           }
+                        }}
+                        label={list.name}
+                      />
+                    ))
+                  )(props)}
+                  <Toggler initialValue={false}>
+                    {({ value, setValue }) => (
+                      <>
+                        <Chip
+                          variant={"outlined"}
+                          icon={<Icon>add</Icon>}
+                          label={"add new list"}
+                          onClick={() => setValue(true)}
                           style={{
                             margin: "0px 10px 10px 0px",
                             cursor: "pointer"
                           }}
-                          onClick={() => {
-                            if (selected.includes(list.id)) {
-                              remove(list.id);
-                            } else {
-                              add(list.id);
-                            }
-                          }}
-                          label={list.name}
                         />
-                      ))
-                    )(props)}
-                    <Toggler initialValue={false}>
-                      {({ value, setValue }) => (
-                        <>
-                          <Chip
-                            variant={"outlined"}
-                            icon={<Icon>add</Icon>}
-                            label={"add new list"}
-                            onClick={() => setValue(true)}
-                            style={{
-                              margin: "0px 10px 10px 0px",
-                              cursor: "pointer"
-                            }}
-                          />
-                          <ListAdd
-                            isOpen={value}
-                            onClose={() => setValue(false)}
-                          />
-                        </>
-                      )}
-                    </Toggler>
-                  </>
-                )}
-              </ListsProvider>
-            </div>
+                        <ListAdd
+                          isOpen={value}
+                          onClose={() => setValue(false)}
+                        />
+                      </>
+                    )}
+                  </Toggler>
+                </>
+              )}
+            </ListsProvider>
           </DialogContent>
           <DialogActions>
             <Button onClick={onClose}>Cancel</Button>
