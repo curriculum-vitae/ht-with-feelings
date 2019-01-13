@@ -277,7 +277,7 @@ export const IndexScreen = ({ hideCompleted = true }) => (
                                                 >
                                                   {value
                                                     ? `Hide`
-                                                    : `Show completed (${countOfFinishedBySelected})`}
+                                                    : `Show hidden (${countOfFinishedBySelected})`}
                                                 </IndexButtonToggleFinished>
                                               </IndexContentWrapper>
                                             ) : null}
