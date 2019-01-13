@@ -22,7 +22,8 @@ const IndexFeelingsListItem = ({
   badgeIsInvisible,
   onClick,
   icon,
-  disabled = false
+  disabled = false,
+  label
 }) => (
   <div
     key={icon}
@@ -33,7 +34,7 @@ const IndexFeelingsListItem = ({
     }}
   >
     <div onClick={onClick}>
-      <Button disabled={disabled} style={{ width: "100%" }}>
+      <Button disabled={disabled} size={"small"} style={{ width: "100%" }}>
         <Badge
           badgeContent={badgeContent}
           classes={{
@@ -41,7 +42,8 @@ const IndexFeelingsListItem = ({
           }}
           invisible={badgeIsInvisible}
         >
-          <Icon style={{ overflow: "unset" }}>{icon}</Icon>
+          {!!icon ? <Icon style={{ overflow: "unset" }}>{icon}</Icon> : null}
+          {label}
         </Badge>
       </Button>
     </div>
@@ -100,7 +102,7 @@ const IndexFeelingsList = ({
         }}
         disabled={selected.length === 0}
         classes={classes}
-        icon={FEELING_OF_THE_END}
+        icon={"archive"}
       />
     </div>
   );

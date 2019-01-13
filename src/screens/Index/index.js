@@ -232,6 +232,12 @@ export const IndexScreen = ({ hideCompleted = true }) => (
                                         <IndexLists
                                           selected={selected}
                                           lists={flow(
+                                            filter(
+                                              list =>
+                                                getHabitsCurrentAllByList(
+                                                  list.id
+                                                ).length > 0
+                                            ),
                                             map(list => ({
                                               ...list,
                                               progress: getListProgress(list.id)

@@ -57,9 +57,7 @@ export const HabitScreen = ({ match, history }) => (
                           padding: "0px 20px"
                         }}
                       >
-                        <Typography variant={"h4"} gutterBottom>
-                          {habit.name}
-                        </Typography>
+                        <Typography variant={"h4"}>{habit.name}</Typography>
 
                         <ListsProvider>
                           {props =>
@@ -70,12 +68,17 @@ export const HabitScreen = ({ match, history }) => (
                                   !!find(l => l.id === list.id)(habit.lists)
                               ),
                               map(list => (
-                                <Chip
+                                <Typography
                                   key={list.id}
-                                  style={{ margin: "0px 4px 4px 0px" }}
-                                  variant={"outlined"}
-                                  label={list.name}
-                                />
+                                  inline
+                                  variant={"caption"}
+                                  gutterBottom
+                                  style={{
+                                    marginRight: "10px"
+                                  }}
+                                >
+                                  {list.name}
+                                </Typography>
                               ))
                             )(props)
                           }

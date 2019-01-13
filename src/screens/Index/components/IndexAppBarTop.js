@@ -12,7 +12,7 @@ export const IndexAppBarTop = ({ onClickDate }) => (
       style={{
         display: "flex",
         alignItems: "flex-end",
-        marginTop: "16px",
+        marginTop: "0px",
         marginBottom: "8px",
         padding: "16px 8px 0px 16px"
       }}
