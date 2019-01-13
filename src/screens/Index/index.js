@@ -19,9 +19,10 @@ import { IndexHabitsListEmpty } from "screens/Index/components/IndexHabitsListEm
 import { IndexLists } from "screens/Index/components/IndexLists";
 import { isHabitIsFromList } from "shared/helpers";
 import { FEELING_OF_THE_END } from "shared/constants";
+import Scrollbar from "react-scrollbars-custom";
 
 const IndexListsWrapper = ({ children }) => (
-  <div
+  <Scrollbar
     children={children}
     style={{
       width: "100%",
