@@ -24,7 +24,8 @@ import Scrollbar from "react-scrollbars-custom";
 const IndexListsWrapper = ({ children }) => (
   <div
     style={{
-      padding: "0px 16px"
+      padding: "0px 16px",
+      marginBottom: "16px"
     }}
   >
     <Scrollbar
