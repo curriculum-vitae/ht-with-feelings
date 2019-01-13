@@ -4,28 +4,13 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardHeader,
   Typography
 } from "@material-ui/core";
-import { grey, green, red } from "@material-ui/core/colors";
+import { green, grey, red } from "@material-ui/core/colors";
+import { UsersProvider } from "providers/UsersProvider";
 import React from "react";
 import { IndexFeelings } from "screens/Index/components/IndexFeelings";
 import { FEELINGS } from "shared/constants";
-import { UsersProvider } from "providers/UsersProvider";
-
-const UserSummaryDay = ({ user }) => (
-  <div>
-    <Badge key={user.id} badgeContent={FEELINGS[0]}>
-      <Avatar
-        style={{
-          width: "32px",
-          height: "32px"
-        }}
-        src={user.linkToAvatar}
-      />
-    </Badge>
-  </div>
-);
 
 const UserSummaryWeek = ({ user, progress }) => (
   <div
