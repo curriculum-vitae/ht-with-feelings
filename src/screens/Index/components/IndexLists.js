@@ -14,13 +14,12 @@ export const IndexListsItem = ({ list, isSelected, onClick, percentage }) => (
   >
     <Typography
       style={{
-        cursor: "pointer",
-        fontWeight: isSelected ? "bold" : undefined
+        cursor: "pointer"
       }}
       color={isSelected ? "primary" : undefined}
       variant={"subtitle2"}
     >
-      #{list.name}
+      #{list.name.toUpperCase()}
     </Typography>
 
     <div

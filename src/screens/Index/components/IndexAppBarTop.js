@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Toggler } from "components/Toggler";
 import { IndexLogoutMenu } from "screens/Index/components/IndexLogoutMenu";
 import { IndexHabitAdd } from "screens/Index/components/IndexHabitAdd";
+import { orange } from "@material-ui/core/colors";
 
 export const IndexAppBarTop = ({ onClickDate }) => (
   <>
@@ -17,7 +18,9 @@ export const IndexAppBarTop = ({ onClickDate }) => (
       }}
     >
       <Link to={"/"} style={{ flexGrow: "1", flexBasis: "0" }}>
-        <Typography variant={"h4"}>Life Rules</Typography>
+        <Typography style={{ fontWeight: "bold " }} variant={"h4"}>
+          FUTURE<span style={{ color: orange[500] }}>U</span>
+        </Typography>
       </Link>
 
       <IconButton onClick={onClickDate}>
