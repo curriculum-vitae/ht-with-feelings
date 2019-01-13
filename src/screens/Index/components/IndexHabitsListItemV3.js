@@ -4,7 +4,8 @@ import {
   Card,
   CardActions,
   CardContent,
-  Typography
+  Typography,
+  Hidden
 } from "@material-ui/core";
 import { green, grey, red } from "@material-ui/core/colors";
 import { UsersProvider } from "providers/UsersProvider";
@@ -69,20 +70,23 @@ export const IndexHabitsListItemV3 = ({
       <Typography variant={"h6"} gutterBottom noWrap>
         {habit.name}
       </Typography>
-      <Typography variant={"caption"} gutterBottom>
-        WS (weekly score)
-      </Typography>
-      <UsersProvider ids={habit.uids}>
-        {props =>
-          props.users.map(user => (
-            <UserSummaryWeek
-              key={user.id}
-              user={user}
-              progress={userProgress[user.id]}
-            />
-          ))
-        }
-      </UsersProvider>
+      <Hidden xsUp>
+        <Typography variant={"caption"} gutterBottom>
+          WS (weekly sco!re)
+        </Typography>
+
+        <UsersProvider ids={habit.uids}>
+          {props =>
+            props.users.map(user => (
+              <UserSummaryWeek
+                key={user.id}
+                user={user}
+                progress={userProgress[user.id]}
+              />
+            ))
+          }
+        </UsersProvider>
+      </Hidden>
     </CardContent>
     <CardActions>
       <IndexFeelings
