@@ -6,8 +6,8 @@ import { FEELING_OF_THE_END } from "shared/constants";
 
 const styles = theme => ({
   badge: {
-    top: 14,
-    right: -8,
+    top: 10,
+    right: -18,
     // The border color match the background color.
     backgroundColor: theme.palette.grey[200],
     border: `3px solid ${
@@ -31,25 +31,17 @@ const IndexFeelingsListItem = ({
       textAlign: "center"
     }}
   >
-    <Badge
-      style={{
-        width: "100%"
-      }}
-      badgeContent={badgeContent}
-      classes={{
-        badge: classes.badge
-      }}
-      invisible={badgeIsInvisible}
-    >
-      <Button
-        style={{
-          width: "100%"
+    <Button onClick={onClick}>
+      <Badge
+        badgeContent={badgeContent}
+        classes={{
+          badge: classes.badge
         }}
-        onClick={onClick}
+        invisible={badgeIsInvisible}
       >
         <Icon style={{ overflow: "unset" }}>{icon}</Icon>
-      </Button>
-    </Badge>
+      </Badge>
+    </Button>
   </div>
 );
 
@@ -58,7 +50,7 @@ const IndexFeelingsList = ({
   selected = [],
   onChange,
   classes,
-  showBadge = false
+  showBadge = true
 }) => {
   return (
     <div
@@ -73,18 +65,21 @@ const IndexFeelingsList = ({
           const countOfIcon = selected.filter(i => i === icon).length;
           return (
             <IndexFeelingsListItem
+              key={icon}
               badgeContent={countOfIcon}
               badgeIsInvisible={!showBadge || countOfIcon === 0}
               classes={classes}
               onClick={e => {
                 e.stopPropagation();
                 e.preventDefault();
-                // onChange([...selected, icon]);
+                onChange([...selected, icon]);
+                /*
                 if (selected.includes(icon)) {
                   onChange([]);
                 } else {
                   onChange([icon]);
                 }
+                */
               }}
               icon={icon}
             />

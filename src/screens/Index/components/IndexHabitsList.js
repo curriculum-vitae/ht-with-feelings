@@ -23,9 +23,6 @@ const isRecordIsFailure = record => {
   return !!record && record.feelings.includes(`👎`);
 };
 
-const isRecordIsDateAfter = date => record =>
-  record.date.toDate().getTime() > date.getTime();
-
 const isRecordIsWithinWeek = date => record => {
   const dateOfRecord = record.date.toDate().getTime();
   const dateWeekDayFirst = date.clone().startOf("week");

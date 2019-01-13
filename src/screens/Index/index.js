@@ -1,4 +1,5 @@
-import { Grid, Icon, IconButton, Typography } from "@material-ui/core";
+import { CalendarDay } from "components/CalendarDay";
+import { CalendarWeek } from "components/CalendarWeek";
 import { ProgressFullScreen } from "components/ProgressFullScreen";
 import { SelectedOnce } from "components/SelectedOnce";
 import { Toggler } from "components/Toggler";
@@ -16,10 +17,8 @@ import { IndexDayPicker } from "screens/Index/components/IndexDayPicker";
 import { IndexHabitsList } from "screens/Index/components/IndexHabitsList";
 import { IndexHabitsListEmpty } from "screens/Index/components/IndexHabitsListEmpty";
 import { IndexLists } from "screens/Index/components/IndexLists";
-
 import { isHabitIsFromList } from "shared/helpers";
-import { CalendarWeek } from "components/CalendarWeek";
-import { CalendarDay } from "components/CalendarDay";
+import { FEELING_OF_THE_END } from "shared/constants";
 
 const IndexListsWrapper = ({ children }) => (
   <div
@@ -143,7 +142,9 @@ export const IndexScreen = ({ hideCompleted = false, hideLists = true }) => (
                                   return (
                                     !!record &&
                                     !!record.feelings &&
-                                    !!record.feelings.length > 0
+                                    !!record.feelings.includes(
+                                      FEELING_OF_THE_END
+                                    )
                                   );
                                 };
 
