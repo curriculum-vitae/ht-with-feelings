@@ -22,18 +22,21 @@ import { FEELING_OF_THE_END } from "shared/constants";
 import Scrollbar from "react-scrollbars-custom";
 
 const IndexListsWrapper = ({ children }) => (
-  <Scrollbar
-    children={children}
+  <div
     style={{
-      width: "100%",
-      maxWidth: "100%",
-      overflow: "auto",
-      whiteSpace: "nowrap",
-      scrollX: "auto",
-      padding: "0px 16px",
-      height: "50px"
+      padding: "0px 16px"
     }}
-  />
+  >
+    <Scrollbar
+      children={children}
+      style={{
+        width: "100%",
+        maxWidth: "100%",
+        whiteSpace: "nowrap",
+        height: "40px"
+      }}
+    />
+  </div>
 );
 
 const IndexContentWrapper = ({ children }) => (

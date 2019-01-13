@@ -28,9 +28,10 @@ class SignInScreen extends React.Component {
             <Redirect to={"/"} />
           ) : (
             <Paper
+              square
               style={{
                 height: "100vh",
-                paddingTop: "25%"
+                paddingTop: "50%"
               }}
             >
               <Typography variant={"h4"} gutterBottom align={"center"}>
