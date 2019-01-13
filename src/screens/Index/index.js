@@ -58,7 +58,8 @@ const IndexWrapper = ({ children }) => (
   <div
     style={{
       position: "relative",
-      minHeight: "100vh"
+      minHeight: "100vh",
+      paddingBottom: "60px"
     }}
     children={children}
   />
