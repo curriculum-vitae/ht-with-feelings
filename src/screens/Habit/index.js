@@ -90,6 +90,8 @@ export const HabitScreen = ({ match, history }) => (
                             )(props);
                             return (
                               <>
+                                <br />
+                                <br />
                                 <Typography variant={"h6"} gutterBottom>
                                   Overview
                                 </Typography>
@@ -108,6 +110,8 @@ export const HabitScreen = ({ match, history }) => (
                             );
                           }}
                         </FeelingsProvider>
+                        <br />
+                        <br />
                         <Typography variant={"h6"} gutterBottom>
                           Log
                         </Typography>
@@ -116,7 +120,9 @@ export const HabitScreen = ({ match, history }) => (
                             <FirebaseContext.Consumer>
                               {db =>
                                 isRecordsHasNoFeelings(props.feelings) ? (
-                                  <Typography>No records</Typography>
+                                  <Typography variant={"body2"}>
+                                    No records
+                                  </Typography>
                                 ) : (
                                   <HabitEmojiList
                                     records={props.feelings}
