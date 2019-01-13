@@ -18,10 +18,11 @@ const styles = theme => ({
 
 const IndexFeelingsListItem = ({
   classes,
-  badgeContent,
+  badgeContent = "",
   badgeIsInvisible,
   onClick,
-  icon
+  icon,
+  disabled = false
 }) => (
   <div
     key={icon}
@@ -31,17 +32,19 @@ const IndexFeelingsListItem = ({
       textAlign: "center"
     }}
   >
-    <Button onClick={onClick}>
-      <Badge
-        badgeContent={badgeContent}
-        classes={{
-          badge: classes.badge
-        }}
-        invisible={badgeIsInvisible}
-      >
-        <Icon style={{ overflow: "unset" }}>{icon}</Icon>
-      </Badge>
-    </Button>
+    <div onClick={onClick}>
+      <Button disabled={disabled} style={{ width: "100%" }}>
+        <Badge
+          badgeContent={badgeContent}
+          classes={{
+            badge: classes.badge
+          }}
+          invisible={badgeIsInvisible}
+        >
+          <Icon style={{ overflow: "unset" }}>{icon}</Icon>
+        </Badge>
+      </Button>
+    </div>
   </div>
 );
 
@@ -95,6 +98,7 @@ const IndexFeelingsList = ({
           if (selected.length === 0) return null;
           onChange([...selected, FEELING_OF_THE_END]);
         }}
+        disabled={selected.length === 0}
         classes={classes}
         icon={FEELING_OF_THE_END}
       />

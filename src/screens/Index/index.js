@@ -63,7 +63,7 @@ const IndexWrapper = ({ children }) => (
   />
 );
 
-export const IndexScreen = ({ hideCompleted = false, hideLists = true }) => (
+export const IndexScreen = ({ hideCompleted = true }) => (
   <IndexWrapper>
     <AuthObserver>
       {({ isSignedIn, loading }) =>
@@ -204,7 +204,7 @@ export const IndexScreen = ({ hideCompleted = false, hideLists = true }) => (
 
                                 return (
                                   <>
-                                    {false && countOfLists > 0 ? (
+                                    {countOfLists > 0 ? (
                                       <IndexListsWrapper>
                                         <IndexLists
                                           selected={selected}
