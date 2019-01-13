@@ -81,7 +81,7 @@ export const IndexScreen = ({ hideCompleted = true }) => (
                       />
                       <IndexContentWrapper>
                         <IndexCalendarPickerWrapper>
-                          {props.value ? (
+                          {props.value && false ? (
                             <CalendarWeek
                               date={date}
                               onClickDate={setDate}
@@ -93,7 +93,7 @@ export const IndexScreen = ({ hideCompleted = true }) => (
                               }
                             />
                           ) : null}
-                          {props.value && false ? (
+                          {props.value ? (
                             <CalendarDay
                               date={date}
                               onClickArrowLeft={setDatePrev}

@@ -7,7 +7,8 @@ import {
   DialogTitle,
   TextField,
   Icon,
-  Slide
+  Slide,
+  Typography
 } from "@material-ui/core";
 import { SelectedMany } from "components/SelectedMany";
 import { FirebaseContext } from "contexts/FirebaseContext";
@@ -25,14 +26,11 @@ function Transition(props) {
 }
 
 function ListsWrapper(props) {
-  return (
-    <div
-      style={{
-        display: "none"
-      }}
-      {...props}
-    />
-  );
+  return <div {...props} />;
+}
+
+function UsersProviderWrapper(props) {
+  return <div style={{ display: "none" }} {...props} />;
 }
 
 export const IndexHabitAdd = compose(
@@ -100,6 +98,7 @@ export const IndexHabitAdd = compose(
                           icon={<Icon>add</Icon>}
                           label={"add new list"}
                           onClick={() => setValue(true)}
+                          style={{ margin: "0px 5px 5px 0px" }}
                         />
                         <ListAdd
                           isOpen={value}
@@ -109,7 +108,7 @@ export const IndexHabitAdd = compose(
                     )}
                   </Toggler>
                 </ListsWrapper>
-                <>
+                <UsersProviderWrapper>
                   <UsersProvider>
                     {propsUsers => {
                       const uid = firebase.auth().currentUser.uid;
@@ -120,7 +119,11 @@ export const IndexHabitAdd = compose(
 
                       return (
                         <>
-                          <h1>Share with users</h1>
+                          <br />
+                          <br />
+                          <Typography variant={"h5"}>
+                            Share with users
+                          </Typography>
                           <ul>
                             {usersToRender.map(user => (
                               <li
@@ -144,7 +147,7 @@ export const IndexHabitAdd = compose(
                       );
                     }}
                   </UsersProvider>
-                </>
+                </UsersProviderWrapper>
               </div>
             </DialogContent>
             <DialogActions>
