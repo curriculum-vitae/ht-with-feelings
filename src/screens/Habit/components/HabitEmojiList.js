@@ -33,7 +33,8 @@ export const HabitEmojiList = ({ records, onDelete }) => (
                   <Avatar>{emoji}</Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={moment(record.date.toDate()).format("DD/MM/YYYY")}
+                  primary={moment(record.date.toDate()).format("DD MMM YYYY")}
+                  secondary={moment(record.date.toDate()).format("HH:mm")}
                 />
                 <ListItemSecondaryAction
                   onClick={() => {
