@@ -9,19 +9,21 @@ export const RecordsProviderWithFirebase = compose(
     componentDidMount() {
       const { db, setData } = this.props;
       const { uid } = firebase.auth().currentUser;
+      const onShapshot = querySnapshot => {
+        const result = [];
+        querySnapshot.forEach(doc =>
+          result.push({
+            id: doc.id,
+            ...doc.data()
+          })
+        );
+        setData(result);
+      };
+
       this.unsub = db
         .collection("records")
-        //.where("uid", "==", uid)
-        .onSnapshot(querySnapshot => {
-          const result = [];
-          querySnapshot.forEach(doc =>
-            result.push({
-              id: doc.id,
-              ...doc.data()
-            })
-          );
-          setData(result);
-        });
+        .where("uid", "==", uid)
+        .onSnapshot(onShapshot, err => console.log(err));
     },
     componentWillUnmount() {
       this.unsub();

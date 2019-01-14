@@ -10,23 +10,28 @@ export const ListsProviderWithFirebase = compose(
     componentDidMount() {
       const { db, setLists } = this.props;
       const { uid } = firebase.auth().currentUser;
+
+      const onShapshot = querySnapshot => {
+        const result = [];
+        querySnapshot.forEach(doc =>
+          result.push({
+            id: doc.id,
+            ...doc.data()
+          })
+        );
+        flow(
+          sortBy(list => list.position),
+          setLists
+        )(result);
+      };
+      const onError = err => {
+        console.log(err);
+        setLists([]);
+      };
       this.unsub = db
         .collection("lists")
         .where("uid", "==", uid)
-        .onSnapshot(querySnapshot => {
-          const result = [];
-          querySnapshot.forEach(doc =>
-            result.push({
-              id: doc.id,
-              ...doc.data()
-            })
-          );
-
-          flow(
-            sortBy(list => list.position),
-            setLists
-          )(result);
-        });
+        .onSnapshot(onShapshot, onError);
     },
     componentWillUnmount() {
       this.unsub();

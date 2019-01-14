@@ -36,6 +36,7 @@ export const HabitScreen = ({ match, history }) => (
                   history.goBack();
                 })
                 .catch(e => {
+                  console.log(e);
                   window.alert("Error");
                 });
             };

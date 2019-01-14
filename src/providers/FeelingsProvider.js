@@ -9,20 +9,27 @@ export const FeelingsProviderWithFirebase = compose(
     componentDidMount() {
       const { db, idHabit, setFeelings } = this.props;
       const { uid } = firebase.auth().currentUser;
+
+      const onSnapshot = querySnapshot => {
+        const result = [];
+        querySnapshot.forEach(doc =>
+          result.push({
+            id: doc.id,
+            ...doc.data()
+          })
+        );
+        setFeelings(result);
+      };
+
+      const onError = err => {
+        console.log(err);
+      };
+
       this.unsub = db
         .collection("records")
         .where("idHabit", "==", idHabit)
         .where("uid", "==", uid)
-        .onSnapshot(querySnapshot => {
-          const result = [];
-          querySnapshot.forEach(doc =>
-            result.push({
-              id: doc.id,
-              ...doc.data()
-            })
-          );
-          setFeelings(result);
-        });
+        .onSnapshot(onSnapshot, onError);
     },
     componentWillUnmount() {
       this.unsub();

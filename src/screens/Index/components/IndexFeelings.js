@@ -34,7 +34,7 @@ const IndexFeelingsListItem = ({
     }}
   >
     <div onClick={onClick}>
-      <Button disabled={disabled} size={"small"} style={{ width: "100%" }}>
+      <Button disabled={disabled} size={"large"} style={{ width: "100%" }}>
         <Badge
           badgeContent={badgeContent}
           classes={{
@@ -55,7 +55,8 @@ const IndexFeelingsList = ({
   selected = [],
   onChange,
   classes,
-  showBadge = true
+  showBadge = true,
+  showCommitButton
 }) => {
   return (
     <div
@@ -92,18 +93,20 @@ const IndexFeelingsList = ({
         })
       )(feelings)}
 
-      <IndexFeelingsListItem
-        badgeIsInvisible={true}
-        onClick={e => {
-          e.stopPropagation();
-          e.preventDefault();
-          if (selected.length === 0) return null;
-          onChange([...selected, FEELING_OF_THE_END]);
-        }}
-        disabled={selected.length === 0}
-        classes={classes}
-        icon={"archive"}
-      />
+      {showCommitButton ? (
+        <IndexFeelingsListItem
+          badgeIsInvisible={true}
+          onClick={e => {
+            e.stopPropagation();
+            e.preventDefault();
+            if (selected.length === 0) return null;
+            onChange([...selected, FEELING_OF_THE_END]);
+          }}
+          disabled={selected.length === 0}
+          classes={classes}
+          icon={"save"}
+        />
+      ) : null}
     </div>
   );
 };
