@@ -1,6 +1,7 @@
 import React from "react";
 import { flow, map, toPairs } from "lodash/fp";
 import { Chip, Icon, Divider, IconButton, Typography } from "@material-ui/core";
+import { grey } from "@material-ui/core/colors";
 
 const TREE = {
   0: {
@@ -44,7 +45,7 @@ const convertTree = flow(
 );
 
 const MAP_OF_DEPTHS_TO_LENGTH = {
-  0: 50,
+  0: 40,
   1: 20,
   2: 10
 };
@@ -54,7 +55,7 @@ const Tree = ({ title, items, depth }) => (
     <br />
     <br />
     <div style={{ display: "flex", marginBottom: "0px" }}>
-      <IconButton style={{ marginTop: "-12px" }}>
+      <IconButton style={{ marginTop: "-8px" }}>
         <Icon>done_all</Icon>
       </IconButton>
       <div style={{ textAlign: "center", width: "100%" }}>
@@ -62,19 +63,19 @@ const Tree = ({ title, items, depth }) => (
           {title}
         </Typography>
       </div>
-      <IconButton style={{ marginTop: "-12px" }}>
-        <Icon>graphic_eq</Icon>
+      <IconButton style={{ marginTop: "-8px" }}>
+        <Icon>poll</Icon>
       </IconButton>
     </div>
     <div style={{ textAlign: "center" }}>
       <div
         style={{
-          width: "4px",
+          width: "2px",
           display: "inline-block",
 
           marginBottom: "10px",
           textAlign: "center",
-          backgroundColor: "grey",
+          backgroundColor: grey[400],
           height: `${MAP_OF_DEPTHS_TO_LENGTH[depth]}px`
         }}
       />
@@ -87,30 +88,32 @@ const Tree = ({ title, items, depth }) => (
         }}
       >
         <div style={{ display: "flex" }}>
-          <IconButton style={{ marginTop: "-12px" }}>
+          <IconButton style={{ marginTop: "-8px" }}>
             <Icon>check</Icon>
           </IconButton>
           <div style={{ textAlign: "center", width: "100%" }}>
-            {item.name}
+            <Typography align={"center"} variant={"subtitle1"}>
+              {item.name}
+            </Typography>
             {!!item.stages ? (
               <div style={{ fontSize: "10px", color: "grey" }}>
                 {item.stages[0]}
               </div>
             ) : null}
           </div>
-          <IconButton style={{ marginTop: "-12px" }}>
+          <IconButton style={{ marginTop: "-8px" }}>
             <Icon>more_vert</Icon>
           </IconButton>
         </div>
 
         <div
           style={{
-            width: "4px",
+            width: "2px",
             display: "inline-block",
 
             marginBottom: "10px",
             textAlign: "center",
-            backgroundColor: "grey",
+            backgroundColor: grey[400],
             height: `${MAP_OF_DEPTHS_TO_LENGTH[depth]}px`
           }}
         />
@@ -128,20 +131,38 @@ const Tree = ({ title, items, depth }) => (
 );
 
 const TreeRoot = ({ tree }) => (
-  <div>
-    <br />
-    <br />
-    <br />
+  <div style={{ padding: "40px 16px" }}>
+    <Typography variant={"h4"} gutterBottom>
+      My Routines
+    </Typography>
+
     <div
       style={{
         display: "flex",
         justifyContent: "center"
       }}
     >
-      <Chip label={"Morning"} />
-      <Chip label={"Day"} />
-      <Chip label={"Evening"} />
-      <Chip label={"Anytime"} />
+      <Chip
+        variant={"outlined"}
+        label={"Morning"}
+        style={{ marginRight: "10px" }}
+        color={"primary"}
+      />
+      <Chip
+        variant={"outlined"}
+        label={"Day"}
+        style={{ marginRight: "10px" }}
+      />
+      <Chip
+        variant={"outlined"}
+        label={"Evening"}
+        style={{ marginRight: "10px" }}
+      />
+      <Chip
+        variant={"outlined"}
+        label={"Anytime"}
+        style={{ marginRight: "10px" }}
+      />
     </div>
 
     <Tree title={"Routine #1"} items={convertTree(TREE)} depth={0} />
