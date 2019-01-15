@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { IndexScreen } from "screens/Index";
 import { HabitScreen } from "screens/Habit";
 import { AuthScreen } from "screens/Auth";
+import { TreeScreen } from "screens/Tree";
 import theme from "shared/theme";
 import { FirebaseContext } from "contexts/FirebaseContext";
 import { db } from "shared/db";
@@ -25,6 +26,7 @@ class App extends Component {
                     <Route path={"/"} exact component={IndexScreen} />
                     <Route path={"/auth"} component={AuthScreen} />
                     <Route path={"/habits/:idHabit"} component={HabitScreen} />
+                    <Route path={"/v3"} component={TreeScreen} />
                   </>
                 </Router>
               </Grid>
