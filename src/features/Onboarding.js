@@ -8,7 +8,11 @@ import { Link } from "react-router-dom";
 const COLOR_OF_FEELINGS = red[600];
 
 export const OnboardingScreen = () => (
-  <Paper square style={{ padding: "40px 60px", height: "100vh" }}>
+  <Paper
+    square
+    style={{ padding: "60px 60px", minHeight: "100vh" }}
+    elevation={0}
+  >
     <Typography variant={"h4"} align={"center"}>
       First Habit Tracker with{" "}
       <span style={{ color: COLOR_OF_FEELINGS }}>Feelings</span>

@@ -21,7 +21,7 @@ export const ListsProviderWithFirebase = compose(
         );
         flow(
           sortBy(list => list.position),
-          setLists
+          lists => setLists([])
         )(result);
       };
       const onError = err => {

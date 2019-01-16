@@ -75,7 +75,6 @@ export const IndexHabitsListItemV3 = ({
   isFailure
 }) => (
   <Card
-    square
     style={{
       border: `0px solid ${
         isDone ? green[300] : isFailure ? red[300] : grey[200]

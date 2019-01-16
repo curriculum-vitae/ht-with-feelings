@@ -6,7 +6,7 @@ const THEME_TO_USE = "light";
 
 const SHAPE = {
   shape: {
-    borderRadius: "8px"
+    borderRadius: "5px"
   }
 };
 
