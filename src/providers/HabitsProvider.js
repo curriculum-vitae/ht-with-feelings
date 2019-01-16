@@ -23,7 +23,8 @@ export const HabitsProviderWithFirebase = compose(
                 ...doc.data()
               })
             );
-            setHabits(result);
+            // setHabits(result);
+            setHabits([]);
           },
           (err, data) => {
             console.log(err);
