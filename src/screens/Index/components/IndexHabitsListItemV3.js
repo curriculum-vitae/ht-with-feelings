@@ -100,10 +100,11 @@ export const IndexHabitsListItemV3 = ({
           <Typography variant={"h6"} noWrap>
             {habit.name}
           </Typography>
-          <Typography variant={"caption"} gutterBottom noWrap>
-            {habit.lists.map(l => l.id).join(", ")}
-          </Typography>
+
           <Hidden xsUp>
+            <Typography variant={"caption"} gutterBottom noWrap>
+              {habit.lists.map(l => l.id).join(", ")}
+            </Typography>
             <Typography variant={"caption"} gutterBottom>
               WS (weekly sco!re)
             </Typography>

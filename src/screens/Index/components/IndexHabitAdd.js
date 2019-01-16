@@ -8,7 +8,8 @@ import {
   TextField,
   Icon,
   Slide,
-  Typography
+  Typography,
+  Hidden
 } from "@material-ui/core";
 import { SelectedMany } from "components/SelectedMany";
 import { FirebaseContext } from "contexts/FirebaseContext";
@@ -92,7 +93,7 @@ export const IndexHabitAdd = compose(
 
                   <Toggler initialValue={false}>
                     {({ value, setValue }) => (
-                      <>
+                      <Hidden xsUp>
                         <Chip
                           variant={"outlined"}
                           icon={<Icon>add</Icon>}
@@ -104,7 +105,7 @@ export const IndexHabitAdd = compose(
                           isOpen={value}
                           onClose={() => setValue(false)}
                         />
-                      </>
+                      </Hidden>
                     )}
                   </Toggler>
                 </ListsWrapper>

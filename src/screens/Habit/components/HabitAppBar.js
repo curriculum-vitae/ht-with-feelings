@@ -8,7 +8,8 @@ import {
   Chip,
   IconButton,
   Toolbar,
-  TextField
+  TextField,
+  Hidden
 } from "@material-ui/core";
 import { FirebaseContext } from "contexts/FirebaseContext";
 import React from "react";
@@ -69,7 +70,7 @@ const HabitEdit = compose(
                   )(props)}
                   <Toggler initialValue={false}>
                     {({ value, setValue }) => (
-                      <>
+                      <Hidden xsUp>
                         <Chip
                           variant={"outlined"}
                           icon={<Icon>add</Icon>}
@@ -84,7 +85,7 @@ const HabitEdit = compose(
                           isOpen={value}
                           onClose={() => setValue(false)}
                         />
-                      </>
+                      </Hidden>
                     )}
                   </Toggler>
                 </>
