@@ -11,6 +11,7 @@ import { Grid } from "@material-ui/core";
 import { Route, Router } from "react-router-dom";
 import { history } from "misc/history";
 import hot from "react-hot-reload.macro";
+import { OnboardingScreen } from "features/Onboarding";
 
 class App extends Component {
   render() {
@@ -27,6 +28,7 @@ class App extends Component {
                     <Route path={"/auth"} component={AuthScreen} />
                     <Route path={"/habits/:idHabit"} component={HabitScreen} />
                     <Route path={"/v3"} component={TreeScreen} />
+                    <Route path={"/onboarding"} component={OnboardingScreen} />
                   </>
                 </Router>
               </Grid>

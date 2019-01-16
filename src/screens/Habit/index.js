@@ -86,12 +86,12 @@ export const HabitScreen = ({ match, history }) => (
                         </ListsProvider>
 
                         <FeelingsProvider idHabit={habit.id}>
-                          {props => {
+                          {propsFromFeelingProvider => {
                             const statsItems = flow(
                               props => props.feelings,
                               getStats,
                               getStatsItems
-                            )(props);
+                            )(propsFromFeelingProvider);
                             return (
                               <>
                                 <br />
