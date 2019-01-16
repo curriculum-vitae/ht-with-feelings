@@ -28,7 +28,7 @@ class App extends Component {
                     <Route path={"/auth"} component={AuthScreen} />
                     <Route path={"/habits/:idHabit"} component={HabitScreen} />
                     <Route path={"/v3"} component={TreeScreen} />
-                    <Route path={"/onboarding"} component={OnboardingScreen} />
+                    <Route path={"/intro"} component={OnboardingScreen} />
                   </>
                 </Router>
               </Grid>

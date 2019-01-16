@@ -14,8 +14,8 @@ export const OnboardingScreen = () => (
     elevation={0}
   >
     <Typography variant={"h4"} align={"center"}>
-      First Habit Tracker with{" "}
-      <span style={{ color: COLOR_OF_FEELINGS }}>Feelings</span>
+      First Habit Tracker
+      <span style={{ color: COLOR_OF_FEELINGS }}> with Feelings</span>
     </Typography>
     <br />
     <br />
@@ -25,33 +25,37 @@ export const OnboardingScreen = () => (
     <br />
     <br />
     <Typography variant={"h5"} align={"center"}>
-      Allow yourself{" "}
+      Allowing you{" "}
       <span style={{ color: COLOR_OF_FEELINGS }}>being a human.</span>
     </Typography>
+    <br />
     <br />
     <Typography variant={"h2"} align={"center"}>
       😕
     </Typography>
     <br />
+    <br />
     <Typography variant={"h5"} align={"center"}>
-      Track your habits{" "}
+      Tracking your habits{" "}
       <span style={{ color: COLOR_OF_FEELINGS }}>with emojis</span>
     </Typography>
+    <br />
     <br />
     <div style={{ display: "flex" }}>
       {FEELINGS.map(emoji => (
         <div
           key={emoji}
-          style={{ flex: "1 1 0", textAlign: "center", fontSize: "25px" }}
+          style={{ flex: "1 1 0", textAlign: "center", fontSize: "32px" }}
         >
           {emoji}
         </div>
       ))}
     </div>
     <br />
-    <Link to={"/"}>
+    <br />
+    <Link to={"/auth"}>
       <Button variant={"outlined"} size={"large"} style={{ width: "100%" }}>
-        Start
+        Let's check it!
       </Button>
     </Link>
   </Paper>

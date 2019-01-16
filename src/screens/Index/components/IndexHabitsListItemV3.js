@@ -76,10 +76,12 @@ export const IndexHabitsListItemV3 = ({
 }) => (
   <Card
     style={{
+      /*
       border: `0px solid ${
         isDone ? green[300] : isFailure ? red[300] : grey[200]
       }`,
       backgroundColor: isDone ? green[100] : isFailure ? red[100] : undefined,
+      */
       marginBottom: "10px"
     }}
     elevation={1}

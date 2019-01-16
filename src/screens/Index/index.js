@@ -319,7 +319,7 @@ export const IndexScreen = ({ hideCompleted = true }) => (
             )}
           </IndexDayPicker>
         ) : (
-          <Redirect to={"/auth"} />
+          <Redirect to={"/intro"} />
         )
       }
     </AuthObserver>
