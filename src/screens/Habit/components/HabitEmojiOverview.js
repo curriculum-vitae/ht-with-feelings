@@ -16,7 +16,7 @@ export const HabitEmojiOverview = ({ statsItems }) => (
         return (
           <Grid
             item
-            xs={6}
+            xs={4}
             style={{ textAlign: "center" }}
             key={statsItem.emoji}
           >
